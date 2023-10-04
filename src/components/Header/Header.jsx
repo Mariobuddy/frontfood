@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { styled, keyframes } from "styled-components";
 import Mario from "../../assests/mario.png";
 import { FaShoppingCart } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BiSolidUser } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
@@ -14,6 +15,42 @@ const Header = () => {
   const [currentScroll, setCurrentScroll] = useState("top");
   const [lastScroll, setLastScroll] = useState(0);
   const [down, setDown] = useState(false);
+  const [query, setQuery] = useState("");
+  const [locationCurrent, setLocationCurrent] = useState("");
+  const [locationLoad, setlocationLoad] = useState(false);
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        const { latitude, longitude } = position.coords;
+        reverseGeocode(latitude, longitude);
+      });
+      async function reverseGeocode(latitude, longitude) {
+        setlocationLoad(true);
+        const apiKey = "bf5b294bee864333b1506989b2f7bc81";
+        const url = `https://api.opencagedata.com/geocode/v1/json?key=${apiKey}&q=${latitude}+${longitude}&language=en&pretty=1`;
+
+        try {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error("Failed to fetch address data.");
+          }
+          const data = await response.json();
+          const address = data.results[0].formatted;
+          setLocationCurrent(address);
+          setlocationLoad(true);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    }
+  }, []);
+
+  let searchResult = () => {
+    if (query.length > 0) {
+      // navigate(`/search/${query}`);
+    }
+  };
 
   let downProfile = () => {
     setDown(!down);
@@ -23,9 +60,9 @@ const Header = () => {
     setShow(!show);
   };
 
-  let remLocal=()=>{
+  let remLocal = () => {
     localStorage.clear();
-  }
+  };
 
   const userJSON = localStorage.getItem("userDetails");
   const userLogData = JSON.parse(userJSON);
@@ -54,13 +91,58 @@ const Header = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+
+
   return (
     <Wrapper className={currentScroll}>
       <div className="left">
         <img alt="Mario" src={Mario} onClick={() => {}} />
       </div>
+
+      <div className="mid">
+        
+        {locationLoad ? (
+          <>
+          <FaLocationDot className="loc" />
+            {locationCurrent
+              .split(",")
+              .splice(2)
+              .map((val, i) => {
+                return (
+                  <p key={i} style={{ color: "#FFFFFF" }}>
+                    {val}
+                    {i === locationCurrent.split(",").splice(2).length - 1
+                      ? "."
+                      : ","}
+                  </p>
+                );
+              })}
+          </>
+        ) : (
+          ""
+        )}
+      </div>
       <div className="right">
         <ul className={show ? "visible anime" : ""}>
+          <li>
+            <div className="searching">
+              <input
+                type="text"
+                placeholder="Search for a products..."
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                }}
+                onKeyUp={(e) => {
+                  if (e.key === "Enter" && query.length > 0) {
+                    // navigate(`/search/${query}`);
+                  }
+                }}
+              />
+              <button className="buts" onClick={searchResult}>
+                Search
+              </button>
+            </div>
+          </li>
           <li>
             <NavLink
               onClick={() => {
@@ -78,20 +160,9 @@ const Header = () => {
                 setShow(false);
               }}
               className={"navL"}
-              to={"menu"}
+              to={"product"}
             >
-              Menu
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              onClick={() => {
-                setShow(false);
-              }}
-              className={"navL"}
-              to={"about"}
-            >
-              About
+              Products
             </NavLink>
           </li>
           <li>
@@ -120,7 +191,11 @@ const Header = () => {
                     <NavLink className={"proNav"} to={"dashboard"}>
                       Profile
                     </NavLink>
-                    <NavLink className={"proNav"} onClick={remLocal} to={"login"}>
+                    <NavLink
+                      className={"proNav"}
+                      onClick={remLocal}
+                      to={"login"}
+                    >
                       Log Out
                     </NavLink>
                   </div>
@@ -185,7 +260,6 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--wcol);
   top: 0;
   left: 0;
 
@@ -198,8 +272,7 @@ const Wrapper = styled.div`
   }
 
   &.top {
-    background-color: #ffffff;
-    box-shadow: 0px 4px 6px -2px rgba(0, 0, 0, 0.5);
+    background-color: #4a0c63;
   }
 
   &.show {
@@ -211,6 +284,20 @@ const Wrapper = styled.div`
   }
   .visible {
     display: block !important;
+  }
+
+  .mid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .loc {
+      color: orangered;
+      font-size: 1.6rem;
+    }
+    p {
+      font-size: 1.2rem;
+      margin-left: 1rem;
+    }
   }
 
   .left {
@@ -241,11 +328,42 @@ const Wrapper = styled.div`
         transition: all 0.2s ease-in;
         margin: 0rem 2rem;
 
+        .searching {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          input {
+            width: 32rem;
+            padding: 1rem 1.5rem;
+            border: none;
+            outline: none;
+            border-top-left-radius: 2rem;
+            border-bottom-left-radius: 2rem;
+            border-right: none;
+          }
+          button {
+            border-top-right-radius: 2rem;
+            border-bottom-right-radius: 2rem;
+            padding: 1rem 2.7rem;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            background-color: #ff4e00;
+            background-image: linear-gradient(315deg, #ff4e00 0%, #ec9f05 74%);
+
+            &:hover {
+              box-shadow: 0 4px 6px rgba(118, 117, 117, 0.1);
+            }
+          }
+        }
+
         .disLog {
           display: flex;
           justify-content: center;
           align-items: center;
-          background-color: orangered;
+          background-color: var(--maincol);
           border-radius: 2rem;
           padding: 0.4rem 1rem;
           position: relative;
@@ -272,7 +390,7 @@ const Wrapper = styled.div`
                 white-space: nowrap;
                 color: black;
 
-                &:hover{
+                &:hover {
                   color: orangered;
                 }
               }
@@ -293,7 +411,7 @@ const Wrapper = styled.div`
         }
 
         .navL {
-          color: black;
+          color: #ffffff;
           position: relative;
 
           .sign {
@@ -331,12 +449,22 @@ const Wrapper = styled.div`
     }
   }
 
-  @media (min-width: 370px) and (max-width: 768px) {
+  @media (min-width: 350px) and (max-width: 768px) {
     justify-content: space-between;
     padding: 0rem 1.5rem;
 
     .left {
       img {
+      }
+    }
+
+    .mid {
+      .loc {
+        font-size: 1.2rem;
+      }
+      p {
+        font-size: 1rem;
+        margin-left: 0.5rem;
       }
     }
 
@@ -361,12 +489,13 @@ const Wrapper = styled.div`
         .logo1 {
           cursor: pointer;
           font-size: 2.5rem;
+          color: #FFFFFF;
         }
       }
       ul {
         display: none;
         position: absolute;
-        background-color: #ffffff;
+        background-color:#4a0c63;
         box-shadow: 0px 4px 6px -2px rgba(0, 0, 0, 0.5);
         padding-top: 5.5rem;
         height: fit-content;
@@ -374,11 +503,31 @@ const Wrapper = styled.div`
         top: 0;
         width: 100%;
         z-index: -5;
-        padding-left: 40%;
+        padding-left: 5%;
         li {
           justify-content: flex-start;
           align-items: flex-start;
-          margin-top: 1.8rem;
+          margin: 2rem 0rem;
+          font-size: 1.4rem;
+          width: fit-content;
+          position: relative;
+          .searching {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            input {
+              width: 22rem;
+              padding: 1rem 1rem;
+              height: 4rem;
+              font-size: 1.2rem;
+            }
+            button {
+              height: 4rem;
+              width: 10rem;
+              font-size: 1.2rem;
+              padding: 0rem;
+            }
+          }
         }
       }
     }

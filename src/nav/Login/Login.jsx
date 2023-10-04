@@ -67,7 +67,7 @@ const Login = () => {
     e.preventDefault();
     if (validationForm()) {
       try {
-        const res = await fetch("https://food-backend-auth.onrender.com/login", {
+        const res = await fetch("http://localhost:8000/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -75,12 +75,13 @@ const Login = () => {
           credentials: "include",
           body: JSON.stringify(formData),
         });
-      
+
         const data = await res.json();
+        console.log(data[0]);
         if (res.status === 200) {
-          localStorage.setItem("authUser",data[1]);
+          localStorage.setItem("authUser", data[1]);
           const userJSON = JSON.stringify(data[0]);
-          localStorage.setItem("userDetails",userJSON);
+          localStorage.setItem("userDetails", userJSON);
           nav("/");
           setFormData({
             password: "",
@@ -97,7 +98,7 @@ const Login = () => {
         console.error(error);
         // Handle the error appropriately, e.g., show an error message to the user
       }
-    } 
+    }
   };
 
   return (
@@ -190,7 +191,7 @@ const Wrapper = styled.div`
 
     .user {
       font-size: 5rem;
-      color: orangered;
+      color: var(--maincol);
       margin-bottom: 2rem;
     }
 
@@ -258,7 +259,7 @@ const Wrapper = styled.div`
 
         .pfp {
           text-align: end;
-          color: orangered;
+          color: var(--maincol);
           font-size: 1.2rem;
           cursor: pointer;
         }
@@ -272,7 +273,11 @@ const Wrapper = styled.div`
             border-radius: 2rem;
             cursor: pointer;
             border: none;
-            background: linear-gradient(to right, #f5714d, #ff3700);
+            background-color: #923cb5;
+            background-image: linear-gradient(147deg, #923cb5 0%, #000000 74%);
+            &:hover {
+              box-shadow: 0 4px 6px rgba(118, 117, 117, 0.1);
+            }
             margin-top: 2rem;
           }
         }
@@ -284,12 +289,12 @@ const Wrapper = styled.div`
       margin-top: 2rem;
 
       .please1 {
-        color: orangered;
+        color: var(--maincol);
       }
     }
   }
 
-  @media (min-width: 370px) and (max-width: 768px) {
+  @media (min-width: 350px) and (max-width: 768px) {
     .mainDiv {
       padding: 2rem;
     }

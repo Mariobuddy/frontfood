@@ -4,10 +4,7 @@ export const GlobalStyle = createGlobalStyle`
 
 :root{
   --headbg:#0C0032;
-}
-
-body{
-  /* background-color:#04152d; */
+  --maincol:#4D004C;
 }
 
 * {

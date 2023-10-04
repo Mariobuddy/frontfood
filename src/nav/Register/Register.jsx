@@ -104,7 +104,7 @@ const Register = () => {
     e.preventDefault();
     if (validationForm()) {
       try {
-        const res = await fetch("https://food-backend-auth.onrender.com/register", {
+        const res = await fetch("http://localhost:8000/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -112,9 +112,9 @@ const Register = () => {
           credentials: "include",
           body: JSON.stringify(formData),
         });
-      
+
         const data = await res.json();
-      
+
         if (res.status === 200) {
           nav("/login");
           setformData({
@@ -136,7 +136,7 @@ const Register = () => {
         console.error(error);
         // Handle the error appropriately, e.g., show an error message to the user
       }
-    } 
+    }
   };
 
   return (
@@ -348,7 +348,11 @@ const Wrapper = styled.div`
 
         #buts {
           width: 15rem;
-          background-color: orangered;
+          background-color: #923cb5;
+          background-image: linear-gradient(147deg, #923cb5 0%, #000000 74%);
+          &:hover {
+            box-shadow: 0 4px 6px rgba(118, 117, 117, 0.1);
+          }
           color: #ffffff;
           outline: none;
           border: none;
@@ -404,7 +408,7 @@ const Wrapper = styled.div`
     }
   }
 
-  @media (min-width: 370px) and (max-width: 768px) {
+  @media (min-width: 350px) and (max-width: 768px) {
     padding-top: 3rem;
 
     .mainDiv {
