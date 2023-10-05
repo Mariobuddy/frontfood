@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import styled from "styled-components";
 import { PiMouseSimple } from "react-icons/pi";
+import FeaturedProduct from "./FeaturedProduct";
 
 const HomeHead = () => {
   const [displayText, setDisplayText] = useState("");
+  const ref=useRef(null);
+
+  const makeScroll=()=>{
+    console.log("Hello")
+    ref.current?.scrollIntoView({behavior: 'smooth'});
+  }
 
 
   useEffect(() => {
@@ -25,19 +32,24 @@ const HomeHead = () => {
     };
   }, []);
   return (
+  <>
     <Wrapper>
       <div className="pcon">
         <p>{displayText}</p>
       </div>
       <div className="inner">
         <h4>FIND AMAZING PRODUCTS BELOW</h4>
-        <button>
+        <button onClick={makeScroll}>
           Scroll
           <PiMouseSimple />
         </button>
       </div>
       <div className="whitebg"></div>
     </Wrapper>
+    <div ref={ref}>
+    <FeaturedProduct/>
+    </div>
+  </>
   );
 };
 
@@ -91,6 +103,8 @@ const Wrapper = styled.div`
       align-items: center;
       justify-content: center;
       padding: 1rem 3rem;
+      outline: none;
+      border: 2px solid transparent;
       &:hover{
         background-color: transparent;
         outline: none;
