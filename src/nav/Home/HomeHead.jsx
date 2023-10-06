@@ -1,55 +1,42 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { PiMouseSimple } from "react-icons/pi";
 import FeaturedProduct from "./FeaturedProduct";
-
+import Typewriter from "typewriter-effect";
 const HomeHead = () => {
-  const [displayText, setDisplayText] = useState("");
-  const ref=useRef(null);
+  console.log("HomeHead")
+  const ref = useRef(null);
 
-  const makeScroll=()=>{
-    console.log("Hello")
-    ref.current?.scrollIntoView({behavior: 'smooth'});
-  }
-
-
-  useEffect(() => {
-    let text = "Welcome to Mario Store.";
-    let i = 0;
-    let show = "";
-    let interval = setInterval(() => {
-      show += text.charAt(i);
-      setDisplayText(show);
-      i++;
-      if (i === text.length + 1) {
-        show = "";
-        i = 0;
-        setDisplayText(show);
-      }
-    }, 200);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  const makeScroll = () => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
   return (
-  <>
-    <Wrapper>
-      <div className="pcon">
-        <p>{displayText}</p>
+    <>
+      <Wrapper>
+        <div className="pcon">
+        <span>
+          <Typewriter
+            options={{
+              strings: "Welcome to Mario Store.",
+              autoStart: true,
+              loop: true,
+            }}
+          />
+          </span>
+        </div>
+        <div className="inner">
+          <h4>FIND AMAZING PRODUCTS BELOW</h4>
+          <button onClick={makeScroll}>
+            Scroll
+            <PiMouseSimple />
+          </button>
+        </div>
+        <div className="whitebg"></div>
+      </Wrapper>
+      <div ref={ref}>
+        <FeaturedProduct />
       </div>
-      <div className="inner">
-        <h4>FIND AMAZING PRODUCTS BELOW</h4>
-        <button onClick={makeScroll}>
-          Scroll
-          <PiMouseSimple />
-        </button>
-      </div>
-      <div className="whitebg"></div>
-    </Wrapper>
-    <div ref={ref}>
-    <FeaturedProduct/>
-    </div>
-  </>
+    </>
   );
 };
 
@@ -81,7 +68,7 @@ const Wrapper = styled.div`
   .pcon {
     width: 22rem;
     height: 3rem;
-    p {
+    span {
       font-size: 1.8rem;
     }
   }
@@ -105,11 +92,11 @@ const Wrapper = styled.div`
       padding: 1rem 3rem;
       outline: none;
       border: 2px solid transparent;
-      &:hover{
+      &:hover {
         background-color: transparent;
         outline: none;
-        color: #FFFFFF;
-        border: 2px solid #FFFFFF;
+        color: #ffffff;
+        border: 2px solid #ffffff;
       }
     }
   }

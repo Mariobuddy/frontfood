@@ -7,17 +7,7 @@ import Header from "./components/Header/Header";
 import Login from "./nav/Login/Login";
 import Register from "./nav/Register/Register";
 import Product from "./nav/Product/Product";
-import { fetchUser } from "./redux/features/products";
-import { useDispatch,useSelector } from "react-redux";
-import { useEffect } from "react";
 function App() {
-let dispatch=useDispatch();
-const {data,loading}=useSelector((state)=>state.products);
-console.log(loading);
-console.log(data);
-useEffect(()=>{
-  dispatch(fetchUser());
-},[dispatch]);
   return (
     <BrowserRouter>
       <Header />

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import { styled, keyframes } from "styled-components";
 import Mario from "../../assests/mario.png";
 import { FaShoppingCart } from "react-icons/fa";
-import { FaLocationDot } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BiSolidUser } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
@@ -16,35 +15,6 @@ const Header = () => {
   const [lastScroll, setLastScroll] = useState(0);
   const [down, setDown] = useState(false);
   const [query, setQuery] = useState("");
-  const [locationCurrent, setLocationCurrent] = useState("");
-  const [locationLoad, setlocationLoad] = useState(false);
-
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        const { latitude, longitude } = position.coords;
-        reverseGeocode(latitude, longitude);
-      });
-      async function reverseGeocode(latitude, longitude) {
-        setlocationLoad(true);
-        const apiKey = "bf5b294bee864333b1506989b2f7bc81";
-        const url = `https://api.opencagedata.com/geocode/v1/json?key=${apiKey}&q=${latitude}+${longitude}&language=en&pretty=1`;
-
-        try {
-          const response = await fetch(url);
-          if (!response.ok) {
-            throw new Error("Failed to fetch address data.");
-          }
-          const data = await response.json();
-          const address = data.results[0].formatted;
-          setLocationCurrent(address);
-          setlocationLoad(true);
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      }
-    }
-  }, []);
 
   let searchResult = () => {
     if (query.length > 0) {
@@ -92,35 +62,10 @@ const Header = () => {
     window.scrollTo(0, 0);
   }, [location]);
 
-
   return (
     <Wrapper className={currentScroll}>
       <div className="left">
         <img alt="Mario" src={Mario} onClick={() => {}} />
-      </div>
-
-      <div className="mid">
-        
-        {locationLoad ? (
-          <>
-          <FaLocationDot className="loc" />
-            {locationCurrent
-              .split(",")
-              .splice(2)
-              .map((val, i) => {
-                return (
-                  <p key={i} style={{ color: "#FFFFFF" }}>
-                    {val}
-                    {i === locationCurrent.split(",").splice(2).length - 1
-                      ? "."
-                      : ","}
-                  </p>
-                );
-              })}
-          </>
-        ) : (
-          ""
-        )}
       </div>
       <div className="right">
         <ul className={show ? "visible anime" : ""}>
@@ -285,21 +230,6 @@ const Wrapper = styled.div`
   .visible {
     display: block !important;
   }
-
-  .mid {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .loc {
-      color: orangered;
-      font-size: 1.6rem;
-    }
-    p {
-      font-size: 1.2rem;
-      margin-left: 1rem;
-    }
-  }
-
   .left {
     img {
       width: 6rem;
@@ -489,13 +419,13 @@ const Wrapper = styled.div`
         .logo1 {
           cursor: pointer;
           font-size: 2.5rem;
-          color: #FFFFFF;
+          color: #ffffff;
         }
       }
       ul {
         display: none;
         position: absolute;
-        background-color:#4a0c63;
+        background-color: #4a0c63;
         box-shadow: 0px 4px 6px -2px rgba(0, 0, 0, 0.5);
         padding-top: 5.5rem;
         height: fit-content;

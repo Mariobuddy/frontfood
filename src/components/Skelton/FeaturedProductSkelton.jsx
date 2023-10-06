@@ -7,13 +7,17 @@ const FeaturedProductSkelton = () => {
   return (
     <Wrapper>
       <div className="img-div">
-        <Skeleton/>
+        <Skeleton className="img-div"/>
       </div>
       <div className="des-div">
-        <p><Skeleton/></p>
-        <p><Skeleton/></p>
         <p>
-          <Skeleton/>
+          <Skeleton />
+        </p>
+        <p>
+          <Skeleton />
+        </p>
+        <p>
+          <Skeleton />
         </p>
       </div>
     </Wrapper>
@@ -26,36 +30,18 @@ const Wrapper = styled.div`
   height: 37rem;
   width: 24rem;
   transition: all 0.2s ease-in;
+  margin: 2rem 0rem;
+
 
   .img-div {
-    position: relative;
-    width: fit-content;
-    height: fit-content;
-    overflow: hidden;
+    width: 24rem;
+    height: 30rem;
+
   }
 
   .des-div {
-    height: 7rem;
-    width: 24rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: flex-start;
-    padding: 0.5rem 1rem;
-
-    p {
-      font-size: 1.2rem;
-      &:nth-child(1) {
-        font-size: 1.6rem;
-      }
-      &:nth-child(2) {
-        color: var(--dim);
-        font-size: 1.3rem;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-        width: 100%;
-      }
-    }
+  p{
+    margin-top: 1rem;
+  }
   }
 `;
