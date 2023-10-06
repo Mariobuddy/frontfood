@@ -7,19 +7,17 @@ import Header from "./components/Header/Header";
 import Login from "./nav/Login/Login";
 import Register from "./nav/Register/Register";
 import Product from "./nav/Product/Product";
-// import Footer from "./components/Footer/Footer";
+import { fetchUser } from "./redux/features/products";
 import { useDispatch,useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchUser } from "./redux/features/products";
-
 function App() {
-  let dispatch=useDispatch();
-  const {data}=useSelector((state)=>state.products);
-  console.log(data);
-
-  useEffect(()=>{
+let dispatch=useDispatch();
+const {data,loading}=useSelector((state)=>state.products);
+console.log(loading);
+console.log(data);
+useEffect(()=>{
   dispatch(fetchUser());
-  },[dispatch]);
+},[dispatch]);
   return (
     <BrowserRouter>
       <Header />
