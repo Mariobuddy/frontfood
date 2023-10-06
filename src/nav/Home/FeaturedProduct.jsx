@@ -11,7 +11,6 @@ import FeaturedProductSkelton from "../../components/Skelton/FeaturedProductSkel
 const FeaturedProduct = () => {
   let dispatch = useDispatch();
   const { data, loading } = useSelector((state) => state.products);
-  console.log(data);
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
@@ -21,10 +20,10 @@ const FeaturedProduct = () => {
       <div className="main-container">
             {data?.items?.map((val, i) => {
               return (
-            <>
+            <div key={i}>
             {
               !loading?(
-                <NavLink to={""} key={i} className={"nav-div"}>
+                <NavLink to={`/api/products/${val._id}`}  className={"nav-div"}>
                 <div className="inner-container">
                   <div className="img-div">
                     <AddToCart>Add To Cart</AddToCart>
@@ -49,7 +48,7 @@ const FeaturedProduct = () => {
               </NavLink>
               ):(<FeaturedProductSkelton/>)
             }
-            </>
+            </div>
               );
             })}
       </div>

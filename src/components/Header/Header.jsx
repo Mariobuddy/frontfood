@@ -7,6 +7,8 @@ import { BiSolidUser } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Header = () => {
   const location = useLocation();
@@ -30,8 +32,21 @@ const Header = () => {
     setShow(!show);
   };
 
-  let remLocal = () => {
+  let remLocal = async () => {
     localStorage.clear();
+    try {
+      const res = await fetch("http://localhost:4000/logout", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (res.status === 200) {
+        toast("Logout Sucessfull");
+      }
+    } catch (error) {
+      return error;
+    }
   };
 
   const userJSON = localStorage.getItem("userDetails");
@@ -64,6 +79,20 @@ const Header = () => {
 
   return (
     <Wrapper className={currentScroll}>
+      <div className="invis">
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggables
+          pauseOnHover
+          theme="dark"
+        />
+      </div>
       <div className="left">
         <img alt="Mario" src={Mario} onClick={() => {}} />
       </div>
@@ -208,6 +237,10 @@ const Wrapper = styled.div`
   top: 0;
   left: 0;
 
+  .invis {
+    position: absolute;
+  }
+
   .anime {
     animation: ${ani} 0.5s ease;
   }
@@ -293,14 +326,13 @@ const Wrapper = styled.div`
           display: flex;
           justify-content: center;
           align-items: center;
-          background-color: var(--maincol);
+          background-color: orangered;
           border-radius: 2rem;
-          padding: 0.4rem 1rem;
+          padding: 0.4rem 1.5rem;
           position: relative;
 
           .innerProfile {
             position: absolute;
-            box-shadow: 2px 2px 10px 2px gray;
             background-color: #ffffff;
             height: 5rem;
             width: 12rem;

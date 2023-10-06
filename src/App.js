@@ -7,6 +7,7 @@ import Header from "./components/Header/Header";
 import Login from "./nav/Login/Login";
 import Register from "./nav/Register/Register";
 import Product from "./nav/Product/Product";
+import SingleProducts from "./nav/SingleProducts/SingleProducts";
 function App() {
   return (
     <BrowserRouter>
@@ -19,6 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<PageNotFound />} />
+        <Route path="/api/products/:id" element={<SingleProducts/>} />
       </Routes>
       {/* <Footer/> */}
     </BrowserRouter>

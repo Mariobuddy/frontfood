@@ -1,6 +1,7 @@
 import { fetchUser,fetchUserError,fetchUserSuccess } from "../features/products";
 import { takeLatest, call, put ,fork} from 'redux-saga/effects';
 import { productsApi } from "./api";
+// import { SingleApi } from "./api";
 
 
 function* fetchProductsAsync() {

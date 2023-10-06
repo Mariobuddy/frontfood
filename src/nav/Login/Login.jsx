@@ -5,6 +5,8 @@ import { BiUserCircle } from "react-icons/bi";
 import { BiSolidHide } from "react-icons/bi";
 import { BiSolidShow } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import {  toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const nav = useNavigate();
@@ -67,7 +69,7 @@ const Login = () => {
     e.preventDefault();
     if (validationForm()) {
       try {
-        const res = await fetch("http://localhost:8000/login", {
+        const res = await fetch("http://localhost:4000/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -77,26 +79,26 @@ const Login = () => {
         });
 
         const data = await res.json();
-        console.log(data[0]);
         if (res.status === 200) {
-          localStorage.setItem("authUser", data[1]);
-          const userJSON = JSON.stringify(data[0]);
+          const userJSON = JSON.stringify(data.userData);
           localStorage.setItem("userDetails", userJSON);
           nav("/");
           setFormData({
             password: "",
             email: "",
-          });
-        } else if (data.error === "Invalid email") {
+          })
+        toast("Login SucessFull");
+        } else if (data.message === "Invalid email") {
+          toast(data.message);
           errors.email = "Invalid email";
           setErrors({ ...errors });
-        } else if (data.error === "Password does not match") {
+        } else if (data.message === "Password does not match") {
+          toast(data.message);
           errors.password = "Password does not match";
           setErrors({ ...errors });
         }
       } catch (error) {
-        console.error(error);
-        // Handle the error appropriately, e.g., show an error message to the user
+        return error;
       }
     }
   };
@@ -178,6 +180,10 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .invis {
+    position: absolute;
+  }
 
   .mainDiv {
     width: fit-content;

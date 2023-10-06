@@ -4,7 +4,6 @@ import { PiMouseSimple } from "react-icons/pi";
 import FeaturedProduct from "./FeaturedProduct";
 import Typewriter from "typewriter-effect";
 const HomeHead = () => {
-  console.log("HomeHead")
   const ref = useRef(null);
 
   const makeScroll = () => {

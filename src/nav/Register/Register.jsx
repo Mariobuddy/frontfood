@@ -4,6 +4,8 @@ import Rohit from "../../assests/profile.jpeg";
 import { AiFillCamera } from "react-icons/ai";
 import BaseImg from "../../components/Base64/BaseImg";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   let nav = useNavigate();
@@ -104,7 +106,7 @@ const Register = () => {
     e.preventDefault();
     if (validationForm()) {
       try {
-        const res = await fetch("http://localhost:8000/register", {
+        const res = await fetch("http://localhost:4000/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -116,6 +118,7 @@ const Register = () => {
         const data = await res.json();
 
         if (res.status === 200) {
+          toast("Registration Sucessfull");
           nav("/login");
           setformData({
             name: "",
@@ -128,13 +131,17 @@ const Register = () => {
             number: "",
             image: "",
           });
-        } else if (data.error === "Email already exists") {
+        } else if (data.message === "Email already exists") {
+          toast(data.message);
           errors.email = "Email already exists";
+          setErrors({ ...errors });
+        } else if (data.message === "All fields are required") {
+          toast(data.message);
+          errors.email = "All fields are required";
           setErrors({ ...errors });
         }
       } catch (error) {
         console.error(error);
-        // Handle the error appropriately, e.g., show an error message to the user
       }
     }
   };
