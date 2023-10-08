@@ -6,11 +6,11 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../../redux/features/products";
 import FeaturedProductSkelton from "../../components/Skelton/FeaturedProductSkelton";
-
+import Loading from "../../components/Loading/Loading";
 
 const FeaturedProduct = () => {
   let dispatch = useDispatch();
-  const { data, loading } = useSelector((state) => state.products);
+  const { data, loading, error } = useSelector((state) => state.products);
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
@@ -18,39 +18,56 @@ const FeaturedProduct = () => {
     <Wrapper>
       <p className="des">Featured Products</p>
       <div className="main-container">
-            {data?.items?.map((val, i) => {
+        {!loading && !error ? (
+          <>
+            {data?.items?.slice(0, 10).map((val, i) => {
               return (
-            <div key={i}>
-            {
-              !loading?(
-                <NavLink to={`/api/products/${val._id}`}  className={"nav-div"}>
-                <div className="inner-container">
-                  <div className="img-div">
-                    <AddToCart>Add To Cart</AddToCart>
-                    <img alt="error" src={val?.images[0]?.url} />
-                    <div className="star-and-review">
-                      <div className="line-div">
-                        <span>{val?.rating}</span>
-                        <AiFillStar className="star-icon" />
+                <div key={i}>
+                  <NavLink
+                    to={`/api/products/${val._id}`}
+                    className={"nav-div"}
+                  >
+                    <div className="inner-container">
+                      <div className="img-div">
+                        <AddToCart>{val?.brand}</AddToCart>
+                        <img alt="error" src={val?.images[0]?.url} />
+                        <div className="star-and-review">
+                          <div className="line-div">
+                            <span>{val?.rating.toFixed(1)}</span>
+                            <AiFillStar className="star-icon" />
+                          </div>
+                          <span>|</span>
+                          <span>{val?.numOfReviews}</span>
+                        </div>
                       </div>
-                      <span>|</span>
-                      <span>{val?.numOfReviews}</span>
+                      <div className="des-div">
+                        <p>{val?.name}</p>
+                        <p>{val?.description}</p>
+                        <p>
+                          <Currency price={val?.price} />
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="des-div">
-                    <p>{val?.name}</p>
-                    <p>{val?.description}</p>
-                    <p>
-                      <Currency price={val?.price} />
-                    </p>
-                  </div>
+                  </NavLink>
                 </div>
-              </NavLink>
-              ):(<FeaturedProductSkelton/>)
-            }
-            </div>
               );
             })}
+          </>
+        ) : (
+          <>
+            <FeaturedProductSkelton />
+            <FeaturedProductSkelton />
+            <FeaturedProductSkelton />
+            <FeaturedProductSkelton />
+            <FeaturedProductSkelton />
+            <FeaturedProductSkelton />
+            <FeaturedProductSkelton />
+            <FeaturedProductSkelton />
+            <FeaturedProductSkelton />
+            <FeaturedProductSkelton />
+            <Loading />
+          </>
+        )}
       </div>
     </Wrapper>
   );
@@ -60,23 +77,22 @@ export default FeaturedProduct;
 
 const AddToCart = styled.button`
   position: absolute;
-  padding: 0.8rem 1.5rem;
-  background-color: orangered;
+  padding: 0.5rem 1rem;
   border: 2px solid transparent;
+  background: rgba(
+    255,
+    255,
+    255,
+    0.2
+  ); /* Adjust the alpha (fourth) value for transparency */
+  backdrop-filter: blur(10px);
   outline: none;
   color: #ffffff;
-  cursor: pointer;
   border-radius: 0.2rem;
-  top: 70%;
-  left: 28%;
+  top: 1rem;
+  right: 1rem;
   display: none;
-  transition: all 0.2s ease-in;
-  z-index: 4;
-
-  &:hover {
-    border: 2px solid #ffffff;
-    transition: all 0.2s ease-in;
-  }
+  cursor: pointer;
 `;
 const Wrapper = styled.div`
   width: 100%;
@@ -118,7 +134,6 @@ const Wrapper = styled.div`
         width: 24rem;
         transition: all 0.2s ease-in;
         margin: 2rem 0rem;
-
         &:hover ${AddToCart} {
           display: block;
         }
