@@ -133,15 +133,15 @@ const SingleProducts = () => {
       </div>
       <div className="reviews">
         <p className="des">Reviews</p>
-        {
-          data?.product?.reviews.length!==0?(
-            <div className="review-main">
-          {data?.product?.reviews.map((val, i) => {
-            return <ReviewCard key={i} review={val} />;
-          })}
-        </div>
-          ):(<p style={{marginTop:"6rem"}}>No Reviews Yet Message</p>)
-        }
+        {data?.product?.reviews.length !== 0 ? (
+          <div className="review-main">
+            {data?.product?.reviews.map((val, i) => {
+              return <ReviewCard key={i} review={val} />;
+            })}
+          </div>
+        ) : (
+          <p style={{ marginTop: "6rem" ,fontSize:"1.6rem"}}>No Reviews Yet Message</p>
+        )}
       </div>
     </Wrapper>
   );
@@ -333,7 +333,7 @@ const Wrapper = styled.div`
           cursor: pointer;
           background-color: orangered;
           border-radius: 0.2rem;
-          &:hover{
+          &:hover {
             color: orangered;
             background-color: transparent;
             border: 2px solid orangered;
@@ -401,7 +401,31 @@ const Wrapper = styled.div`
   }
 
   @media (min-width: 370px) and (max-width: 768px) {
-    padding: 4rem 2rem;
+    padding: 4rem 1rem;
+
+    .reviews {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 9rem;
+      flex-direction: column;
+
+      .review-main {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        margin-top: 4rem;
+        overflow: auto;
+      }
+      .des {
+        text-align: center;
+        font-size: 2rem;
+        position: relative;
+        width: 12rem;
+      }
+    }
 
     .main-div {
       justify-content: space-around;
@@ -479,23 +503,8 @@ const Wrapper = styled.div`
         }
 
         .star-and-review {
-          padding: 0.4rem 1rem;
-          width: 15rem;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          border: 2px solid var(--dim);
-          font-size: 1.6rem;
-          position: relative;
-
           &::after {
-            position: absolute;
-            content: "";
-            width: 90vw;
-            height: 100%;
-            top: 1.5rem;
-            left: 0;
-            border-bottom: 2px solid var(--dim);
+            border: none;
           }
 
           .line-div {

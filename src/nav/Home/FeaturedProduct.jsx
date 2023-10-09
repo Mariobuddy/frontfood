@@ -6,13 +6,12 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../../redux/features/products";
 import FeaturedProductSkelton from "../../components/Skelton/FeaturedProductSkelton";
-import Loading from "../../components/Loading/Loading";
 
 const FeaturedProduct = () => {
   let dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state.products);
   useEffect(() => {
-    dispatch(fetchUser());
+    dispatch(fetchUser({page:1,minPrice:0,maxPrice:5000,category:"",brand:""}));
   }, [dispatch]);
   return (
     <Wrapper>
@@ -20,7 +19,7 @@ const FeaturedProduct = () => {
       <div className="main-container">
         {!loading && !error ? (
           <>
-            {data?.items?.slice(0, 10).map((val, i) => {
+            {data?.items?.map((val, i) => {
               return (
                 <div key={i}>
                   <NavLink
@@ -65,7 +64,6 @@ const FeaturedProduct = () => {
             <FeaturedProductSkelton />
             <FeaturedProductSkelton />
             <FeaturedProductSkelton />
-            <Loading />
           </>
         )}
       </div>
@@ -75,7 +73,7 @@ const FeaturedProduct = () => {
 
 export default FeaturedProduct;
 
-const AddToCart = styled.button`
+export const AddToCart = styled.button`
   position: absolute;
   padding: 0.5rem 1rem;
   border: 2px solid transparent;
