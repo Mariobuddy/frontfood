@@ -13,13 +13,17 @@ import { NavLink } from "react-router-dom";
 import FeaturedProductSkelton from "../../components/Skelton/FeaturedProductSkelton";
 import { AiFillStar } from "react-icons/ai";
 import { AddToCart } from "../Home/FeaturedProduct";
+import PaginationMain from "../../components/Pagination/Pagination";
 
 const Product = () => {
   const [currentPage, setCurrentPage] = useState(1);
   let dispatch = useDispatch();
-  const { data, view, loading, error, proCategory } = useSelector(
-    (state) => state.products
-  );
+  const { data, view, loading, error, proCategory, totalCount, perPageCount } =
+    useSelector((state) => state.products);
+  const getPageNo = (e) => {
+    console.log(e);
+    setCurrentPage(e);
+  };
   const sortedCategory = Array.from([
     "All",
     ...new Set(data?.items.map((val) => val.category)),
@@ -186,6 +190,11 @@ const Product = () => {
           </div>
         </div>
       </div>
+      <PaginationMain
+        perPageCount={perPageCount}
+        sendPage={getPageNo}
+        totalItemCount={totalCount}
+      />
     </Wrapper>
   );
 };
