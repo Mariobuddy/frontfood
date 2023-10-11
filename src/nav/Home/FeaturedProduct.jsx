@@ -11,7 +11,7 @@ const FeaturedProduct = () => {
   let dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state.products);
   useEffect(() => {
-    dispatch(fetchUser({page:1,minPrice:0,maxPrice:5000,category:"",brand:""}));
+    dispatch(fetchUser({page:1,minPrice:0,maxPrice:2000,category:"",brand:"",sort:""}));
   }, [dispatch]);
   return (
     <Wrapper>

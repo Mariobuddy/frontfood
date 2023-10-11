@@ -7,41 +7,46 @@ const PaginationMain = ({ perPageCount, totalItemCount, sendPage }) => {
   const handlePageChange = (e) => {
     setActivePage(e);
     sendPage(e);
+    window.scrollTo(0, 0);
   };
   return (
-    <Wrapper>
-      <Pagination
-        activePage={activePage}
-        itemsCountPerPage={perPageCount}
-        totalItemsCount={totalItemCount}
-        pageRangeDisplayed={5}
-        onChange={handlePageChange}
-        nextPageText={">>"}
-        prevPageText={"<<"}
-        lastPageText={totalItemCount}
-        firstPageText={"1st"}
-        itemClass="page-item"
-        linkClass="page-class"
-        activeLinkClass="page-link-active"
-        activeClass="page-class-active"
-      />
-    </Wrapper>
+    <>
+      {perPageCount < totalItemCount ? (
+        <Wrapper>
+          <Pagination
+            activePage={activePage}
+            itemsCountPerPage={perPageCount}
+            totalItemsCount={totalItemCount}
+            pageRangeDisplayed={5}
+            onChange={handlePageChange}
+            nextPageText={">>"}
+            prevPageText={"<<"}
+            lastPageText={"Last"}
+            firstPageText={"1st"}
+            itemClass="page-item"
+            linkClass="page-class"
+            activeLinkClass="page-link-active"
+            activeClass="page-class-active"
+          />
+        </Wrapper>
+      ) : (
+        ""
+      )}
+    </>
   );
 };
 
 export default PaginationMain;
 
 const Wrapper = styled.div`
+  .page-link-active {
+    color: #ffffff !important;
+  }
 
-.page-link-active{
-    color: #FFFFFF !important;
-}
-
-.page-class-active{
-  background-color: orangered;
-
-}
-padding: 2rem 0rem;
+  .page-class-active {
+    background-color: orangered;
+  }
+  padding: 2rem 0rem;
   .pagination {
     display: flex;
     .page-item {

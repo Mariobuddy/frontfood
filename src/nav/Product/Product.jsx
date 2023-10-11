@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { styled } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import {
   fetchUser,
   changeView,
   changeCategory,
+  changeSorting,
+  changePrice,
+  changePage,
+  changeCompany,
 } from "../../redux/features/products";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { TfiLayoutGrid2Alt } from "react-icons/tfi";
@@ -14,43 +18,50 @@ import FeaturedProductSkelton from "../../components/Skelton/FeaturedProductSkel
 import { AiFillStar } from "react-icons/ai";
 import { AddToCart } from "../Home/FeaturedProduct";
 import PaginationMain from "../../components/Pagination/Pagination";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 
 const Product = () => {
-  const [currentPage, setCurrentPage] = useState(1);
   let dispatch = useDispatch();
-  const { data, view, loading, error, proCategory, totalCount, perPageCount } =
-    useSelector((state) => state.products);
-  const getPageNo = (e) => {
-    console.log(e);
-    setCurrentPage(e);
-  };
-  const sortedCategory = Array.from([
-    "All",
-    ...new Set(data?.items.map((val) => val.category)),
-  ]);
-  const sortedBrand = Array.from([
-    "All",
-    ...new Set(data?.items.map((val) => val.brand)),
-  ]);
-  const changeShow = (val) => {
-    if (val === "grid") {
-      dispatch(changeView(true));
-    } else {
-      dispatch(changeView(false));
-    }
-  };
-  useEffect(() => {
-    dispatch(
-      fetchUser({
-        page: currentPage,
-        minPrice: 0,
-        maxPrice: 5000,
-        category: proCategory,
-        brand: "",
-      })
-    );
-  }, [dispatch, currentPage, proCategory]);
+  const {
+    data,
+    view,
+    loading,
+    error,
+    proCategory,
+    totalCount,
+    perPageCount,
+    sorting,
+    min,
+    max,
+    page,
+    company,
+  } = useSelector((state) => state.products);
 
+  const categoryArray = [
+    "All",
+    "Tshirt",
+    "Shirt",
+    "Top",
+    "Boxer",
+    "Jeans",
+    "Hoddie",
+  ];
+  const companyArray = [
+    "All",
+    "Zudio",
+    "Roadster",
+    "Peter England",
+    "Tommy Hilfigure",
+    "No Fuss",
+  ];
+
+  const getPageNo = (e) => {
+    dispatch(changePage(e));
+  };
+  const handlePriceChange = (values) => {
+    dispatch(changePrice(values));
+  };
   const getCategory = (e) => {
     if (e.target.value === "All") {
       dispatch(changeCategory(""));
@@ -58,6 +69,37 @@ const Product = () => {
       dispatch(changeCategory(e.target.value));
     }
   };
+  const changeShow = (val) => {
+    if (val === "grid") {
+      dispatch(changeView(true));
+    } else {
+      dispatch(changeView(false));
+    }
+  };
+
+  const setSort = (e) => {
+    dispatch(changeSorting(e.target.value));
+  };
+
+  const setCompany = (e) => {
+    if (e.target.value === "All") {
+      dispatch(changeCompany(""));
+    } else {
+      dispatch(changeCompany(e.target.value));
+    }
+  };
+  useEffect(() => {
+    dispatch(
+      fetchUser({
+        page: page,
+        minPrice: min,
+        maxPrice: max,
+        category: proCategory,
+        brand: company,
+        sort: sorting,
+      })
+    );
+  }, [dispatch, page, proCategory, sorting, min, max, company]);
   return (
     <Wrapper>
       <div className="main-div">
@@ -80,29 +122,23 @@ const Product = () => {
           </div>
           <p style={{ fontSize: "1.8rem" }}>
             Total Products{" "}
-            <span style={{ color: "orangered" }}>{data?.count}</span>
+            <span style={{ color: "orangered" }}>{data?.nbhits}</span>
           </p>
-          <select>
-            <option>Option 1</option>
-            <option>Option 2</option>
-            <option>Option 3</option>
-            <option>Option 4</option>
-            <option>Option 5</option>
+          <select onChange={setSort}>
+            <option value={""}>Recommended</option>
+            <option value={"price"}>Price(Lowest)</option>
+            <option value={"-price"}>Price(Highest)</option>
+            <option value={"name"}>Name(a-z)</option>
+            <option value={"-name"}>Name(z-a)</option>
           </select>
         </div>
         <div className="bottom-div">
           <div className="left">
             <div className="category">
               <label htmlFor="butone">Category</label>
-              {sortedCategory.map((val, i) => {
+              {categoryArray.map((val, i) => {
                 return (
-                  <button
-                    value={val}
-                    onClick={getCategory}
-                    id="butone"
-                    className=""
-                    key={i}
-                  >
+                  <button key={i} onClick={getCategory} value={val}>
                     {val}
                   </button>
                 );
@@ -110,10 +146,10 @@ const Product = () => {
             </div>
             <div className="brand">
               <label htmlFor="selone">Company</label>
-              <select id="selone">
-                {sortedBrand.map((val, i) => {
+              <select id="selone" onChange={setCompany}>
+                {companyArray.map((val, i) => {
                   return (
-                    <option className="opp" key={i}>
+                    <option key={i} value={val}>
                       {val}
                     </option>
                   );
@@ -122,15 +158,15 @@ const Product = () => {
             </div>
             <div className="price">
               <label>Price</label>
-              <p>{<Currency price={5000} />}</p>
-              <input
-                type="range"
-                className="ranger"
+              <p>Min {<Currency price={min} />}</p>
+              <p>Max {<Currency price={max} />}</p>
+              <Slider
                 min={0}
-                // value={0}
-                name="Price"
-                // onChange={0}
-                max={0}
+                max={2000} // Adjust the max value as needed
+                range
+                defaultValue={[min, max]}
+                onChange={handlePriceChange}
+                style={{ width: "15rem", margin: "0 auto" }}
               />
             </div>
             <button className="buts">CLEAR FILTERS</button>
@@ -415,6 +451,18 @@ const Wrapper = styled.div`
         }
         .price {
           margin-bottom: 2rem;
+
+          .rc-slider-track {
+            background-color: var(--maincol); /* Change to your desired color */
+            cursor: pointer;
+          }
+
+          /* Change the color of the thumb */
+          .rc-slider-handle {
+            border-color: var(--dim); /* Change to your desired color */
+            background-color: var(--dim); /* Change to your desired color */
+            cursor: pointer;
+          }
 
           label {
             font-size: 1.8rem;
