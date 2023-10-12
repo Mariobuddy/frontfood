@@ -18,6 +18,8 @@ const productSlice = createSlice({
     company: "",
     maxStar: 5,
     minStar: 0,
+    search:""
+
   },
   reducers: {
     fetchUser: (state) => {
@@ -36,13 +38,13 @@ const productSlice = createSlice({
     },
     deleteFilter: (state) => {
       state.company = "";
-      state.page = 1;
       state.max = 2000;
       state.min = 0;
       state.proCategory = "";
       state.sorting = "";
       state.minStar=0;
       state.maxStar=5;
+      state.search=""
     },
     changeView: (state, action) => {
       state.view = action.payload;
@@ -66,12 +68,16 @@ const productSlice = createSlice({
     changeRating:(state,action)=>{
       state.minStar=action.payload[0];
       state.maxStar=action.payload[1];
+    },
+    changeSearch:(state,action)=>{
+      state.search=action.payload;
     }
   },
 });
 
 export const {
   fetchUser,
+  changeSearch,
   fetchUserSuccess,
   fetchUserError,
   changeView,

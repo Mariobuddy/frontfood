@@ -61,6 +61,9 @@ const Wrapper = styled.div`
       width: fit-content;
       height: fit-content;
       font-size: 1.6rem;
+      &:hover {
+        background-color: #8080805d;
+      }
       .page-class {
         color: orangered;
       }
