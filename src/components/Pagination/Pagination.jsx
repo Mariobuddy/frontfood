@@ -2,22 +2,27 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Pagination from "react-js-pagination";
 
-const PaginationMain = ({ perPageCount, totalItemCount, sendPage }) => {
+const PaginationMain = ({
+  resultPerPage,
+  totalItemCount,
+  sendPage,
+  currentPageLength,
+}) => {
   const [activePage, setActivePage] = useState(1);
   const handlePageChange = (e) => {
     setActivePage(e);
     sendPage(e);
     window.scrollTo(0, 0);
   };
+
   return (
-    <>
-      {perPageCount < totalItemCount ? (
-        <Wrapper>
+    <Wrapper>
+      {resultPerPage < totalItemCount ? (
+        <>
           <Pagination
             activePage={activePage}
-            itemsCountPerPage={perPageCount}
+            itemsCountPerPage={resultPerPage}
             totalItemsCount={totalItemCount}
-            pageRangeDisplayed={5}
             onChange={handlePageChange}
             nextPageText={">>"}
             prevPageText={"<<"}
@@ -28,11 +33,11 @@ const PaginationMain = ({ perPageCount, totalItemCount, sendPage }) => {
             activeLinkClass="page-link-active"
             activeClass="page-class-active"
           />
-        </Wrapper>
+        </>
       ) : (
         ""
       )}
-    </>
+    </Wrapper>
   );
 };
 

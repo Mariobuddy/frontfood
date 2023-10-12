@@ -9,12 +9,15 @@ const productSlice = createSlice({
     view: true,
     proCategory: "",
     totalCount: 0,
-    perPageCount: 0,
+    resultPerPage: 0,
+    currentPageLength: 0,
     sorting: "",
     min: 0,
     max: 2000,
     page: 1,
-    company:""
+    company: "",
+    maxStar: 5,
+    minStar: 0,
   },
   reducers: {
     fetchUser: (state) => {
@@ -24,11 +27,22 @@ const productSlice = createSlice({
       state.loading = false;
       state.data = action.payload;
       state.totalCount = action.payload.nbhits;
-      state.perPageCount = action.payload.count;
+      state.resultPerPage = action.payload.resultPerPage;
+      state.currentPageLength = action.payload.currentPageLength;
     },
     fetchUserError: (state) => {
       state.loading = false;
       state.error = true;
+    },
+    deleteFilter: (state) => {
+      state.company = "";
+      state.page = 1;
+      state.max = 2000;
+      state.min = 0;
+      state.proCategory = "";
+      state.sorting = "";
+      state.minStar=0;
+      state.maxStar=5;
     },
     changeView: (state, action) => {
       state.view = action.payload;
@@ -46,8 +60,12 @@ const productSlice = createSlice({
     changePage: (state, action) => {
       state.page = action.payload;
     },
-    changeCompany:(state,action)=>{
-      state.company=action.payload;
+    changeCompany: (state, action) => {
+      state.company = action.payload;
+    },
+    changeRating:(state,action)=>{
+      state.minStar=action.payload[0];
+      state.maxStar=action.payload[1];
     }
   },
 });
@@ -61,6 +79,8 @@ export const {
   changeSorting,
   changePrice,
   changePage,
-  changeCompany
+  changeCompany,
+  deleteFilter,
+  changeRating
 } = productSlice.actions;
 export default productSlice.reducer;

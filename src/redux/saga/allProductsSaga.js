@@ -12,10 +12,11 @@ import { takeLatest, put, fork } from "redux-saga/effects";
 import axios from "axios";
 
 function* fetchProductsAsync(action) {
-  const { page, maxPrice, minPrice, category, brand,sort } = action.payload;
+  const { page, maxPrice, minPrice, category, brand, sort, minStar, maxStar } =
+    action.payload;
   try {
     const products = yield axios.get(
-      `http://localhost:4000/api/products?page=${page}&minPrice=${minPrice}&maxPrice=${maxPrice}&category=${category}&brand=${brand}&sortBy=${sort}`
+      `http://localhost:4000/api/products?page=${page}&minPrice=${minPrice}&maxPrice=${maxPrice}&category=${category}&brand=${brand}&sortBy=${sort}&minStar=${minStar}&maxStar=${maxStar}`
     ); // Replace with your API call
     yield put(fetchUserSuccess(products.data)); // Dispatch a success action
   } catch (error) {

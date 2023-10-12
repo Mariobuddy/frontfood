@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -9,6 +9,8 @@ import {
   changePrice,
   changePage,
   changeCompany,
+  deleteFilter,
+  changeRating,
 } from "../../redux/features/products";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { TfiLayoutGrid2Alt } from "react-icons/tfi";
@@ -22,6 +24,10 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
 const Product = () => {
+  const [onlineBut, setOnlineBut] = useState("0");
+  const [selectedValue, setSelectedValue] = useState("All");
+  const [selectedValueTwo, setSelectedValueTwo] = useState("All");
+
   let dispatch = useDispatch();
   const {
     data,
@@ -30,14 +36,16 @@ const Product = () => {
     error,
     proCategory,
     totalCount,
-    perPageCount,
+    resultPerPage,
+    currentPageLength,
     sorting,
+    maxStar,
+    minStar,
     min,
     max,
     page,
     company,
   } = useSelector((state) => state.products);
-
   const categoryArray = [
     "All",
     "Tshirt",
@@ -56,6 +64,10 @@ const Product = () => {
     "No Fuss",
   ];
 
+  const setRating = (values) => {
+    dispatch(changeRating(values));
+  };
+
   const getPageNo = (e) => {
     dispatch(changePage(e));
   };
@@ -63,12 +75,20 @@ const Product = () => {
     dispatch(changePrice(values));
   };
   const getCategory = (e) => {
+    setOnlineBut(e.target.id);
     if (e.target.value === "All") {
       dispatch(changeCategory(""));
     } else {
       dispatch(changeCategory(e.target.value));
     }
   };
+  const clearBut = () => {
+    dispatch(deleteFilter());
+    setOnlineBut("0");
+    setSelectedValue("All");
+    setSelectedValueTwo("All");
+  };
+
   const changeShow = (val) => {
     if (val === "grid") {
       dispatch(changeView(true));
@@ -78,10 +98,16 @@ const Product = () => {
   };
 
   const setSort = (e) => {
-    dispatch(changeSorting(e.target.value));
+    setSelectedValue(e.target.value);
+    if (e.target.value === "All") {
+      dispatch(changeSorting(""));
+    } else {
+      dispatch(changeSorting(e.target.value));
+    }
   };
 
   const setCompany = (e) => {
+    setSelectedValueTwo(e.target.value);
     if (e.target.value === "All") {
       dispatch(changeCompany(""));
     } else {
@@ -97,9 +123,21 @@ const Product = () => {
         category: proCategory,
         brand: company,
         sort: sorting,
+        minStar: minStar,
+        maxStar: maxStar,
       })
     );
-  }, [dispatch, page, proCategory, sorting, min, max, company]);
+  }, [
+    dispatch,
+    page,
+    proCategory,
+    sorting,
+    min,
+    max,
+    company,
+    minStar,
+    maxStar,
+  ]);
   return (
     <Wrapper>
       <div className="main-div">
@@ -122,10 +160,14 @@ const Product = () => {
           </div>
           <p style={{ fontSize: "1.8rem" }}>
             Total Products{" "}
-            <span style={{ color: "orangered" }}>{data?.nbhits}</span>
+            <span style={{ color: "orangered" }}>{totalCount}</span>
           </p>
-          <select onChange={setSort}>
-            <option value={""}>Recommended</option>
+          <p style={{ fontSize: "1.8rem" }}>
+            Current Page Products{" "}
+            <span style={{ color: "orangered" }}>{currentPageLength}</span>
+          </p>
+          <select value={selectedValue} onChange={setSort}>
+            <option value={"All"}>Recommended</option>
             <option value={"price"}>Price(Lowest)</option>
             <option value={"-price"}>Price(Highest)</option>
             <option value={"name"}>Name(a-z)</option>
@@ -138,15 +180,53 @@ const Product = () => {
               <label htmlFor="butone">Category</label>
               {categoryArray.map((val, i) => {
                 return (
-                  <button key={i} onClick={getCategory} value={val}>
+                  <button
+                    id={i}
+                    key={i}
+                    className={onlineBut === i.toString() ? "lineActive" : ""}
+                    onClick={getCategory}
+                    value={val}
+                  >
                     {val}
                   </button>
                 );
               })}
             </div>
+            <div className="rating2">
+              <label
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                }}
+              >
+                Rating
+                <span
+                  style={{
+                    color: "orangered",
+                    fontSize: "1.4rem",
+                    marginLeft: "0.5rem",
+                  }}
+                >
+                  {minStar} - {maxStar}
+                </span>
+                <AiFillStar
+                  style={{ color: "orangered", marginLeft: "0.5rem" }}
+                />
+              </label>
+              <Slider
+                min={0}
+                max={5} // Adjust the max value as needed
+                range
+                value={[minStar, maxStar]}
+                onChange={setRating}
+                style={{ width: "15rem", margin: "0 auto", marginTop: "1rem" }}
+                step={0.01}
+              />
+            </div>
             <div className="brand">
               <label htmlFor="selone">Company</label>
-              <select id="selone" onChange={setCompany}>
+              <select value={selectedValueTwo} onChange={setCompany}>
                 {companyArray.map((val, i) => {
                   return (
                     <option key={i} value={val}>
@@ -158,18 +238,30 @@ const Product = () => {
             </div>
             <div className="price">
               <label>Price</label>
-              <p>Min {<Currency price={min} />}</p>
-              <p>Max {<Currency price={max} />}</p>
+              <p>
+                Min :
+                <span style={{ color: "orangered", fontSize: "1.4rem" }}>
+                  {<Currency price={min} />}
+                </span>
+              </p>
+              <p>
+                Max :
+                <span style={{ color: "orangered", fontSize: "1.4rem" }}>
+                  {<Currency price={max} />}
+                </span>
+              </p>
               <Slider
                 min={0}
                 max={2000} // Adjust the max value as needed
                 range
-                defaultValue={[min, max]}
+                value={[min, max]}
                 onChange={handlePriceChange}
                 style={{ width: "15rem", margin: "0 auto" }}
               />
             </div>
-            <button className="buts">CLEAR FILTERS</button>
+            <button className="buts" onClick={clearBut}>
+              CLEAR FILTERS
+            </button>
           </div>
           <div className="right">
             <div className="main-container">
@@ -227,8 +319,9 @@ const Product = () => {
         </div>
       </div>
       <PaginationMain
-        perPageCount={perPageCount}
+        resultPerPage={resultPerPage}
         sendPage={getPageNo}
+        currentPageLength={currentPageLength}
         totalItemCount={totalCount}
       />
     </Wrapper>
@@ -406,6 +499,41 @@ const Wrapper = styled.div`
           }
         }
 
+        .rating2 {
+          padding: 1rem 1rem 1rem 0rem;
+
+          label {
+            font-size: 1.8rem;
+          }
+
+          .rc-slider-rail {
+            height: 0.8rem;
+          }
+
+          .rc-slider-track {
+            background-color: var(--maincol); /* Change to your desired color */
+            cursor: pointer;
+            height: 0.8rem;
+          }
+
+          /* Change the color of the thumb */
+          .rc-slider-handle {
+            border: 4px solid var(--maincol);
+            background-color: #ffffff; /* Change to your desired color */
+            cursor: pointer;
+            margin-top: -0.3rem;
+            height: 1.5rem;
+            width: 1.5rem;
+            opacity: 1;
+          }
+
+          p {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+          }
+        }
+
         .brand {
           display: flex;
           flex-direction: column;
@@ -448,20 +576,36 @@ const Wrapper = styled.div`
           border: none;
           outline: none;
           cursor: pointer;
+          border: 2px solid orangered;
+
+          &:hover {
+            background-color: #ffffff;
+            color: orangered;
+            border: 2px solid orangered;
+          }
         }
         .price {
           margin-bottom: 2rem;
 
+          .rc-slider-rail {
+            height: 0.8rem;
+          }
+
           .rc-slider-track {
             background-color: var(--maincol); /* Change to your desired color */
             cursor: pointer;
+            height: 0.8rem;
           }
 
           /* Change the color of the thumb */
           .rc-slider-handle {
-            border-color: var(--dim); /* Change to your desired color */
-            background-color: var(--dim); /* Change to your desired color */
+            border: 4px solid var(--maincol);
+            background-color: #ffffff; /* Change to your desired color */
             cursor: pointer;
+            margin-top: -0.3rem;
+            height: 1.5rem;
+            width: 1.5rem;
+            opacity: 1;
           }
 
           label {
@@ -469,51 +613,6 @@ const Wrapper = styled.div`
             font-weight: 500;
             margin-bottom: 1rem;
           }
-
-          .ranger {
-            background-color: #c1b7b7 !important;
-            z-index: 333;
-
-            appearance: none;
-            -moz-appearance: none;
-            -webkit-appearance: none;
-            border-radius: 1rem;
-            height: 0.8rem;
-            cursor: pointer;
-
-            &::-moz-range-thumb {
-              background-color: #ffffff;
-              border: 4px solid var(--maincol);
-              border-radius: 100%;
-              width: 0.8rem;
-              height: 0.8rem;
-            }
-
-            &::-webkit-slider-thumb {
-              background-color: #ffffff;
-              border: 4px solid var(--maincol);
-              -webkit-appearance: none;
-              border-radius: 100%;
-              width: 1.5rem;
-              height: 1.5rem;
-              margin-top: -0.4rem;
-            }
-
-            &::-moz-range-progress {
-              background-color: var(--maincol);
-              height: inherit;
-              height: 0.7rem;
-              width: inherit;
-              border-radius: 1rem;
-            }
-
-            &::-webkit-slider-runnable-track {
-              background-color: var(--maincol);
-              height: 0.8rem;
-              border-radius: 1rem;
-            }
-          }
-
           p {
             margin: 1rem 0rem;
             font-size: 1.2rem;
