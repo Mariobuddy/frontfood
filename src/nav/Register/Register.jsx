@@ -287,9 +287,9 @@ const Register = () => {
           </div>
         </form>
         {!loadCir && (
-          <p className="pl">
+          <span className="pl">
             <Loading />
-          </p>
+          </span>
         )}
       </div>
     </Wrapper>

@@ -171,9 +171,9 @@ const Login = () => {
           </NavLink>
         </p>
         {!loadCir && (
-          <p className="pl">
+          <span className="pl">
             <Loading />
-          </p>
+          </span>
         )}
       </div>
     </Wrapper>
