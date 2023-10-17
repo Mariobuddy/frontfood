@@ -30,6 +30,21 @@ const Product = () => {
   const [selectedValue, setSelectedValue] = useState("All");
   const [selectedValueTwo, setSelectedValueTwo] = useState("All");
   const [navBar, setNavBar] = useState(false);
+  const [size, setSize] = useState(false);
+
+  useEffect(() => {
+    let resizeRes = () => {
+      if (window.innerWidth <= 768) {
+        setSize(true);
+      } else {
+        setSize(false);
+      }
+    };
+    window.addEventListener("resize", resizeRes);
+    return () => {
+      window.removeEventListener("resize", resizeRes);
+    };
+  }, []);
 
   let dispatch = useDispatch();
   const {
@@ -40,7 +55,6 @@ const Product = () => {
     proCategory,
     totalCount,
     resultPerPage,
-    currentPageLength,
     sorting,
     maxStar,
     minStar,
@@ -85,12 +99,14 @@ const Product = () => {
     } else {
       dispatch(changeCategory(e.target.value));
     }
+    setNavBar(false);
   };
   const clearBut = () => {
     dispatch(deleteFilter());
     setOnlineBut("0");
     setSelectedValue("All");
     setSelectedValueTwo("All");
+    setNavBar(false);
   };
 
   const setSearch = (e) => {
@@ -121,12 +137,17 @@ const Product = () => {
     } else {
       dispatch(changeCompany(e.target.value));
     }
+    setNavBar(false);
   };
 
   useEffect(() => {
     dispatch(deleteFilter());
     dispatch(changePage(1));
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
@@ -193,7 +214,7 @@ const Product = () => {
             Total Products <span>{totalCount}</span>
           </p>
           <p className="ptop">
-            Current Page Products <span>{currentPageLength}</span>
+            Max Display Limit <span>{resultPerPage}</span>
           </p>
           <select value={selectedValue} onChange={setSort}>
             <option value={"All"}>Recommended</option>
@@ -204,8 +225,9 @@ const Product = () => {
           </select>
         </div>
         <div className="bottom-div">
-          {navBar || window.innerWidth > 768 ? (
-            <div className="left">
+            <div className="left" style={{
+          display: navBar || (window.innerWidth > 768 && !size) ? "flex" : "none",
+        }}>
               <div className="category">
                 <label htmlFor="butone">Category</label>
                 {categoryArray.map((val, i) => {
@@ -297,45 +319,48 @@ const Product = () => {
                 CLEAR FILTERS
               </button>
             </div>
-          ) : (
-            ""
-          )}
           <div className="right">
             <div className="main-container">
               {!loading && !error ? (
                 <>
-                  {data?.items?.map((val, i) => {
-                    return (
-                      <div key={i}>
-                        <NavLink
-                          to={`/api/products/${val._id}`}
-                          className={"nav-div"}
-                        >
-                          <div className="inner-container">
-                            <div className="img-div">
-                              <AddToCart>{val?.brand}</AddToCart>
-                              <img alt="error" src={val?.images[0]?.url} />
-                              <div className="star-and-review">
-                                <div className="line-div">
-                                  <span>{val?.rating.toFixed(1)}</span>
-                                  <AiFillStar className="star-icon" />
+                  {totalCount !== 0 ? (
+                    <>
+                      {data?.items?.map((val, i) => {
+                        return (
+                          <div key={i}>
+                            <NavLink
+                              to={`/api/products/${val._id}`}
+                              className={"nav-div"}
+                            >
+                              <div className="inner-container">
+                                <div className="img-div">
+                                  <AddToCart>{val?.brand}</AddToCart>
+                                  <img alt="error" src={val?.images[0]?.url} />
+                                  <div className="star-and-review">
+                                    <div className="line-div">
+                                      <span>{val?.rating.toFixed(1)}</span>
+                                      <AiFillStar className="star-icon" />
+                                    </div>
+                                    <span>|</span>
+                                    <span>{val?.numOfReviews}</span>
+                                  </div>
                                 </div>
-                                <span>|</span>
-                                <span>{val?.numOfReviews}</span>
+                                <div className="des-div">
+                                  <p>{val?.name}</p>
+                                  <p>{val?.description}</p>
+                                  <p>
+                                    <Currency price={val?.price} />
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                            <div className="des-div">
-                              <p>{val?.name}</p>
-                              <p>{val?.description}</p>
-                              <p>
-                                <Currency price={val?.price} />
-                              </p>
-                            </div>
+                            </NavLink>
                           </div>
-                        </NavLink>
-                      </div>
-                    );
-                  })}
+                        );
+                      })}
+                    </>
+                  ) : (
+                    <p className="not">Product Not Available</p>
+                  )}
                 </>
               ) : (
                 <>
@@ -358,7 +383,6 @@ const Product = () => {
       <PaginationMain
         resultPerPage={resultPerPage}
         sendPage={getPageNo}
-        currentPageLength={currentPageLength}
         totalItemCount={totalCount}
       />
     </Wrapper>
@@ -374,7 +398,14 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 3rem;
+  position: relative;
+
+  .not {
+    font-size: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
 
   .nicon {
     font-size: 2.5rem;
@@ -521,6 +552,7 @@ const Wrapper = styled.div`
         justify-content: space-around;
         height: 80vh;
         width: 11vw;
+        display: none;
 
         .category {
           display: flex;
@@ -740,6 +772,13 @@ const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
     padding-top: 3rem;
+
+    .not {
+      font-size: 2rem;
+      position: absolute;
+      top: 100%;
+      left: 26%;
+    }
 
     .nicon {
       display: block;
@@ -1051,6 +1090,7 @@ const Wrapper = styled.div`
         .ptop {
           font-size: 1.4rem;
           margin-top: 2rem;
+          width: 14rem;
           span {
           }
         }

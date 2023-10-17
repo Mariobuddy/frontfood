@@ -74,22 +74,23 @@ const Footer = () => {
 
 export default Footer;
 
-const Button=styled.button`
-background-color: orangered;
-padding: 1rem 1.5rem;
-outline: none;
-color: #FFFFFF;
-border: none;
-border-radius: 0.2rem;
-cursor: pointer;
-&:hover{
-  border-radius: 1rem;
-}
+const Button = styled.button`
+  background-color: orangered;
+  padding: 1rem 1.5rem;
+  outline: none;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  &:hover {
+    border-radius: 1rem;
+  }
 
-@media (min-width:370px) and (max-width:768px){
-  padding: 0.8rem 1rem;
-  white-space: nowrap;
-}`;
+  @media (min-width: 370px) and (max-width: 768px) {
+    padding: 0.8rem 1rem;
+    white-space: nowrap;
+  }
+`;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -98,14 +99,15 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   bottom: 0;
 
   .div3 {
-    background-color: var(--maincol);
+    background-color: #923cb5;
+    background-image: linear-gradient(147deg, #923cb5 0%, #000000 74%);
     height: 6vh;
     width: 100%;
-z
+
     .down {
       margin-top: 0.5rem;
       font-size: 1.2rem;
@@ -147,7 +149,8 @@ z
   .div2 {
     height: 32vh;
     width: inherit;
-    background-color: var(--maincol);
+    background-color: #923cb5;
+    background-image: linear-gradient(147deg, #923cb5 0%, #000000 74%);
     padding: 8rem 34rem 0rem 34rem;
     color: #ffffff;
     display: flex;
@@ -260,7 +263,7 @@ z
     }
   }
 
-  @media (min-width: 300px) and (max-width: 600px) {
+  @media (min-width: 370px) and (max-width: 768px) {
     width: 100vw;
     height: 38vh;
     display: flex;

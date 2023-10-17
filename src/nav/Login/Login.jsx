@@ -5,11 +5,12 @@ import { BiUserCircle } from "react-icons/bi";
 import { BiSolidHide } from "react-icons/bi";
 import { BiSolidShow } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Loading from "../../components/Loading/Loading";
 const Login = () => {
   const nav = useNavigate();
+  const [loadCir, setLoadCir] = useState(true);
   const [formData, setFormData] = useState({ email: "", password: "" });
   let [errors, setErrors] = useState({});
   const [hide, setHide] = useState(false);
@@ -67,6 +68,7 @@ const Login = () => {
 
   const InpSubmit = async (e) => {
     e.preventDefault();
+    setLoadCir(false);
     if (validationForm()) {
       try {
         const res = await fetch("http://localhost:4000/login", {
@@ -86,16 +88,19 @@ const Login = () => {
           setFormData({
             password: "",
             email: "",
-          })
-        toast("Login SucessFull");
+          });
+          setLoadCir(true);
+          toast("Login SucessFull");
         } else if (data.message === "Invalid email") {
           toast(data.message);
           errors.email = "Invalid email";
           setErrors({ ...errors });
+          setLoadCir(true);
         } else if (data.message === "Password does not match") {
           toast(data.message);
           errors.password = "Password does not match";
           setErrors({ ...errors });
+          setLoadCir(true);
         }
       } catch (error) {
         return error;
@@ -165,6 +170,11 @@ const Login = () => {
             Sign up
           </NavLink>
         </p>
+        {!loadCir && (
+          <p className="pl">
+            <Loading />
+          </p>
+        )}
       </div>
     </Wrapper>
   );
@@ -176,7 +186,7 @@ const Wrapper = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-  padding-top: 15rem;
+  padding: 15rem 0rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -194,6 +204,13 @@ const Wrapper = styled.div`
     align-items: center;
     flex-direction: column;
     box-shadow: 2px 2px 20px 5px gray;
+    position: relative;
+
+    .pl {
+      position: absolute;
+      bottom: 11rem;
+      left: 38%;
+    }
 
     .user {
       font-size: 5rem;
@@ -303,6 +320,10 @@ const Wrapper = styled.div`
   @media (min-width: 350px) and (max-width: 768px) {
     .mainDiv {
       padding: 2rem;
+      .pl {
+      bottom: 10rem;
+      left: 36%;
+    }
     }
   }
 `;

@@ -47,6 +47,7 @@ const Header = () => {
     } catch (error) {
       return error;
     }
+    setShow(false);
   };
 
   const userJSON = localStorage.getItem("userDetails");
@@ -153,7 +154,7 @@ const Header = () => {
           <li>
             {userLogData ? (
               <div className="disLog" onClick={downProfile}>
-                <img alt="Rohit" src={userLogData?.image}></img>
+                <img alt="Rohit" src={userLogData?.image?.url}></img>
                 <p>
                   {userLogData?.name} {userLogData?.surname}
                 </p>
@@ -162,7 +163,7 @@ const Header = () => {
                   style={{ display: down ? "block" : "none" }}
                 >
                   <div className="innerIn">
-                    <NavLink className={"proNav"} to={"dashboard"}>
+                    <NavLink className={"proNav"} to={"profile"}>
                       Profile
                     </NavLink>
                     <NavLink
@@ -338,6 +339,7 @@ const Wrapper = styled.div`
             width: 12rem;
             border-radius: 0.5rem;
             top: 4rem;
+            z-index: 9;
 
             .innerIn {
               width: inherit;

@@ -6,7 +6,6 @@ const PaginationMain = ({
   resultPerPage,
   totalItemCount,
   sendPage,
-  currentPageLength,
 }) => {
   const [activePage, setActivePage] = useState(1);
   const handlePageChange = (e) => {

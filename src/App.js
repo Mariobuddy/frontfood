@@ -8,21 +8,25 @@ import Login from "./nav/Login/Login";
 import Register from "./nav/Register/Register";
 import Product from "./nav/Product/Product";
 import SingleProducts from "./nav/SingleProducts/SingleProducts";
+import Footer from './components/Footer/Footer';
+import Profile from "./nav/Profile/Profile";
+
 function App() {
   return (
     <BrowserRouter>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/product" element={<Product />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="*" element={<PageNotFound />} />
         <Route path="/api/products/:id" element={<SingleProducts/>} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
-      {/* <Footer/> */}
+      <Footer/>
     </BrowserRouter>
   );
 }

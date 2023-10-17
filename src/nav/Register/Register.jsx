@@ -6,9 +6,11 @@ import BaseImg from "../../components/Base64/BaseImg";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loading from "../../components/Loading/Loading";
 
 const Register = () => {
   let nav = useNavigate();
+  const [loadCir, setLoadCir] = useState(true);
   let [formData, setformData] = useState({
     name: "",
     surname: "",
@@ -18,7 +20,7 @@ const Register = () => {
     cpassword: "",
     email: "",
     number: "",
-    image: "",
+    image: null,
   });
   let [errors, setErrors] = useState({});
 
@@ -35,6 +37,7 @@ const Register = () => {
     let value = e.target.value;
     setformData({ ...formData, [name]: value });
   };
+  console.log(loadCir);
 
   let validationForm = () => {
     const newErrors = {};
@@ -73,7 +76,7 @@ const Register = () => {
       newErrors.cpassword = "Password is not matching";
     }
 
-    if (!formData.image.trim()) {
+    if (!formData.image) {
       newErrors.image = "Please upload image";
     }
 
@@ -105,6 +108,7 @@ const Register = () => {
   const PostBut = async (e) => {
     e.preventDefault();
     if (validationForm()) {
+      setLoadCir(false);
       try {
         const res = await fetch("http://localhost:4000/register", {
           method: "POST",
@@ -118,6 +122,7 @@ const Register = () => {
         const data = await res.json();
 
         if (res.status === 200) {
+          setLoadCir(true);
           toast("Registration Sucessfull");
           nav("/login");
           setformData({
@@ -129,19 +134,21 @@ const Register = () => {
             cpassword: "",
             email: "",
             number: "",
-            image: "",
+            image: null,
           });
         } else if (data.message === "Email already exists") {
+          setLoadCir(true);
           toast(data.message);
           errors.email = "Email already exists";
           setErrors({ ...errors });
         } else if (data.message === "All fields are required") {
+          setLoadCir(true);
           toast(data.message);
           errors.email = "All fields are required";
           setErrors({ ...errors });
         }
       } catch (error) {
-        console.error(error);
+        return error;
       }
     }
   };
@@ -279,6 +286,11 @@ const Register = () => {
             </button>
           </div>
         </form>
+        {!loadCir && (
+          <p className="pl">
+            <Loading />
+          </p>
+        )}
       </div>
     </Wrapper>
   );
@@ -290,7 +302,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  padding-top: 12rem;
+  padding: 12rem 0rem;
   justify-content: center;
   align-items: center;
 
@@ -312,6 +324,12 @@ const Wrapper = styled.div`
     flex-direction: column;
     box-shadow: 2px 2px 20px 5px gray;
     position: relative;
+
+    .pl {
+      position: absolute;
+      bottom: 8rem;
+      left: 43%;
+    }
 
     label {
       .up {
@@ -421,6 +439,16 @@ const Wrapper = styled.div`
     .mainDiv {
       padding: 1rem 0rem;
       width: 90%;
+
+      #buts {
+        margin-top: 2rem;
+      }
+
+      .pl {
+        position: absolute;
+        bottom: 5.5rem;
+        left: 36%;
+      }
 
       label {
         .up {

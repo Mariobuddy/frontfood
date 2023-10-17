@@ -30,7 +30,6 @@ const productSlice = createSlice({
       state.data = action.payload;
       state.totalCount = action.payload.nbhits;
       state.resultPerPage = action.payload.resultPerPage;
-      state.currentPageLength = action.payload.currentPageLength;
     },
     fetchUserError: (state) => {
       state.loading = false;
