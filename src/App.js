@@ -11,11 +11,13 @@ import SingleProducts from "./nav/SingleProducts/SingleProducts";
 import Footer from './components/Footer/Footer';
 import Profile from "./nav/Profile/Profile";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
+import styled from "styled-components";
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
+     <Wrapper>
+     <Header />
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/profile" element={<Profile />} />
@@ -28,8 +30,17 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Footer/>
+     </Wrapper>
     </BrowserRouter>
   );
 }
 
 export default App;
+
+const Wrapper=styled.div`
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+
+`;
