@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSelector, useDispatch } from "react-redux";
 import { remAuth } from "../../redux/features/auth";
 import ProfileSkelton from "../Skelton/ProfileSkelton";
+import { fetchAuth } from "../../redux/features/auth";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,11 @@ const Header = () => {
     }
   };
 
+  useEffect(() => {
+    dispatch(fetchAuth());
+    /* eslint-disable react-hooks/exhaustive-deps */
+  }, []);
+
   let downProfile = () => {
     setDown(!down);
   };
@@ -43,8 +49,10 @@ const Header = () => {
       const res = await fetch("http://localhost:4000/logout", {
         method: "GET",
         headers: {
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
+        credentials: "include",
       });
       if (res.status === 200) {
         toast("Logout Sucessfull");

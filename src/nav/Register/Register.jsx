@@ -37,7 +37,6 @@ const Register = () => {
     let value = e.target.value;
     setformData({ ...formData, [name]: value });
   };
-  console.log(loadCir);
 
   let validationForm = () => {
     const newErrors = {};
