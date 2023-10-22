@@ -8,15 +8,17 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "../../components/Loading/Loading";
+import { useDispatch } from "react-redux";
+import { fetchAuth } from "../../redux/features/auth";
 const Login = () => {
   const nav = useNavigate();
+  let dispatch = useDispatch();
   const [loadCir, setLoadCir] = useState(true);
   const [formData, setFormData] = useState({ email: "", password: "" });
   let [errors, setErrors] = useState({});
   const [hide, setHide] = useState(false);
   const inp1 = useRef();
   const inp2 = useRef();
-
   const GetInp = (e) => {
     let name = e.target.name;
     let value = e.target.value;
@@ -25,7 +27,6 @@ const Login = () => {
 
   let validationForm = () => {
     const newErrors = {};
-    // Email validation (required and format)
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
@@ -82,8 +83,7 @@ const Login = () => {
 
         const data = await res.json();
         if (res.status === 200) {
-          const userJSON = JSON.stringify(data.userData);
-          localStorage.setItem("userDetails", userJSON);
+          dispatch(fetchAuth());
           nav("/");
           setFormData({
             password: "",
@@ -321,9 +321,9 @@ const Wrapper = styled.div`
     .mainDiv {
       padding: 2rem;
       .pl {
-      bottom: 10rem;
-      left: 36%;
-    }
+        bottom: 10rem;
+        left: 36%;
+      }
     }
   }
 `;

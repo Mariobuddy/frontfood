@@ -1,5 +1,5 @@
 import { all } from 'redux-saga/effects';
-import { allProductsSaga,singleProductsSaga } from './allProductsSaga';
+import { allProductsSaga,singleProductsSaga,mainAuthSaga } from './allProductsSaga';
 export default function* rootSaga() {
-  yield all([...allProductsSaga,...singleProductsSaga]);
+  yield all([...allProductsSaga,...singleProductsSaga,...mainAuthSaga]);
 }

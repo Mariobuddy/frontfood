@@ -10,15 +10,16 @@ import Product from "./nav/Product/Product";
 import SingleProducts from "./nav/SingleProducts/SingleProducts";
 import Footer from './components/Footer/Footer';
 import Profile from "./nav/Profile/Profile";
+import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 
 function App() {
   return (
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home/>} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/product" element={<Product />} />
+        <Route path="/product" element={<ProtectedRoutes Component={Product} />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />

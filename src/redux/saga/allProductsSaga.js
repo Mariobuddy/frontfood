@@ -8,12 +8,22 @@ import {
   fetchSingleError,
   fetchSingleSuccess,
 } from "../features/singleProducts";
+import { fetchAuth, fetchAuthError, fetchAuthSuccess } from "../features/auth";
 import { takeLatest, put, fork } from "redux-saga/effects";
 import axios from "axios";
 
 function* fetchProductsAsync(action) {
-  const { page, maxPrice, minPrice, category, brand, sort, minStar, maxStar,search } =
-    action.payload;
+  const {
+    page,
+    maxPrice,
+    minPrice,
+    category,
+    brand,
+    sort,
+    minStar,
+    maxStar,
+    search,
+  } = action.payload;
   try {
     const products = yield axios.get(
       `http://localhost:4000/api/products?page=${page}&minPrice=${minPrice}&maxPrice=${maxPrice}&category=${category}&brand=${brand}&sortBy=${sort}&minStar=${minStar}&maxStar=${maxStar}&name=${search}`
@@ -46,3 +56,21 @@ export function* singleSaga() {
 }
 
 export const singleProductsSaga = [fork(singleSaga)];
+
+function* fetchAuthAsync() {
+  try {
+    const auth = yield axios.get(`http://localhost:4000/profile`, {
+      method: "GET",
+      withCredentials: true,
+    }); // Replace with your API call
+    yield put(fetchAuthSuccess(auth.data)); // Dispatch a success action
+  } catch (error) {
+    yield put(fetchAuthError(error.message)); // Dispatch an error action
+  }
+}
+
+export function* authSaga() {
+  yield takeLatest(fetchAuth.type, fetchAuthAsync);
+}
+
+export const mainAuthSaga = [fork(authSaga)];

@@ -9,9 +9,13 @@ import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector, useDispatch } from "react-redux";
+import { remAuth } from "../../redux/features/auth";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
+  const { data, loading } = useSelector((state) => state.auth);
   const [show, setShow] = useState(false);
   const [currentScroll, setCurrentScroll] = useState("top");
   const [lastScroll, setLastScroll] = useState(0);
@@ -33,7 +37,7 @@ const Header = () => {
   };
 
   let remLocal = async () => {
-    localStorage.clear();
+    dispatch(remAuth(null));
     try {
       const res = await fetch("http://localhost:4000/logout", {
         method: "GET",
@@ -49,9 +53,6 @@ const Header = () => {
     }
     setShow(false);
   };
-
-  const userJSON = localStorage.getItem("userDetails");
-  const userLogData = JSON.parse(userJSON);
 
   const scrollEffect = useCallback(() => {
     if (window.scrollY > 200) {
@@ -152,11 +153,11 @@ const Header = () => {
             </NavLink>
           </li>
           <li>
-            {userLogData ? (
+            {data ? (
               <div className="disLog" onClick={downProfile}>
-                <img alt="Rohit" src={userLogData?.image?.url}></img>
+                <img alt="Rohit" src={data?.user?.image?.url}></img>
                 <p>
-                  {userLogData?.name} {userLogData?.surname}
+                  {data?.user?.name} {data?.user?.surname}
                 </p>
                 <div
                   className="innerProfile"
