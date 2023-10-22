@@ -11,6 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector, useDispatch } from "react-redux";
 import { remAuth } from "../../redux/features/auth";
+import ProfileSkelton from "../Skelton/ProfileSkelton";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -153,7 +154,9 @@ const Header = () => {
             </NavLink>
           </li>
           <li>
-            {data ? (
+            {loading ? (
+              <ProfileSkelton />
+            ) : data ? (
               <div className="disLog" onClick={downProfile}>
                 <img alt="Rohit" src={data?.user?.image?.url}></img>
                 <p>

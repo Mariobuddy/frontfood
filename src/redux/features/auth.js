@@ -4,8 +4,8 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     data: null,
-    loading: false,
-    error: false,
+    loading: null,
+    error: null,
   },
 
   reducers: {
@@ -13,17 +13,17 @@ const authSlice = createSlice({
       state.loading = true;
     },
     fetchAuthSuccess: (state, action) => {
-      state.loading = false;
+      state.loading = null;
       state.data = action.payload;
     },
     fetchAuthError: (state) => {
-      state.loading = false;
+      state.loading = null;
       state.error = true;
     },
     remAuth:(state,action)=>{
       state.data=action.payload;
-      state.loading=false;
-      state.error=false;
+      state.loading=null;
+      state.error=null;
     }
   },
 });
