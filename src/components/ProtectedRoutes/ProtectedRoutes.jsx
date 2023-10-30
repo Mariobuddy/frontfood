@@ -1,24 +1,15 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const ProtectedRoutes = ({ Component }) => {
+const ProtectedRoutes = ({Component}) => {
   let navigate = useNavigate();
-  const { data } = useSelector((state) => state.auth);
+  let token=localStorage.getItem("jwtToken");
   useEffect(() => {
-    if (!data) {
+    if (!token) {
       navigate("/login");
-    } else {
-      if (Component === "Product") {
-        navigate("/Product");
-      }
     }
-  }, [data, navigate, Component]);
-  return <>
-  {
-    data && <Component/>
-  }
-  </>
+  }, [navigate, Component,token]);
+  return <Component/>;
 };
 
 export default ProtectedRoutes;

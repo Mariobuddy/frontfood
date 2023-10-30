@@ -24,17 +24,19 @@ const Header = () => {
   const [down, setDown] = useState(false);
   const [query, setQuery] = useState("");
 
+  const token = localStorage.getItem("jwtToken");
+
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchAuth(token));
+    }
+  }, [dispatch, token]);
+
   let searchResult = () => {
     if (query.length > 0) {
       // navigate(`/search/${query}`);
     }
   };
-
-  useEffect(() => {
-    dispatch(fetchAuth());
-    /* eslint-disable react-hooks/exhaustive-deps */
-  }, []);
-
   let downProfile = () => {
     setDown(!down);
   };
@@ -45,6 +47,7 @@ const Header = () => {
 
   let remLocal = async () => {
     dispatch(remAuth(null));
+    localStorage.removeItem("jwtToken");
     try {
       const res = await fetch("http://localhost:4000/logout", {
         method: "GET",
@@ -106,6 +109,17 @@ const Header = () => {
       </div>
       <div className="left">
         <img alt="Mario" src={Mario} onClick={() => {}} />
+      </div>
+      <div
+        className="between"
+        style={{ display: data?.user?.role === "admin" ? "block" : "none" }}
+      >
+        <NavLink
+          to={"dashboard"}
+          style={{ color: "#FFFFFF", fontSize: "1.6rem" }}
+        >
+          DashBoard
+        </NavLink>
       </div>
       <div className="right">
         <ul className={show ? "visible anime" : ""}>
