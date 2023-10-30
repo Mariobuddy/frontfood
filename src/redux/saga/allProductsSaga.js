@@ -57,14 +57,11 @@ export function* singleSaga() {
 
 export const singleProductsSaga = [fork(singleSaga)];
 
-function* fetchAuthAsync(action) {
+function* fetchAuthAsync() {
   try {
     const auth = yield axios.get(`http://localhost:4000/profile`, {
       method: "GET",
       withCredentials: true,
-      headers:{
-        Authorization:`Bearer ${action.payload}`
-      }
     }); // Replace with your API call
     yield put(fetchAuthSuccess(auth.data)); // Dispatch a success action
   } catch (error) {

@@ -28,7 +28,7 @@ const Header = () => {
 
   useEffect(() => {
     if (token) {
-      dispatch(fetchAuth(token));
+      dispatch(fetchAuth());
     }
   }, [dispatch, token]);
 
