@@ -12,6 +12,7 @@ import Footer from "./components/Footer/Footer";
 import Profile from "./nav/Profile/Profile";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import styled from "styled-components";
+import EditProfile from "./nav/EditProfile/EditProfile";
 
 function App() {
   return (
@@ -20,13 +21,29 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/product" element={<ProtectedRoutes Component={Product}/>} />
+          <Route
+            path="/profile"
+            element={<ProtectedRoutes Component={Profile} />}
+          />
+          <Route
+            path="/product"
+            element={<ProtectedRoutes Component={Product} />}
+          />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/cart" element={<ProtectedRoutes Component={Cart} />} />
+          <Route
+            path="/login"
+            element={<ProtectedRoutes Component={Login} nav={"login"} />}
+          />
+          <Route
+            path="/register"
+            element={<ProtectedRoutes Component={Register} nav={"regis"} />}
+          />
           <Route path="/api/products/:id" element={<SingleProducts />} />
+          <Route
+            path="/editprofile"
+            element={<ProtectedRoutes Component={EditProfile} />}
+          />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer />

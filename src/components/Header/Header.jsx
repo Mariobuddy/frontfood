@@ -13,6 +13,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { remAuth } from "../../redux/features/auth";
 import ProfileSkelton from "../Skelton/ProfileSkelton";
 import { fetchAuth } from "../../redux/features/auth";
+import { AiOutlineLogout } from "react-icons/ai";
+import { BiSolidUserCircle } from "react-icons/bi";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -68,7 +70,7 @@ const Header = () => {
 
   const scrollEffect = useCallback(() => {
     if (window.scrollY > 200) {
-      if (window.scrollY > lastScroll && !show) {
+      if (window.scrollY > lastScroll && !show && !down) {
         setCurrentScroll("hide");
       } else {
         setCurrentScroll("show");
@@ -77,7 +79,7 @@ const Header = () => {
       setCurrentScroll("top");
     }
     setLastScroll(window.scrollY);
-  }, [lastScroll, show]);
+  }, [lastScroll, show,down]);
 
   useEffect(() => {
     window.addEventListener("scroll", scrollEffect);
@@ -190,6 +192,7 @@ const Header = () => {
                 >
                   <div className="innerIn">
                     <NavLink className={"proNav"} to={"profile"}>
+                      <BiSolidUserCircle className="see" />
                       Profile
                     </NavLink>
                     <NavLink
@@ -197,6 +200,7 @@ const Header = () => {
                       onClick={remLocal}
                       to={"login"}
                     >
+                      <AiOutlineLogout className="see" />
                       Log Out
                     </NavLink>
                   </div>
@@ -366,6 +370,7 @@ const Wrapper = styled.div`
             border-radius: 0.5rem;
             top: 4rem;
             z-index: 9;
+            box-shadow: 0px 0px 10px 2px #413f3f56;
 
             .innerIn {
               width: inherit;
@@ -376,9 +381,21 @@ const Wrapper = styled.div`
               align-items: center;
 
               .proNav {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .see {
+                  margin-right: 0.4rem;
+                  font-size: 1rem;
+                  color: orangered;
+                  font-size: 1.4rem;
+                }
                 font-size: 1.2rem;
                 white-space: nowrap;
                 color: black;
+                width: 100%;
+                text-align: center;
+                height: 50%;
 
                 &:hover {
                   color: orangered;
