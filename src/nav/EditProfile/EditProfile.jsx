@@ -6,16 +6,22 @@ import BaseImg from "../../components/Base64/BaseImg";
 import { AiFillCamera } from "react-icons/ai";
 import Rohit from "../../assests/profile.jpeg";
 import Loading from "../../components/Loading/Loading";
+import {useDispatch,useSelector} from "react-redux";
+import { fetchAuth } from "../../redux/features/auth";
+
 
 const EditProfile = () => {
+  let dispatch=useDispatch();
+  const {data}=useSelector((state)=>state.auth);
   let nav = useNavigate();
+  console.log(data);
   const [loadCir, setLoadCir] = useState(true);
   let [formData, setformData] = useState({
     name: "",
     surname: "",
     gender: "",
     email: "",
-    image: null,
+    image: "",
   });
   let [errors, setErrors] = useState({});
 
@@ -99,6 +105,7 @@ const EditProfile = () => {
             email: "",
             image: "",
           });
+          dispatch(fetchAuth());
         } else if (data.message === "Email already exists") {
           setLoadCir(true);
           toast(data.message);
