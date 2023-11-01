@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -6,15 +6,13 @@ import BaseImg from "../../components/Base64/BaseImg";
 import { AiFillCamera } from "react-icons/ai";
 import Rohit from "../../assests/profile.jpeg";
 import Loading from "../../components/Loading/Loading";
-import {useDispatch,useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchAuth } from "../../redux/features/auth";
 
-
 const EditProfile = () => {
-  let dispatch=useDispatch();
-  const {data}=useSelector((state)=>state.auth);
+  let dispatch = useDispatch();
+  const { data } = useSelector((state) => state.auth);
   let nav = useNavigate();
-  console.log(data);
   const [loadCir, setLoadCir] = useState(true);
   let [formData, setformData] = useState({
     name: "",
@@ -32,6 +30,16 @@ const EditProfile = () => {
       setformData({ ...formData, image: data });
     }
   };
+
+  useEffect(() => {
+      setformData({
+        name: data?.user?.name,
+        surname: data?.user?.surname,
+        gender: data?.user?.gender,
+        email: data?.user?.email,
+        image: data?.user?.image?.url,
+      });
+  }, [data]);
 
   const GetInput = (e) => {
     let name = e.target.name;
@@ -150,6 +158,7 @@ const EditProfile = () => {
               onChange={GetInput}
               name="name"
               placeholder="First Name *"
+              value={formData.name}
             ></input>
           </div>
 
@@ -161,6 +170,7 @@ const EditProfile = () => {
               name="surname"
               onChange={GetInput}
               placeholder="Last Name *"
+              value={formData.surname}
             ></input>
           </div>
           <div className="lab">
@@ -170,6 +180,7 @@ const EditProfile = () => {
               value="Male"
               style={{ border: "2px solid red" }}
               onChange={GetInput}
+              checked={formData.gender === "Male"}
             ></input>
             <label className="cir">Male</label>
             <input
@@ -177,6 +188,7 @@ const EditProfile = () => {
               name="gender"
               value="Female"
               onChange={GetInput}
+              checked={formData.gender === "Female"}
             ></input>
             <label className="cir">Female</label>
             <input
@@ -184,6 +196,7 @@ const EditProfile = () => {
               name="gender"
               value="Other"
               onChange={GetInput}
+              checked={formData.gender === "Other"}
             ></input>
             <label className="cir">Other</label>
           </div>
@@ -196,6 +209,7 @@ const EditProfile = () => {
               name="email"
               onChange={GetInput}
               placeholder="Your Email *"
+              value={formData.email}
             ></input>
           </div>
           <div className="bdiv">

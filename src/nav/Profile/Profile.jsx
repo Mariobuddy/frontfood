@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+import LazyLoading from "../../components/Lazy/LazyLoading";
+import Profile2 from "../../components/Skelton/Profile2";
 
 const Profile = () => {
   let navigate=useNavigate();
@@ -14,10 +16,10 @@ const Profile = () => {
       <p>My Profile</p>
       {token && (
         <>
-          {loading === null ? (
+          {loading===null ? (
             <div className="main-div">
               <div className="l-div">
-                <img alt="img" src={data?.user?.image?.url} />
+                <LazyLoading alt="img" src={data?.user?.image?.url} />
                 <button onClick={()=>navigate("/editprofile")}>Edit Profile</button>
               </div>
               <div className="r-div">
@@ -42,7 +44,7 @@ const Profile = () => {
               </div>
             </div>
           ) : (
-            ""
+           <Profile2/>
           )}
         </>
       )}
