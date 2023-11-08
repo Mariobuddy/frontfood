@@ -6,15 +6,26 @@ const ProtectedRoutes = ({ Component, nav }) => {
   let token = localStorage.getItem("jwtToken");
   useEffect(() => {
     if (!token) {
-       if(nav==="regis"){
+      if (nav === "regis") {
         navigate("/register");
-       }else{
-       navigate("/login");
-       }
-    } else if (token && (nav === "login" || nav === "regis")) {
+      } else if (nav === "forgotpassword") {
+        navigate("/forgotpassword");
+      } else if (nav === "resetpassword") {
+        navigate("/resetpassword");
+      } else {
+        navigate("/login");
+      }
+    } else if (
+      token &&
+      (nav === "login" ||
+        nav === "regis" ||
+        nav === "forgotpassword" ||
+        nav === "resetpassword")
+    ) {
       navigate("/");
     }
-  }, [navigate, Component, token, nav]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return <Component />;
 };
 

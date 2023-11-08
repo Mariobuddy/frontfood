@@ -1,102 +1,63 @@
 import React, { useState, useRef } from "react";
-import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { BiUserCircle } from "react-icons/bi";
-import { BiSolidHide } from "react-icons/bi";
-import { BiSolidShow } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "../../components/Loading/Loading";
-const Login = () => {
-  const nav = useNavigate();
+
+const ForgotPassword = () => {
+  const [formData, setFormData] = useState("");
+  let nav = useNavigate();
+  let [errors, setErrors] = useState("");
   const [loadCir, setLoadCir] = useState(true);
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  let [errors, setErrors] = useState({});
-  const [hide, setHide] = useState(false);
   const inp1 = useRef();
-  const inp2 = useRef();
   const GetInp = (e) => {
-    let name = e.target.name;
     let value = e.target.value;
-    setFormData({ ...formData, [name]: value });
+    setFormData(value);
   };
 
   let validationForm = () => {
-    const newErrors = {};
+    let newErrors = "";
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Invalid email format";
-    }
-    if (!formData.password.trim()) {
-      newErrors.password = "Password is required";
-    } else if (formData.password.length < 6) {
-      newErrors.password = "More than 6 characters required";
+    if (!formData.trim()) {
+      newErrors = "Email is required";
+    } else if (!emailRegex.test(formData)) {
+      newErrors = "Invalid email format";
     }
     errors = newErrors;
     setErrors(errors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  let hideChan = () => {
-    setHide(!hide);
-  };
-
-  let fMan = (val) => {
-    if (val === "inp1") {
-      inp1.current.style.top = "-1rem";
-    } else {
-      inp2.current.style.top = "-1rem";
-    }
-  };
-
-  let bMan = (val) => {
-    if (val === "inp1") {
-      if (formData.email.length === 0) {
-        inp1.current.style.top = "0.8rem";
-      }
-    } else {
-      if (formData.password.length === 0) {
-        inp2.current.style.top = "0.8rem";
-      }
-    }
+    return errors ? false : true;
   };
 
   const InpSubmit = async (e) => {
     e.preventDefault();
     if (validationForm()) {
-     setLoadCir(false);
+      setLoadCir(false);
       try {
-        const res = await fetch("http://localhost:4000/login", {
+        const res = await fetch("http://localhost:4000/forgot", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify(formData),
+          body: JSON.stringify({email:formData}),
         });
 
         const data = await res.json();
         if (res.status === 200) {
-          localStorage.setItem("jwtToken",data.token);
-          nav("/");
-          setFormData({
-            password: "",
-            email: "",
-          });
+          nav("/login");
+          setFormData("");
           setLoadCir(true);
-          toast("Login SucessFull");
-        } else if (data.message === "Invalid email") {
+          toast("Reset Link Send");
+        } else if (
+          data.message === "Enter your email" ||
+          data.message === "Email not found" ||
+          data.message === "There was an error sending password request email"
+        ) {
           toast(data.message);
-          errors.email = "Invalid email";
-          setErrors({ ...errors });
-          setLoadCir(true);
-        } else if (data.message === "Password does not match") {
-          toast(data.message);
-          errors.password = "Password does not match";
-          setErrors({ ...errors });
+          errors = data.message;
+          setErrors(errors);
           setLoadCir(true);
         }
       } catch (error) {
@@ -105,6 +66,15 @@ const Login = () => {
     }
   };
 
+  let fMan = () => {
+    inp1.current.style.top = "-1rem";
+  };
+
+  let bMan = () => {
+    if(formData.length===0){
+    inp1.current.style.top = "0.8rem";
+    }
+  };
   return (
     <Wrapper>
       <div className="mainDiv">
@@ -113,7 +83,7 @@ const Login = () => {
         <div className="inner">
           <form method="post" action="">
             <div className="one">
-              <p className="pshow">{errors.email ? errors.email : ""}</p>
+              <p className="pshow">{errors ? errors : ""}</p>
               <p className="pe" ref={inp1}>
                 Your email
               </p>
@@ -126,47 +96,13 @@ const Login = () => {
                 onBlur={() => bMan("inp1")}
               ></input>
             </div>
-            <div className="two">
-              <p className="pshow">{errors.password ? errors.password : ""}</p>
-              <p className="pp" ref={inp2}>
-                Your password
-              </p>
-              <input
-                type={hide ? "text" : "password"}
-                onChange={GetInp}
-                autoComplete="nope"
-                name="password"
-                onFocus={() => fMan("inp2")}
-                onBlur={() => bMan("inp2")}
-                value={formData.password}
-              ></input>
-              {hide ? (
-                <BiSolidShow
-                  onClick={hideChan}
-                  style={{ fontSize: "2rem", cursor: "pointer" }}
-                />
-              ) : (
-                <BiSolidHide
-                  onClick={hideChan}
-                  style={{ fontSize: "2rem", cursor: "pointer" }}
-                />
-              )}
-            </div>
-            <p className="pfp"><NavLink style={{color:"orangered"}} to={"/forgotpassword"}>Forgot password?</NavLink></p>
             <div className="three">
               <button className="buts" type="submit" onClick={InpSubmit}>
-                SIGN IN
+                Reset Link
               </button>
             </div>
           </form>
         </div>
-
-        <p className="please">
-          Don't have an account?{" "}
-          <NavLink className={"please1"} to={"/register"}>
-            Sign up
-          </NavLink>
-        </p>
         {!loadCir && (
           <span className="pl">
             <Loading />
@@ -177,7 +113,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;
 
 const Wrapper = styled.div`
   display: flex;
@@ -205,7 +141,7 @@ const Wrapper = styled.div`
 
     .pl {
       position: absolute;
-      bottom: 11rem;
+      bottom: 7rem;
       left: 38%;
     }
 
@@ -285,6 +221,7 @@ const Wrapper = styled.div`
         }
 
         .three {
+          height: fit-content;
           .buts {
             width: 30rem;
             height: 3.5rem;

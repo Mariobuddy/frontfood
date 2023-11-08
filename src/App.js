@@ -13,6 +13,9 @@ import Profile from "./nav/Profile/Profile";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import styled from "styled-components";
 import EditProfile from "./nav/EditProfile/EditProfile";
+import ChangePassword from "./nav/ChangePassword/ChangePassword";
+import ForgotPassword from "./nav/ForgotPassword/ForgotPassword";
+import ResetPassword from "./nav/ResetPassword/ResetPassword";
 
 function App() {
   return (
@@ -35,6 +38,14 @@ function App() {
             path="/login"
             element={<ProtectedRoutes Component={Login} nav={"login"} />}
           />
+           <Route
+            path="/forgotpassword"
+            element={<ProtectedRoutes Component={ForgotPassword} nav={"forgotpassword"} />}
+          />
+           <Route
+            path="/resetpassword"
+            element={<ProtectedRoutes Component={ResetPassword} nav={"resetpassword"} />}
+          />
           <Route
             path="/register"
             element={<ProtectedRoutes Component={Register} nav={"regis"} />}
@@ -45,6 +56,7 @@ function App() {
             element={<ProtectedRoutes Component={EditProfile} />}
           />
           <Route path="*" element={<PageNotFound />} />
+          <Route path="/changepassword" element={<ProtectedRoutes Component={ChangePassword}/>} />
         </Routes>
         <Footer />
       </Wrapper>

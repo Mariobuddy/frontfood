@@ -39,7 +39,7 @@ const Profile = () => {
                 </div>
                 <div className="main-but">
                 <button className="obut">My Orders</button>
-                <button className="obut">Change Password</button>
+                <button className="obut" onClick={()=>navigate("/changepassword")}>Change Password</button>
                 </div>
               </div>
             </div>

@@ -15,6 +15,7 @@ import ProfileSkelton from "../Skelton/ProfileSkelton";
 import { fetchAuth } from "../../redux/features/auth";
 import { AiOutlineLogout } from "react-icons/ai";
 import { BiSolidUserCircle } from "react-icons/bi";
+import LazyLoading from "../Lazy/LazyLoading";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -182,7 +183,7 @@ const Header = () => {
               <ProfileSkelton />
             ) : data ? (
               <div className="disLog" onClick={downProfile}>
-                <img alt="Rohit" src={data?.user?.image?.url}></img>
+                <LazyLoading src={data?.user?.image?.url} alt="Img"/>
                 <p>
                   {data?.user?.name} {data?.user?.surname}
                 </p>
@@ -403,7 +404,11 @@ const Wrapper = styled.div`
               }
             }
           }
-          img {
+
+          .lazy-load-image-background{
+            width: fit-content;
+            height: fit-content;
+            img {
             width: 3rem;
             height: 3rem;
             border-radius: 50%;
@@ -411,6 +416,8 @@ const Wrapper = styled.div`
             object-position: center;
             margin-right: 0.5rem;
           }
+          }
+        
           p {
             color: #ffffff;
             font-size: 1.2rem;

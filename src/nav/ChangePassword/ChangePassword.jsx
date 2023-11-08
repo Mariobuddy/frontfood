@@ -1,21 +1,28 @@
 import React, { useState, useRef } from "react";
-import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { BiUserCircle } from "react-icons/bi";
 import { BiSolidHide } from "react-icons/bi";
 import { BiSolidShow } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Loading from "../../components/Loading/Loading";
-const Login = () => {
+
+const ChangePassword = () => {
   const nav = useNavigate();
   const [loadCir, setLoadCir] = useState(true);
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({
+    currentpassword: "",
+    newpassword: "",
+    cnewpassword: "",
+  });
   let [errors, setErrors] = useState({});
   const [hide, setHide] = useState(false);
+  const [hide1, setHide1] = useState(false);
+  const [hide2, setHide2] = useState(false);
   const inp1 = useRef();
   const inp2 = useRef();
+  const inp3 = useRef();
+
   const GetInp = (e) => {
     let name = e.target.name;
     let value = e.target.value;
@@ -24,29 +31,41 @@ const Login = () => {
 
   let validationForm = () => {
     const newErrors = {};
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Invalid email format";
+    if (!formData.currentpassword.trim()) {
+      newErrors.currentpassword = "Password is required";
+    } else if (formData.currentpassword.length < 6) {
+      newErrors.currentpassword = "More than 6 characters required";
     }
-    if (!formData.password.trim()) {
-      newErrors.password = "Password is required";
-    } else if (formData.password.length < 6) {
-      newErrors.password = "More than 6 characters required";
+    if (!formData.newpassword.trim()) {
+      newErrors.newpassword = "New Password is required";
+    } else if (formData.newpassword.length < 6) {
+      newErrors.newpassword = "More than 6 characters required";
+    }
+    if (!formData.cnewpassword.trim()) {
+      newErrors.cnewpassword = "Confirm Password is required";
+    } else if (formData.cnewpassword.length < 6) {
+      newErrors.cnewpassword = "More than 6 characters required";
     }
     errors = newErrors;
     setErrors(errors);
     return Object.keys(newErrors).length === 0;
   };
 
-  let hideChan = () => {
-    setHide(!hide);
+  let hideChan = (val) => {
+    if (val === "password") {
+      setHide(!hide);
+    } else if (val === "confirmPassword") {
+      setHide2(!hide2);
+    } else {
+      setHide1(!hide1);
+    }
   };
 
   let fMan = (val) => {
     if (val === "inp1") {
       inp1.current.style.top = "-1rem";
+    } else if (val === "inp3") {
+      inp3.current.style.top = "-1rem";
     } else {
       inp2.current.style.top = "-1rem";
     }
@@ -54,11 +73,15 @@ const Login = () => {
 
   let bMan = (val) => {
     if (val === "inp1") {
-      if (formData.email.length === 0) {
+      if (formData.currentpassword.length === 0) {
         inp1.current.style.top = "0.8rem";
       }
+    } else if (val === "inp3") {
+      if (formData.newpassword.length === 0) {
+        inp3.current.style.top = "0.8rem";
+      }
     } else {
-      if (formData.password.length === 0) {
+      if (formData.cnewpassword.length === 0) {
         inp2.current.style.top = "0.8rem";
       }
     }
@@ -67,10 +90,10 @@ const Login = () => {
   const InpSubmit = async (e) => {
     e.preventDefault();
     if (validationForm()) {
-     setLoadCir(false);
+      setLoadCir(false);
       try {
-        const res = await fetch("http://localhost:4000/login", {
-          method: "POST",
+        const res = await fetch("http://localhost:4000/updatepassword", {
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
@@ -80,22 +103,27 @@ const Login = () => {
 
         const data = await res.json();
         if (res.status === 200) {
-          localStorage.setItem("jwtToken",data.token);
-          nav("/");
+          nav("/profile");
           setFormData({
-            password: "",
-            email: "",
+            currentpassword: "",
+            cnewpassword: "",
+            newpassword: "",
           });
           setLoadCir(true);
           toast("Login SucessFull");
-        } else if (data.message === "Invalid email") {
+        } else if (data.message === "Password is incorrect") {
           toast(data.message);
-          errors.email = "Invalid email";
+          errors.currentpassword = data.message;
           setErrors({ ...errors });
           setLoadCir(true);
-        } else if (data.message === "Password does not match") {
+        } else if (data.message === "Password length is too short") {
           toast(data.message);
-          errors.password = "Password does not match";
+          errors.newpassword = data.message;
+          setErrors({ ...errors });
+          setLoadCir(true);
+        } else if (data.message === "ConfirmPassword length is too short" || data.message==="Passwords do not match") {
+          toast(data.message);
+          errors.cnewpassword = data.message;
           setErrors({ ...errors });
           setLoadCir(true);
         }
@@ -112,61 +140,109 @@ const Login = () => {
 
         <div className="inner">
           <form method="post" action="">
-            <div className="one">
-              <p className="pshow">{errors.email ? errors.email : ""}</p>
-              <p className="pe" ref={inp1}>
-                Your email
-              </p>
-              <input
-                type="text"
-                name="email"
-                onChange={GetInp}
-                autoComplete="nope"
-                onFocus={() => fMan("inp1")}
-                onBlur={() => bMan("inp1")}
-              ></input>
-            </div>
             <div className="two">
-              <p className="pshow">{errors.password ? errors.password : ""}</p>
-              <p className="pp" ref={inp2}>
-                Your password
+              <p className="pshow">
+                {errors.currentpassword ? errors.currentpassword : ""}
+              </p>
+              <p className="pp" ref={inp1}>
+                old password
               </p>
               <input
                 type={hide ? "text" : "password"}
                 onChange={GetInp}
                 autoComplete="nope"
-                name="password"
-                onFocus={() => fMan("inp2")}
-                onBlur={() => bMan("inp2")}
-                value={formData.password}
+                name="currentpassword"
+                onFocus={() => fMan("inp1")}
+                onBlur={() => bMan("inp1")}
+                value={formData.currentpassword}
               ></input>
               {hide ? (
                 <BiSolidShow
-                  onClick={hideChan}
+                  onClick={() => {
+                    hideChan("password");
+                  }}
                   style={{ fontSize: "2rem", cursor: "pointer" }}
                 />
               ) : (
                 <BiSolidHide
-                  onClick={hideChan}
+                  onClick={() => {
+                    hideChan("password");
+                  }}
                   style={{ fontSize: "2rem", cursor: "pointer" }}
                 />
               )}
             </div>
-            <p className="pfp"><NavLink style={{color:"orangered"}} to={"/forgotpassword"}>Forgot password?</NavLink></p>
+            <div className="two">
+              <p className="pshow">
+                {errors.newpassword ? errors.newpassword : ""}
+              </p>
+              <p className="pp" ref={inp3}>
+                new password
+              </p>
+              <input
+                type={hide1 ? "text" : "password"}
+                onChange={GetInp}
+                autoComplete="nope"
+                name="newpassword"
+                onFocus={() => fMan("inp3")}
+                onBlur={() => bMan("inp3")}
+                value={formData.newpassword}
+              ></input>
+              {hide1 ? (
+                <BiSolidShow
+                  onClick={() => {
+                    hideChan("newPassword");
+                  }}
+                  style={{ fontSize: "2rem", cursor: "pointer" }}
+                />
+              ) : (
+                <BiSolidHide
+                  onClick={() => {
+                    hideChan("newPassword");
+                  }}
+                  style={{ fontSize: "2rem", cursor: "pointer" }}
+                />
+              )}
+            </div>
+            <div className="two">
+              <p className="pshow">
+                {errors.cnewpassword ? errors.cnewpassword : ""}
+              </p>
+              <p className="pp" ref={inp2}>
+                confirm password
+              </p>
+              <input
+                type={hide2 ? "text" : "password"}
+                onChange={GetInp}
+                autoComplete="nope"
+                name="cnewpassword"
+                onFocus={() => fMan("inp2")}
+                onBlur={() => bMan("inp2")}
+                value={formData.cnewpassword}
+              ></input>
+              {hide2 ? (
+                <BiSolidShow
+                  onClick={() => {
+                    hideChan("confirmPassword");
+                  }}
+                  style={{ fontSize: "2rem", cursor: "pointer" }}
+                />
+              ) : (
+                <BiSolidHide
+                  onClick={() => {
+                    hideChan("confirmPassword");
+                  }}
+                  style={{ fontSize: "2rem", cursor: "pointer" }}
+                />
+              )}
+            </div>
             <div className="three">
               <button className="buts" type="submit" onClick={InpSubmit}>
-                SIGN IN
+                Change
               </button>
             </div>
           </form>
         </div>
-
-        <p className="please">
-          Don't have an account?{" "}
-          <NavLink className={"please1"} to={"/register"}>
-            Sign up
-          </NavLink>
-        </p>
         {!loadCir && (
           <span className="pl">
             <Loading />
@@ -177,7 +253,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ChangePassword;
 
 const Wrapper = styled.div`
   display: flex;
