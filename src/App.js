@@ -30,7 +30,7 @@ function App() {
           />
           <Route
             path="/product"
-            element={<ProtectedRoutes Component={Product} />}
+            element={<ProtectedRoutes Component={Product} nav={"product"} />}
           />
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<ProtectedRoutes Component={Cart} />} />
@@ -43,8 +43,8 @@ function App() {
             element={<ProtectedRoutes Component={ForgotPassword} nav={"forgotpassword"} />}
           />
            <Route
-            path="/resetpassword"
-            element={<ProtectedRoutes Component={ResetPassword} nav={"resetpassword"} />}
+            path="/resetpassword/:token"
+            element={<ResetPassword/>}
           />
           <Route
             path="/register"

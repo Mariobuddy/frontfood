@@ -135,16 +135,14 @@ const Register = () => {
             number: "",
             image: null,
           });
-        } else if (data.message === "Email already exists") {
+        } else if (
+          data.message === "Email already exists" ||
+          data.message === "All fields are required" ||
+          data.message === "Passwords do not match" ||
+          data.message === "Internal server error"
+        ) {
           setLoadCir(true);
           toast(data.message);
-          errors.email = "Email already exists";
-          setErrors({ ...errors });
-        } else if (data.message === "All fields are required") {
-          setLoadCir(true);
-          toast(data.message);
-          errors.email = "All fields are required";
-          setErrors({ ...errors });
         }
       } catch (error) {
         return error;

@@ -12,6 +12,8 @@ const ProtectedRoutes = ({ Component, nav }) => {
         navigate("/forgotpassword");
       } else if (nav === "resetpassword") {
         navigate("/resetpassword");
+      } else if (nav === "product") {
+        navigate("/login");
       } else {
         navigate("/login");
       }
@@ -24,8 +26,8 @@ const ProtectedRoutes = ({ Component, nav }) => {
     ) {
       navigate("/");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, nav]);
   return <Component />;
 };
 

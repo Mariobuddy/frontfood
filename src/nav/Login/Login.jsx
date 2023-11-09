@@ -67,7 +67,7 @@ const Login = () => {
   const InpSubmit = async (e) => {
     e.preventDefault();
     if (validationForm()) {
-     setLoadCir(false);
+      setLoadCir(false);
       try {
         const res = await fetch("http://localhost:4000/login", {
           method: "POST",
@@ -80,7 +80,7 @@ const Login = () => {
 
         const data = await res.json();
         if (res.status === 200) {
-          localStorage.setItem("jwtToken",data.token);
+          localStorage.setItem("jwtToken", data.token);
           nav("/");
           setFormData({
             password: "",
@@ -88,15 +88,13 @@ const Login = () => {
           });
           setLoadCir(true);
           toast("Login SucessFull");
-        } else if (data.message === "Invalid email") {
+        } else if (
+          data.message === "Email not found" ||
+          data.message === "Password does not match" ||
+          data.message === "Email and password are required"||
+          data.message==="Internal server error"
+        ) {
           toast(data.message);
-          errors.email = "Invalid email";
-          setErrors({ ...errors });
-          setLoadCir(true);
-        } else if (data.message === "Password does not match") {
-          toast(data.message);
-          errors.password = "Password does not match";
-          setErrors({ ...errors });
           setLoadCir(true);
         }
       } catch (error) {
@@ -152,7 +150,11 @@ const Login = () => {
                 />
               )}
             </div>
-            <p className="pfp"><NavLink style={{color:"orangered"}} to={"/forgotpassword"}>Forgot password?</NavLink></p>
+            <p className="pfp">
+              <NavLink style={{ color: "orangered" }} to={"/forgotpassword"}>
+                Forgot password?
+              </NavLink>
+            </p>
             <div className="three">
               <button className="buts" type="submit" onClick={InpSubmit}>
                 SIGN IN

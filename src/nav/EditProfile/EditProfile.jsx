@@ -32,13 +32,13 @@ const EditProfile = () => {
   };
 
   useEffect(() => {
-      setformData({
-        name: data?.user?.name,
-        surname: data?.user?.surname,
-        gender: data?.user?.gender,
-        email: data?.user?.email,
-        image: data?.user?.image?.url,
-      });
+    setformData({
+      name: data?.user?.name,
+      surname: data?.user?.surname,
+      gender: data?.user?.gender,
+      email: data?.user?.email,
+      image: data?.user?.image?.url,
+    });
   }, [data]);
 
   const GetInput = (e) => {
@@ -104,7 +104,7 @@ const EditProfile = () => {
 
         if (res.status === 200) {
           setLoadCir(true);
-          toast("Updated Sucessfull");
+          toast("Profile Updated Sucessfull");
           nav("/profile");
           setformData({
             name: "",
@@ -114,11 +114,13 @@ const EditProfile = () => {
             image: "",
           });
           dispatch(fetchAuth());
-        } else if (data.message === "Email already exists") {
+        } else if (
+          data.message === "Email already exists" ||
+          data.message === "Nothing to update" ||
+          data.message === "Internal server error"
+        ) {
           setLoadCir(true);
           toast(data.message);
-          errors.email = "Email already exists";
-          setErrors({ ...errors });
         }
       } catch (error) {
         return error;

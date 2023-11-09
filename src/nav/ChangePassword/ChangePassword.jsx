@@ -110,21 +110,16 @@ const ChangePassword = () => {
             newpassword: "",
           });
           setLoadCir(true);
-          toast("Login SucessFull");
-        } else if (data.message === "Password is incorrect") {
+          toast("Password Changed SucessFull");
+        } else if (
+          data.message === "Password is incorrect" ||
+          data.message === "Password length is too short" ||
+          data.message === "ConfirmPassword length is too short" ||
+          data.message === "Passwords do not match" ||
+          data.message === "All fields are required" ||
+          data.message === "Internal server error"
+        ) {
           toast(data.message);
-          errors.currentpassword = data.message;
-          setErrors({ ...errors });
-          setLoadCir(true);
-        } else if (data.message === "Password length is too short") {
-          toast(data.message);
-          errors.newpassword = data.message;
-          setErrors({ ...errors });
-          setLoadCir(true);
-        } else if (data.message === "ConfirmPassword length is too short" || data.message==="Passwords do not match") {
-          toast(data.message);
-          errors.cnewpassword = data.message;
-          setErrors({ ...errors });
           setLoadCir(true);
         }
       } catch (error) {
@@ -145,7 +140,7 @@ const ChangePassword = () => {
                 {errors.currentpassword ? errors.currentpassword : ""}
               </p>
               <p className="pp" ref={inp1}>
-                old password
+                Old Password
               </p>
               <input
                 type={hide ? "text" : "password"}
@@ -177,7 +172,7 @@ const ChangePassword = () => {
                 {errors.newpassword ? errors.newpassword : ""}
               </p>
               <p className="pp" ref={inp3}>
-                new password
+                New Password
               </p>
               <input
                 type={hide1 ? "text" : "password"}
@@ -209,7 +204,7 @@ const ChangePassword = () => {
                 {errors.cnewpassword ? errors.cnewpassword : ""}
               </p>
               <p className="pp" ref={inp2}>
-                confirm password
+                Confirm Password
               </p>
               <input
                 type={hide2 ? "text" : "password"}

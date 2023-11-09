@@ -360,7 +360,7 @@ const Wrapper = styled.div`
           align-items: center;
           background-color: orangered;
           border-radius: 2rem;
-          padding: 0.4rem 1.5rem;
+          padding: 0.5rem 1.5rem;
           position: relative;
 
           .innerProfile {
@@ -406,11 +406,12 @@ const Wrapper = styled.div`
           }
 
           .lazy-load-image-background{
-            width: fit-content;
-            height: fit-content;
-            img {
             width: 3rem;
-            height: 3rem;
+            height:3rem;
+            margin-right: 0.5rem;
+            img {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             object-fit: cover;
             object-position: center;

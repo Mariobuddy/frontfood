@@ -41,7 +41,7 @@ const ForgotPassword = () => {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify({email:formData}),
+          body: JSON.stringify({ email: formData }),
         });
 
         const data = await res.json();
@@ -53,11 +53,11 @@ const ForgotPassword = () => {
         } else if (
           data.message === "Enter your email" ||
           data.message === "Email not found" ||
-          data.message === "There was an error sending password request email"
+          data.message ===
+            "There was an error sending password request email" ||
+          data.message === "Internal server error"
         ) {
           toast(data.message);
-          errors = data.message;
-          setErrors(errors);
           setLoadCir(true);
         }
       } catch (error) {
@@ -71,8 +71,8 @@ const ForgotPassword = () => {
   };
 
   let bMan = () => {
-    if(formData.length===0){
-    inp1.current.style.top = "0.8rem";
+    if (formData.length === 0) {
+      inp1.current.style.top = "0.8rem";
     }
   };
   return (
@@ -98,7 +98,7 @@ const ForgotPassword = () => {
             </div>
             <div className="three">
               <button className="buts" type="submit" onClick={InpSubmit}>
-                Reset Link
+                Send
               </button>
             </div>
           </form>
