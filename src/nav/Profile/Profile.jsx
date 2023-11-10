@@ -7,20 +7,21 @@ import LazyLoading from "../../components/Lazy/LazyLoading";
 import Profile2 from "../../components/Skelton/Profile2";
 
 const Profile = () => {
-  let navigate=useNavigate();
-  let token = localStorage.getItem("jwtToken");
-  const { data, loading } = useSelector((state) => state.auth);
+  let navigate = useNavigate();
+  const { data, loading, isAuth } = useSelector((state) => state.auth);
   const date = dayjs(data?.user?.createdAt);
   return (
     <Wrapper>
       <p>My Profile</p>
-      {token && (
+      {isAuth && (
         <>
-          {loading===null ? (
+          {loading === null ? (
             <div className="main-div">
               <div className="l-div">
                 <LazyLoading alt="img" src={data?.user?.image?.url} />
-                <button onClick={()=>navigate("/editprofile")}>Edit Profile</button>
+                <button onClick={() => navigate("/editprofile")}>
+                  Edit Profile
+                </button>
               </div>
               <div className="r-div">
                 <div className="f">
@@ -38,13 +39,18 @@ const Profile = () => {
                   <p className="ftwo">{date.format("YYYY-MM-DD")}</p>
                 </div>
                 <div className="main-but">
-                <button className="obut">My Orders</button>
-                <button className="obut" onClick={()=>navigate("/changepassword")}>Change Password</button>
+                  <button className="obut">My Orders</button>
+                  <button
+                    className="obut"
+                    onClick={() => navigate("/changepassword")}
+                  >
+                    Change Password
+                  </button>
                 </div>
               </div>
             </div>
           ) : (
-           <Profile2/>
+            <Profile2 />
           )}
         </>
       )}
@@ -73,7 +79,6 @@ const Wrapper = styled.div`
       align-items: center;
       flex-direction: column;
 
-
       img {
         border-radius: 50%;
         width: 25rem;
@@ -89,8 +94,8 @@ const Wrapper = styled.div`
         width: 20rem;
         cursor: pointer;
         border: 2px solid transparent;
-        &:hover{
-          background-color: #FFFFFF;
+        &:hover {
+          background-color: #ffffff;
           color: orangered;
           border: 2px solid orangered;
         }
@@ -115,30 +120,29 @@ const Wrapper = styled.div`
           color: orangered;
         }
       }
-      .main-but{
+      .main-but {
         display: flex;
         justify-content: center;
         align-items: flex-start;
         flex-direction: column;
         width: 100%;
-        .obut{
-        width: 50%;
-        color: #FFFFFF;
-        background-color: var(--maincol);
-        border: none;
-        outline: none;
-        padding: 1rem;
-        margin-bottom: 2rem;
-        cursor: pointer;
-        border: 2px solid transparent;
-        &:hover{
-          background-color: #FFFFFF;
-          color: var(--maincol);
-          border: 2px solid var(--maincol);
+        .obut {
+          width: 50%;
+          color: #ffffff;
+          background-color: var(--maincol);
+          border: none;
+          outline: none;
+          padding: 1rem;
+          margin-bottom: 2rem;
+          cursor: pointer;
+          border: 2px solid transparent;
+          &:hover {
+            background-color: #ffffff;
+            color: var(--maincol);
+            border: 2px solid var(--maincol);
+          }
         }
       }
-      }
-      
     }
   }
 `;

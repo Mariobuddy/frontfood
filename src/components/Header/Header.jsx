@@ -20,20 +20,18 @@ import LazyLoading from "../Lazy/LazyLoading";
 const Header = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { data, loading } = useSelector((state) => state.auth);
+  const { data, loading, isAuth } = useSelector((state) => state.auth);
   const [show, setShow] = useState(false);
   const [currentScroll, setCurrentScroll] = useState("top");
   const [lastScroll, setLastScroll] = useState(0);
   const [down, setDown] = useState(false);
   const [query, setQuery] = useState("");
 
-  const token = localStorage.getItem("jwtToken");
-
   useEffect(() => {
-    if (token) {
+    if (isAuth) {
       dispatch(fetchAuth());
     }
-  }, [dispatch, token]);
+  }, [dispatch, isAuth]);
 
   let searchResult = () => {
     if (query.length > 0) {
@@ -50,7 +48,6 @@ const Header = () => {
 
   let remLocal = async () => {
     dispatch(remAuth(null));
-    localStorage.removeItem("jwtToken");
     try {
       const res = await fetch("http://localhost:4000/logout", {
         method: "GET",
@@ -80,7 +77,7 @@ const Header = () => {
       setCurrentScroll("top");
     }
     setLastScroll(window.scrollY);
-  }, [lastScroll, show,down]);
+  }, [lastScroll, show, down]);
 
   useEffect(() => {
     window.addEventListener("scroll", scrollEffect);
@@ -183,7 +180,7 @@ const Header = () => {
               <ProfileSkelton />
             ) : data ? (
               <div className="disLog" onClick={downProfile}>
-                <LazyLoading src={data?.user?.image?.url} alt="Img"/>
+                <LazyLoading src={data?.user?.image?.url} alt="Img" />
                 <p>
                   {data?.user?.name} {data?.user?.surname}
                 </p>
@@ -405,20 +402,20 @@ const Wrapper = styled.div`
             }
           }
 
-          .lazy-load-image-background{
+          .lazy-load-image-background {
             width: 3rem;
-            height:3rem;
+            height: 3rem;
             margin-right: 0.5rem;
             img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            object-position: center;
-            margin-right: 0.5rem;
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+              object-fit: cover;
+              object-position: center;
+              margin-right: 0.5rem;
+            }
           }
-          }
-        
+
           p {
             color: #ffffff;
             font-size: 1.2rem;

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 const authSlice = createSlice({
   name: "auth",
@@ -6,6 +7,7 @@ const authSlice = createSlice({
     data: null,
     loading: null,
     error: null,
+    isAuth: Cookies.get("jwt"),
   },
 
   reducers: {
@@ -24,11 +26,20 @@ const authSlice = createSlice({
       state.data = null;
       state.loading = null;
       state.error = null;
+      state.isAuth = null;
+    },
+    getToken: (state) => {
+      state.isAuth = Cookies.get("jwt");
     },
   },
 });
 
-export const { fetchAuth, fetchAuthError, fetchAuthSuccess, remAuth } =
-  authSlice.actions;
+export const {
+  fetchAuth,
+  fetchAuthError,
+  fetchAuthSuccess,
+  remAuth,
+  getToken,
+} = authSlice.actions;
 
 export default authSlice.reducer;

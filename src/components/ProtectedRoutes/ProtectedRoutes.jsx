@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ProtectedRoutes = ({ Component, nav }) => {
+  const { isAuth } = useSelector((state) => state.auth);
   let navigate = useNavigate();
-  let token = localStorage.getItem("jwtToken");
   useEffect(() => {
-    if (!token) {
+    if (!isAuth) {
       if (nav === "regis") {
         navigate("/register");
       } else if (nav === "forgotpassword") {
@@ -18,7 +19,7 @@ const ProtectedRoutes = ({ Component, nav }) => {
         navigate("/login");
       }
     } else if (
-      token &&
+      isAuth &&
       (nav === "login" ||
         nav === "regis" ||
         nav === "forgotpassword" ||
@@ -27,7 +28,7 @@ const ProtectedRoutes = ({ Component, nav }) => {
       navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, nav]);
+  }, [isAuth, nav]);
   return <Component />;
 };
 
