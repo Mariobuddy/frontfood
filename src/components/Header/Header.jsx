@@ -21,11 +21,14 @@ const Header = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { data, loading, isAuth } = useSelector((state) => state.auth);
+  const { items } = useSelector((state) => state.cart);
   const [show, setShow] = useState(false);
   const [currentScroll, setCurrentScroll] = useState("top");
   const [lastScroll, setLastScroll] = useState(0);
   const [down, setDown] = useState(false);
   const [query, setQuery] = useState("");
+
+  console.log(items);
 
   useEffect(() => {
     if (isAuth) {

@@ -12,6 +12,8 @@ import { GrFormAdd } from "react-icons/gr";
 import { HiMinusSm } from "react-icons/hi";
 import SingleProductSkelton from "../../components/Skelton/SingleProductSkelton";
 import ReviewCard from "./ReviewCard";
+import {addToCart,updateLocalStorage} from "../../redux/features/cart";
+
 
 const SingleProducts = () => {
   const [gcount, scount] = useState(1);
@@ -49,6 +51,11 @@ const SingleProducts = () => {
       scount((no) => no - 1);
     }
   };
+
+  const handleOnAdd=()=>{
+    dispatch(addToCart({data,id,gcount}));
+    dispatch(updateLocalStorage());
+  }
 
   return (
     <Wrapper>
@@ -123,7 +130,7 @@ const SingleProducts = () => {
                     <HiMinusSm className="minus" />
                   </button>
                 </div>
-                <button className="buts">ADD TO CART</button>
+                <button className="buts" onClick={handleOnAdd}>ADD TO CART</button>
               </div>
             </div>
           </>
@@ -140,7 +147,9 @@ const SingleProducts = () => {
             })}
           </div>
         ) : (
-          <p style={{ marginTop: "6rem" ,fontSize:"1.6rem"}}>No Reviews Yet Message</p>
+          <p style={{ marginTop: "6rem", fontSize: "1.6rem" }}>
+            No Reviews Yet Message
+          </p>
         )}
       </div>
     </Wrapper>

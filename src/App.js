@@ -33,7 +33,7 @@ function App() {
             element={<ProtectedRoutes Component={Product} nav={"product"} />}
           />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/cart" element={<ProtectedRoutes Component={Cart} />} />
+          <Route path="/cart" element={<ProtectedRoutes Component={Cart} nav={"cart"}/>} />
           <Route
             path="/login"
             element={<ProtectedRoutes Component={Login} nav={"login"} />}

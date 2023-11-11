@@ -7,16 +7,18 @@ const ProtectedRoutes = ({ Component, nav }) => {
   let navigate = useNavigate();
   useEffect(() => {
     if (!isAuth) {
-      if (nav === "regis") {
-        navigate("/register");
-      } else if (nav === "forgotpassword") {
-        navigate("/forgotpassword");
-      } else if (nav === "resetpassword") {
-        navigate("/resetpassword");
-      } else if (nav === "product") {
-        navigate("/login");
-      } else {
-        navigate("/login");
+      switch (nav) {
+        case "regis":
+          navigate("/register");
+          break;
+        case "forgotpassword":
+          navigate("/forgotpassword");
+          break;
+        case "resetpassword":
+          navigate("/resetpassword");
+          break;
+        default:
+          navigate("/login");
       }
     } else if (
       isAuth &&
