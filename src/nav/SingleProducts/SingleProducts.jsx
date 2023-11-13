@@ -12,7 +12,7 @@ import { GrFormAdd } from "react-icons/gr";
 import { HiMinusSm } from "react-icons/hi";
 import SingleProductSkelton from "../../components/Skelton/SingleProductSkelton";
 import ReviewCard from "./ReviewCard";
-import {addToCart,updateLocalStorage} from "../../redux/features/cart";
+import {addToCart} from "../../redux/features/cart";
 
 
 const SingleProducts = () => {
@@ -54,7 +54,6 @@ const SingleProducts = () => {
 
   const handleOnAdd=()=>{
     dispatch(addToCart({data,id,gcount}));
-    dispatch(updateLocalStorage());
   }
 
   return (

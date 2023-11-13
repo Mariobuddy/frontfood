@@ -9,8 +9,14 @@ import {
   fetchSingleSuccess,
 } from "../features/singleProducts";
 import { fetchAuth, fetchAuthError, fetchAuthSuccess } from "../features/auth";
-import { takeLatest, put, fork } from "redux-saga/effects";
+import { takeLatest, put, fork, call, select } from "redux-saga/effects";
 import axios from "axios";
+import {
+  addToCart,
+  updateLocalStorage,
+  getItems,
+  setCount,
+} from "../features/cart";
 
 function* fetchProductsAsync(action) {
   const {
@@ -74,3 +80,35 @@ export function* authSaga() {
 }
 
 export const mainAuthSaga = [fork(authSaga)];
+
+function* storeItemInLocalStorage() {
+  const items = yield select((state) => state.cart.items);
+  try {
+    yield call([localStorage, "setItem"], "cartItems", JSON.stringify(items));
+  } catch (error) {
+    console.error("Error storing items in localStorage:", error);
+  }
+}
+
+function* retrieveItemsFromLocalStorage() {
+  try {
+    const storedItems = yield call([localStorage, "getItem"], "cartItems");
+    if (storedItems) {
+      const parsedItems = JSON.parse(storedItems);
+      yield put(updateLocalStorage(parsedItems));
+      let count = parsedItems.reduce((acc, cur) => {
+        return acc + cur.gcount;
+      }, 0);
+      yield put(setCount(count));
+    }
+  } catch (error) {
+    console.error("Error retrieving items from localStorage:", error);
+  }
+}
+
+export function* itemSaga() {
+  yield takeLatest([addToCart.type], storeItemInLocalStorage);
+  yield takeLatest([getItems.type], retrieveItemsFromLocalStorage);
+}
+
+export const mainitemSaga = [fork(itemSaga)];

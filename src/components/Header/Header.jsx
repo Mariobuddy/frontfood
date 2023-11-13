@@ -16,25 +16,26 @@ import { fetchAuth } from "../../redux/features/auth";
 import { AiOutlineLogout } from "react-icons/ai";
 import { BiSolidUserCircle } from "react-icons/bi";
 import LazyLoading from "../Lazy/LazyLoading";
+import { getItems } from "../../redux/features/cart";
 
 const Header = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { data, loading, isAuth } = useSelector((state) => state.auth);
-  const { items } = useSelector((state) => state.cart);
+  const { totalItemCount } = useSelector((state) => state.cart);
   const [show, setShow] = useState(false);
   const [currentScroll, setCurrentScroll] = useState("top");
   const [lastScroll, setLastScroll] = useState(0);
   const [down, setDown] = useState(false);
   const [query, setQuery] = useState("");
 
-  console.log(items);
-
   useEffect(() => {
     if (isAuth) {
       dispatch(fetchAuth());
+      dispatch(getItems());
     }
   }, [dispatch, isAuth]);
+
 
   let searchResult = () => {
     if (query.length > 0) {
@@ -230,7 +231,7 @@ const Header = () => {
               to={"cart"}
             >
               <FaShoppingCart />
-              <span className="no">0</span>
+              <span className="no">{totalItemCount}</span>
             </NavLink>
           </li>
         </ul>
