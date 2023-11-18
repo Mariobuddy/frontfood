@@ -19,6 +19,7 @@ import ResetPassword from "./nav/ResetPassword/ResetPassword";
 import Shipping from "./nav/Shipping/Shipping";
 import OrderConfirm from "./nav/OrderConfirm/OrderConfirm";
 import PaymentGateway from "./nav/PaymentGateway/PaymentGateway";
+import PaymentSucess from "./nav/PaymentSucess/PaymentSucess";
 
 function App() {
   return (
@@ -26,12 +27,19 @@ function App() {
       <Wrapper>
         <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route exact path="/" element={<Home />} />
           <Route
+            exact
             path="/profile"
-            element={<ProtectedRoutes Component={Profile} />}
+            element={<ProtectedRoutes Component={Profile} nav={"profile"} />}
+          />
+            <Route
+            exact
+            path="/paymentsucess"
+            element={<ProtectedRoutes Component={PaymentSucess} nav={"paymentsucess"} />}
           />
           <Route
+            exact
             path="/paymentgateway"
             element={
               <ProtectedRoutes
@@ -41,19 +49,23 @@ function App() {
             }
           />
           <Route
+            exact
             path="/product"
             element={<ProtectedRoutes Component={Product} nav={"product"} />}
           />
-          <Route path="/contact" element={<Contact />} />
+          <Route exact path="/contact" element={<Contact />} />
           <Route
+            exact
             path="/cart"
             element={<ProtectedRoutes Component={Cart} nav={"cart"} />}
           />
           <Route
+            exact
             path="/login"
             element={<ProtectedRoutes Component={Login} nav={"login"} />}
           />
           <Route
+            exact
             path="/forgotpassword"
             element={
               <ProtectedRoutes
@@ -63,27 +75,36 @@ function App() {
             }
           />
           <Route
+            exact
             path="/order/confirm"
             element={
               <ProtectedRoutes Component={OrderConfirm} nav={"orderconfirm"} />
             }
           />
           <Route
+            exact
             path="/shipping"
             element={<ProtectedRoutes Component={Shipping} nav={"shipping"} />}
           />
-          <Route path="/resetpassword/:token" element={<ResetPassword />} />
           <Route
+            exact
+            path="/resetpassword/:token"
+            element={<ResetPassword />}
+          />
+          <Route
+            exact
             path="/register"
             element={<ProtectedRoutes Component={Register} nav={"regis"} />}
           />
-          <Route path="/api/products/:id" element={<SingleProducts />} />
+          <Route exact path="/api/products/:id" element={<SingleProducts />} />
           <Route
+            exact
             path="/editprofile"
             element={<ProtectedRoutes Component={EditProfile} />}
           />
-          <Route path="*" element={<PageNotFound />} />
+          <Route exact path="*" element={<PageNotFound />} />
           <Route
+            exact
             path="/changepassword"
             element={<ProtectedRoutes Component={ChangePassword} />}
           />

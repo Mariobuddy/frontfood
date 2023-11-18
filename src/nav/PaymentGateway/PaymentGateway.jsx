@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import StepperMain from "../../components/StepperMain/StepperMain";
 import { FaRegCreditCard } from "react-icons/fa";
@@ -6,7 +5,6 @@ import { MdVpnKey } from "react-icons/md";
 import { MdDateRange } from "react-icons/md";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import useFetch from "../../hooks/useFetch";
 import Currency from "../../components/Currency/Currency";
 import {
   // useStripe,
@@ -16,16 +14,14 @@ import {
 } from "@stripe/react-stripe-js";
 
 const PaymentGateway = () => {
-  const [stripeKey, setStripeKey] = useState("");
-  let { data } = useFetch("http://localhost:4000/stripekey");
-  useEffect(() => {
-    setStripeKey(data?.stripe_key);
-  }, [data]);
+  let key =
+    "pk_test_51ODOcnSHR2EwXYgc9SB5hLvyvO7T54NkOuhInWvYxu70CI2cSny7cU6zJdZyD8GljRMSJMR12yD3UWVPY4PC6h3V00G2DdZs98";
+    let stripeKey=loadStripe(key);
   let order = JSON.parse(sessionStorage.getItem("orderconfirm"));
   return (
     <>
-      {stripeKey && (
-        <Elements stripe={loadStripe(stripeKey)}>
+      {key && (
+        <Elements stripe={stripeKey}>
           <Wrapper>
             <StepperMain val={2} />
             <p className="cip">Cart Info</p>
@@ -43,7 +39,9 @@ const PaymentGateway = () => {
                   <MdVpnKey className="ciicon" />
                   <CardCvcElement />
                 </div>
-                <button className="pgbuts">Pay - <Currency price={order?.total}/></button>
+                <button className="pgbuts">
+                  Pay - <Currency price={order?.total} />
+                </button>
               </div>
             </form>
           </Wrapper>
@@ -81,7 +79,7 @@ const Wrapper = styled.div`
         border-radius: 0.4rem;
         outline: none;
         &:hover {
-          color: #FFFFFF;
+          color: #ffffff;
           background-color: #8b2a07;
           border: 2px solid #8b2a07;
         }
