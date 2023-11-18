@@ -13,6 +13,7 @@ import { HiMinusSm } from "react-icons/hi";
 import SingleProductSkelton from "../../components/Skelton/SingleProductSkelton";
 import ReviewCard from "./ReviewCard";
 import {addToCart} from "../../redux/features/cart";
+import { toast } from "react-toastify";
 
 
 const SingleProducts = () => {
@@ -54,6 +55,7 @@ const SingleProducts = () => {
 
   const handleOnAdd=()=>{
     dispatch(addToCart({data,id,gcount}));
+    toast("Item Added To Cart");
   }
 
   return (

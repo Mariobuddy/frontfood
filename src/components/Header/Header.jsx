@@ -231,7 +231,7 @@ const Header = () => {
               to={"cart"}
             >
               <FaShoppingCart />
-              <span className="no">{totalItemCount}</span>
+              <span className="no">{isAuth?totalItemCount:0}</span>
             </NavLink>
           </li>
         </ul>

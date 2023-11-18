@@ -16,6 +16,11 @@ import {
   updateLocalStorage,
   getItems,
   setCount,
+  increaseItem,
+  decreaseItem,
+  removeFromCart,
+  clearAll,
+  shippingUpdate
 } from "../features/cart";
 
 function* fetchProductsAsync(action) {
@@ -90,16 +95,30 @@ function* storeItemInLocalStorage() {
   }
 }
 
+function* storeShipInLocalStorage() {
+  const items = yield select((state) => state.cart.shippingDetails);
+  try {
+    yield call([localStorage, "setItem"], "shipItems", JSON.stringify(items));
+  } catch (error) {
+    console.error("Error storing items in localStorage:", error);
+  }
+}
+
 function* retrieveItemsFromLocalStorage() {
   try {
     const storedItems = yield call([localStorage, "getItem"], "cartItems");
+    const storedShip = yield call([localStorage, "getItem"], "shipItems");
     if (storedItems) {
       const parsedItems = JSON.parse(storedItems);
-      yield put(updateLocalStorage(parsedItems));
+      const parsedItems2 = JSON.parse(storedShip);
+      yield put(updateLocalStorage([parsedItems,parsedItems2]));
       let count = parsedItems.reduce((acc, cur) => {
         return acc + cur.gcount;
       }, 0);
-      yield put(setCount(count));
+      let gross = parsedItems.reduce((acc, cur) => {
+        return acc + cur.price * cur.gcount;
+      }, 0);
+      yield put(setCount([count,gross]));
     }
   } catch (error) {
     console.error("Error retrieving items from localStorage:", error);
@@ -107,8 +126,19 @@ function* retrieveItemsFromLocalStorage() {
 }
 
 export function* itemSaga() {
-  yield takeLatest([addToCart.type], storeItemInLocalStorage);
+  yield takeLatest(
+    [
+      addToCart.type,
+      increaseItem.type,
+      decreaseItem.type,
+      removeFromCart.type,
+      clearAll.type,
+    ],
+    storeItemInLocalStorage
+  );
   yield takeLatest([getItems.type], retrieveItemsFromLocalStorage);
+  yield takeLatest([shippingUpdate.type], storeShipInLocalStorage);
+
 }
 
 export const mainitemSaga = [fork(itemSaga)];

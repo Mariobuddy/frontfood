@@ -16,6 +16,9 @@ import EditProfile from "./nav/EditProfile/EditProfile";
 import ChangePassword from "./nav/ChangePassword/ChangePassword";
 import ForgotPassword from "./nav/ForgotPassword/ForgotPassword";
 import ResetPassword from "./nav/ResetPassword/ResetPassword";
+import Shipping from "./nav/Shipping/Shipping";
+import OrderConfirm from "./nav/OrderConfirm/OrderConfirm";
+import PaymentGateway from "./nav/PaymentGateway/PaymentGateway";
 
 function App() {
   return (
@@ -29,23 +32,47 @@ function App() {
             element={<ProtectedRoutes Component={Profile} />}
           />
           <Route
+            path="/paymentgateway"
+            element={
+              <ProtectedRoutes
+                Component={PaymentGateway}
+                nav={"paymentgateway"}
+              />
+            }
+          />
+          <Route
             path="/product"
             element={<ProtectedRoutes Component={Product} nav={"product"} />}
           />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/cart" element={<ProtectedRoutes Component={Cart} nav={"cart"}/>} />
+          <Route
+            path="/cart"
+            element={<ProtectedRoutes Component={Cart} nav={"cart"} />}
+          />
           <Route
             path="/login"
             element={<ProtectedRoutes Component={Login} nav={"login"} />}
           />
-           <Route
+          <Route
             path="/forgotpassword"
-            element={<ProtectedRoutes Component={ForgotPassword} nav={"forgotpassword"} />}
+            element={
+              <ProtectedRoutes
+                Component={ForgotPassword}
+                nav={"forgotpassword"}
+              />
+            }
           />
-           <Route
-            path="/resetpassword/:token"
-            element={<ResetPassword/>}
+          <Route
+            path="/order/confirm"
+            element={
+              <ProtectedRoutes Component={OrderConfirm} nav={"orderconfirm"} />
+            }
           />
+          <Route
+            path="/shipping"
+            element={<ProtectedRoutes Component={Shipping} nav={"shipping"} />}
+          />
+          <Route path="/resetpassword/:token" element={<ResetPassword />} />
           <Route
             path="/register"
             element={<ProtectedRoutes Component={Register} nav={"regis"} />}
@@ -56,7 +83,10 @@ function App() {
             element={<ProtectedRoutes Component={EditProfile} />}
           />
           <Route path="*" element={<PageNotFound />} />
-          <Route path="/changepassword" element={<ProtectedRoutes Component={ChangePassword}/>} />
+          <Route
+            path="/changepassword"
+            element={<ProtectedRoutes Component={ChangePassword} />}
+          />
         </Routes>
         <Footer />
       </Wrapper>

@@ -18,14 +18,14 @@ const Footer = () => {
       <div className="div2">
         <div className="infomain">
           <div className="info1">
-            <p>Rohit Bhatt</p>
-            <p>
+            <p className="rohitp">Rohit Bhatt</p>
+            <p className="rohitp">
               Rohit Bhatt is a <span>Full Stack Web Developer</span>.He started
               his career in online fashion store with his partner Sagar Kushwaha
             </p>
           </div>
           <div className="info2">
-            <p>Subscribe to get important update</p>
+            <p className="subone">Subscribe to get important update</p>
             <input type={"text"} placeholder="YOUR E-MAIL" />
             <Button>SUBSCRIBE</Button>
           </div>
@@ -53,8 +53,8 @@ const Footer = () => {
             </div>
           </div>
           <div className="info4">
-            <p>Call Us</p>
-            <p>+91 7057651379</p>
+            <p className="callone">Call Us</p>
+            <p className="callone">+91 7057651379</p>
           </div>
         </div>
       </div>
@@ -62,8 +62,8 @@ const Footer = () => {
       <div className="div3">
         <hr></hr>
         <div className="down">
-          <p>@{new Date().getFullYear()} Rohit Bhatt.All Rights Reserved</p>
-          <p>
+          <p className="tdown">@{new Date().getFullYear()} Rohit Bhatt.All Rights Reserved</p>
+          <p className="tdown1">
             PRIVACY POLICY <br /> TERMS & CONDITIONS
           </p>
         </div>
@@ -114,6 +114,12 @@ const Wrapper = styled.div`
       display: flex;
       justify-content: space-around;
       color: #ffffff;
+      .tdown{
+        font-size: 1.3rem;
+      }
+      .tdown1{
+        font-size: 1.1rem;
+      }
     }
 
     hr {
@@ -167,8 +173,9 @@ const Wrapper = styled.div`
         font-size: 1.2rem;
         margin-left: 8rem;
 
-        p {
+        .rohitp {
           margin-bottom: 1.5rem;
+          font-size: 1.3rem;
 
           span {
             color: #ff3700;
@@ -182,6 +189,10 @@ const Wrapper = styled.div`
         padding-right: 2rem;
         font-size: 1.2rem;
         margin-left: 4rem;
+
+        .subone{
+          font-size: 1.3rem;
+        }
 
         input {
           outline: none;
@@ -254,7 +265,8 @@ const Wrapper = styled.div`
         padding-right: 2rem;
         font-size: 1.2rem;
 
-        p {
+        .callone {
+          font-size: 1.3rem;
           &:nth-child(2) {
             margin-top: 1.5rem;
           }

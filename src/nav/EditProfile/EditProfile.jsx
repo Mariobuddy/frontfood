@@ -216,7 +216,7 @@ const EditProfile = () => {
           </div>
           <div className="bdiv">
             <button className="sub" id="buts" type="submit" onClick={PostBut}>
-              Submit
+              Change
             </button>
           </div>
         </form>
