@@ -12,15 +12,15 @@ const OrderConfirm = () => {
   const { data } = useSelector((state) => state.auth);
   let shippingCharges = gross > 500 ? 0 : 60;
   let gst = gross * 0.18;
-  let confirmOrder={
-    subTotal:gross,
-    shippingCharges:shippingCharges,
-    gst:gst,
-    total:gross+shippingCharges+gst
-  }
+  let confirmOrder = {
+    subTotal: gross,
+    shippingCharges: shippingCharges,
+    gst: gst,
+    total: gross + shippingCharges + gst,
+  };
   let handPayment = () => {
     navigate("/paymentgateway");
-    sessionStorage.setItem("orderconfirm",JSON.stringify(confirmOrder));
+    sessionStorage.setItem("orderconfirm", JSON.stringify(confirmOrder));
   };
   return (
     <Wrapper>
@@ -49,13 +49,13 @@ const OrderConfirm = () => {
               return (
                 <div key={i} className="coInner">
                   <div className="coip">
-                    <LazyLoading src={val?.images[0]?.url} alt="items" />
+                    <LazyLoading src={val?.image} alt="items" />
                     <p>{val?.name}</p>
                   </div>
                   <p>
-                    {val?.gcount} X {val?.price} ={" "}
+                    {val?.quantity} X {val?.price} ={" "}
                     <span>
-                      <Currency price={val?.gcount * val?.price} />
+                      <Currency price={val?.quantity * val?.price} />
                     </span>
                   </p>
                 </div>
@@ -184,8 +184,9 @@ const Wrapper = styled.div`
       height: inherit;
       padding: 0rem 5rem;
       position: absolute;
-      top: 5rem;
+      top: 2rem;
       right: 0rem;
+
       .cop2 {
         font-size: 2.2rem;
         text-align: center;

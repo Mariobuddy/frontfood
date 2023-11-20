@@ -6,33 +6,40 @@ const cartSlice = createSlice({
     items: [],
     totalItemCount: 0,
     gross: 0,
-    shippingDetails:{
-      address:"",
-      pincode:"",
-      phone:"",
-      country:"",
-      state:"",
-      city:""
-    }
+    shippingDetails: {
+      address: "",
+      pincode: "",
+      phone: "",
+      country: "",
+      state: "",
+      city: "",
+    },
   },
 
   reducers: {
-    shippingUpdate:(state,action)=>{
-      state.shippingDetails=action.payload;
+    shippingUpdate: (state, action) => {
+      state.shippingDetails = action.payload;
     },
     addToCart: (state, action) => {
       const { data, gcount, id } = action.payload;
-      const existingItem = state.items.find((item) => item._id === id);
+      let obj = {
+        name: data?.product?.name,
+        image: data?.product?.images[0]?.url,
+        product: data?.product._id,
+        price: data?.product?.price,
+        quantity: gcount,
+      };
+      const existingItem = state.items.find((item) => item.product === id);
       if (existingItem) {
-        existingItem.gcount += gcount;
+        existingItem.quantity += gcount;
       } else {
-        state.items.push({ ...data?.product, gcount });
+        state.items.push(obj);
       }
       state.totalItemCount = state.items.reduce((acc, cur) => {
-        return acc + cur.gcount;
+        return acc + cur.quantity;
       }, 0);
       state.gross = state.items.reduce((acc, cur) => {
-        return acc + cur.price * cur.gcount;
+        return acc + cur.price * cur.quantity;
       }, 0);
     },
     setCount: (state, action) => {
@@ -41,50 +48,50 @@ const cartSlice = createSlice({
     },
     removeFromCart: (state, action) => {
       state.items = state.items.filter((val) => {
-        return val._id !== action.payload;
+        return val.product !== action.payload;
       });
       state.totalItemCount = state.items.reduce((acc, cur) => {
-        return acc + cur.gcount;
+        return acc + cur.quantity;
       }, 0);
       state.gross = state.items.reduce((acc, cur) => {
-        return acc + cur.price * cur.gcount;
+        return acc + cur.price * cur.quantity;
       }, 0);
     },
     clearAll: (state) => {
       state.items = [];
       state.totalItemCount = state.items.reduce((acc, cur) => {
-        return acc + cur.gcount;
+        return acc + cur.quantity;
       }, 0);
       state.gross = state.items.reduce((acc, cur) => {
-        return acc + cur.price * cur.gcount;
+        return acc + cur.price * cur.quantity;
       }, 0);
     },
     updateLocalStorage: (state, action) => {
       state.items = action.payload[0];
-      state.shippingDetails=action.payload[1]
+      state.shippingDetails = action.payload[1];
     },
     decreaseItem: (state, action) => {
-      const item = state.items.find((item) => item._id === action.payload);
-      if (item.gcount > 1) {
-        item.gcount -= 1;
+      const item = state.items.find((item) => item.product === action.payload);
+      if (item.quantity > 1) {
+        item.quantity -= 1;
       } else {
-        item.gcount = 1;
+        item.quantity = 1;
       }
       state.totalItemCount = state.items.reduce((acc, cur) => {
-        return acc + cur.gcount;
+        return acc + cur.quantity;
       }, 0);
       state.gross = state.items.reduce((acc, cur) => {
-        return acc + cur.price * cur.gcount;
+        return acc + cur.price * cur.quantity;
       }, 0);
     },
     increaseItem: (state, action) => {
-      const item = state.items.find((item) => item._id === action.payload);
-      item.gcount += 1;
+      const item = state.items.find((item) => item.product === action.payload);
+      item.quantity += 1;
       state.totalItemCount = state.items.reduce((acc, cur) => {
-        return acc + cur.gcount;
+        return acc + cur.quantity;
       }, 0);
       state.gross = state.items.reduce((acc, cur) => {
-        return acc + cur.price * cur.gcount;
+        return acc + cur.price * cur.quantity;
       }, 0);
     },
     getItems: () => {},
@@ -100,7 +107,7 @@ export const {
   setCount,
   decreaseItem,
   increaseItem,
-  shippingUpdate
+  shippingUpdate,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -9,12 +9,13 @@ import { HiMinusSm } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
+import { MdRemoveShoppingCart } from "react-icons/md";
 
 import {
   decreaseItem,
   increaseItem,
   removeFromCart,
-  clearAll
+  clearAll,
 } from "../../redux/features/cart";
 
 const Cart = () => {
@@ -28,14 +29,15 @@ const Cart = () => {
     }
   };
 
-  let handAllClear=()=>{
-   dispatch(clearAll());
-  }
+  let handAllClear = () => {
+    dispatch(clearAll());
+  };
 
   let handDelete = (id) => {
     dispatch(removeFromCart(id));
     toast("Item Deleted");
   };
+  console.log(items);
   return (
     <Wrapper>
       {items.length !== 0 ? (
@@ -51,7 +53,7 @@ const Cart = () => {
                 <div key={i} className="cartMain">
                   <div className="concart">
                     <div className="cone">
-                      <LazyLoading src={val?.images[0]?.url} />
+                      <LazyLoading src={val?.image} />
                     </div>
                     <div className="ctwo">
                       <p>{val?.name}</p>
@@ -59,7 +61,7 @@ const Cart = () => {
                         <span>Price :</span> <Currency price={val?.price} />
                       </p>
                       <MdDelete
-                        onClick={() => handDelete(val._id)}
+                        onClick={() => handDelete(val.product)}
                         className="del"
                       />
                     </div>
@@ -67,11 +69,13 @@ const Cart = () => {
                   <div className="quantity">
                     <div className="main-count">
                       <div className="count">
-                        <button onClick={() => cartCount(["add", val._id])}>
+                        <button onClick={() => cartCount(["add", val.product])}>
                           <GrFormAdd className="add" />
                         </button>
-                        <p>{val.gcount}</p>
-                        <button onClick={() => cartCount(["minus", val._id])}>
+                        <p>{val.quantity}</p>
+                        <button
+                          onClick={() => cartCount(["minus", val.product])}
+                        >
                           <HiMinusSm className="minus" />
                         </button>
                       </div>
@@ -79,7 +83,7 @@ const Cart = () => {
                   </div>
                   <div className="subtotal">
                     <p>
-                      <Currency price={val.price * val.gcount} />
+                      <Currency price={val.price * val.quantity} />
                     </p>
                   </div>
                 </div>
@@ -92,11 +96,24 @@ const Cart = () => {
               <Currency price={gross} />
             </span>
           </div>
-          <NavLink to={"/shipping"}><button className="cart-Buts">Check Out</button></NavLink>
-          <button className="cart-But" onClick={handAllClear}>Clear Cart</button>
+          <NavLink to={"/shipping"}>
+            <button className="cart-Buts">Check Out</button>
+          </NavLink>
+          <button className="cart-But" onClick={handAllClear}>
+            Clear Cart
+          </button>
         </div>
       ) : (
-        <p className="emptyCart">Cart is Empty</p>
+        <div className="emptyCart">
+          <MdRemoveShoppingCart className="emptyicon" />
+          <p className="empty1">
+            Your cart is <span>Empty!</span>
+          </p>
+          <p className="empty2">
+            Must add item on the cart before you proceed to check out.
+          </p>
+          <NavLink to={"/product"}><button className="emptybuts">RETURN TO SHOP</button></NavLink>
+        </div>
       )}
     </Wrapper>
   );
@@ -106,8 +123,44 @@ export default Cart;
 
 const Wrapper = styled.div`
   .emptyCart {
-    text-align: center;
-    font-size: 2rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 50vh;
+    padding-top: 4rem;
+
+    .emptyicon {
+      font-size: 10rem;
+      color: orangered;
+    }
+    .empty1 {
+      font-size: 3rem;
+      span{
+        color: orangered;
+      }
+    }
+    .empty2 {
+      font-size: 1.6rem;
+    }
+    .emptybuts {
+      width: 15rem;
+      margin-top: 1rem;
+      font-size: 1.4rem;
+      height: 4rem;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      background-color: orangered;
+      border-radius: 0.4rem;
+      outline: none;
+      &:hover {
+        color: orangered;
+        background-color: transparent;
+        border: 2px solid orangered;
+      }
+    }
   }
 
   .cart-Top {
@@ -117,8 +170,8 @@ const Wrapper = styled.div`
     align-items: flex-end;
     width: 100%;
 
-    .cart-Buts{
-      color: #FFFFFF;
+    .cart-Buts {
+      color: #ffffff;
       margin-top: 4rem;
       background-color: green;
       padding: 1rem 5rem;
@@ -127,15 +180,15 @@ const Wrapper = styled.div`
       outline: none;
       cursor: pointer;
       border: 2px solid transparent;
-      &:hover{
-        background-color: #FFFFFF;
+      &:hover {
+        background-color: #ffffff;
         border: 2px solid green;
         color: green;
       }
     }
 
-    .cart-But{
-      color: #FFFFFF;
+    .cart-But {
+      color: #ffffff;
       margin-top: 4rem;
       background-color: red;
       padding: 1rem 5rem;
@@ -145,13 +198,12 @@ const Wrapper = styled.div`
       align-self: flex-start;
       cursor: pointer;
       border: 2px solid transparent;
-      &:hover{
-        background-color: #FFFFFF;
+      &:hover {
+        background-color: #ffffff;
         border: 2px solid red;
         color: red;
       }
     }
-
 
     .top {
       display: flex;

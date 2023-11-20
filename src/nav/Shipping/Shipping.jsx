@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { MdHome } from "react-icons/md";
 import { MdLocationOn } from "react-icons/md";
@@ -16,19 +16,16 @@ const Shipping = () => {
   let navigate = useNavigate();
   const { shippingDetails } = useSelector((state) => state.cart);
   let [errors, setErrors] = useState({});
-  let [formData, setformData] = useState({
-    address: shippingDetails.address,
-    pincode: shippingDetails.pincode,
-    phone: shippingDetails.phone,
-    country: shippingDetails.country,
-    state: shippingDetails.state,
-    city: shippingDetails.city,
-  });
+  let [formData, setformData] = useState(shippingDetails);
   const GetInput = (e) => {
     let name = e.target.name;
     let value = e.target.value;
     setformData({ ...formData, [name]: value });
   };
+
+  useEffect(() => {
+    setformData(shippingDetails);
+  }, [shippingDetails]);
 
   let validationForm = () => {
     const newErrors = {};
@@ -92,7 +89,7 @@ const Shipping = () => {
               onChange={GetInput}
               name="address"
               placeholder="Enter Address *"
-              value={formData.address}
+              value={formData?.address || ""}
             ></input>
           </div>
           <div className="formcon">
@@ -106,8 +103,7 @@ const Shipping = () => {
               onChange={GetInput}
               name="city"
               placeholder="Enter City *"
-              value={formData.city}
-
+              value={formData?.city || ""}
             ></input>
           </div>
           <div className="formcon">
@@ -121,7 +117,7 @@ const Shipping = () => {
               onChange={GetInput}
               name="pincode"
               placeholder="Enter Pincode*"
-              value={formData.pincode}
+              value={formData?.pincode || ""}
             ></input>
           </div>
           <div className="formcon">
@@ -135,7 +131,7 @@ const Shipping = () => {
               onChange={GetInput}
               name="phone"
               placeholder="Enter Phone Number *"
-              value={formData.phone}
+              value={formData?.phone || ""}
             ></input>
           </div>
           <div className="formcon">
@@ -146,42 +142,50 @@ const Shipping = () => {
             <select
               required
               className={errors.country ? "red" : "gray"}
-              value={formData.country}
+              value={formData?.country || ""}
               name="country"
               onChange={GetInput}
             >
               <option value={""}>Country</option>
               {Country?.getAllCountries()?.map((val, i) => {
                 return (
-                  <option key={i} value={val.isoCode}>
+                  <option key={i} value={val.isoCode || ""}>
                     {val.name}
                   </option>
                 );
               })}
             </select>
           </div>
-          {formData.country && (
-            <div className="formcon">
-              <p className="pshow">{errors.state ? errors.state : ""}</p>
-              <span>
-                <FaPlaceOfWorship className="shipicon" />
-              </span>
-              <select
-                value={formData.state}
-                name="state"
-                onChange={GetInput}
-                className={errors.state && formData.country ? "red" : "gray"}
-              >
-                <option value={""}>State</option>
-                {State?.getStatesOfCountry(formData.country)?.map((val, i) => {
-                  return (
-                    <option key={i} value={val.isoCode}>
-                      {val.name}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+          {formData?.country ? (
+            <>
+              <div className="formcon">
+                <p className="pshow">{errors.state ? errors.state : ""}</p>
+                <span>
+                  <FaPlaceOfWorship className="shipicon" />
+                </span>
+                <select
+                  value={formData?.state || ""}
+                  name="state"
+                  onChange={GetInput}
+                  className={
+                    errors.state && (formData?.country || "") ? "red" : "gray"
+                  }
+                >
+                  <option value={""}>State</option>
+                  {State?.getStatesOfCountry(formData?.country || "")?.map(
+                    (val, i) => {
+                      return (
+                        <option key={i} value={val.isoCode || ""}>
+                          {val.name}
+                        </option>
+                      );
+                    }
+                  )}
+                </select>
+              </div>
+            </>
+          ) : (
+            <></>
           )}
           <button className="shipb" onClick={handShipClick}>
             Continue
@@ -248,7 +252,6 @@ const Wrapper = styled.div`
           border: none;
           margin-top: 0.8rem;
           outline: none;
-          color: gray;
           cursor: pointer;
           border-bottom: 2px solid gray;
           option {

@@ -18,8 +18,9 @@ import ForgotPassword from "./nav/ForgotPassword/ForgotPassword";
 import ResetPassword from "./nav/ResetPassword/ResetPassword";
 import Shipping from "./nav/Shipping/Shipping";
 import OrderConfirm from "./nav/OrderConfirm/OrderConfirm";
-import PaymentGateway from "./nav/PaymentGateway/PaymentGateway";
 import PaymentSucess from "./nav/PaymentSucess/PaymentSucess";
+import PaymentWrapper from "./nav/PaymentGateway/PaymentWrapper";
+import Myorder from "./nav/Myorder/Myorder";
 
 function App() {
   return (
@@ -33,17 +34,22 @@ function App() {
             path="/profile"
             element={<ProtectedRoutes Component={Profile} nav={"profile"} />}
           />
-            <Route
+          <Route
             exact
             path="/paymentsucess"
-            element={<ProtectedRoutes Component={PaymentSucess} nav={"paymentsucess"} />}
+            element={
+              <ProtectedRoutes
+                Component={PaymentSucess}
+                nav={"paymentsucess"}
+              />
+            }
           />
           <Route
             exact
             path="/paymentgateway"
             element={
               <ProtectedRoutes
-                Component={PaymentGateway}
+                Component={PaymentWrapper}
                 nav={"paymentgateway"}
               />
             }
@@ -79,6 +85,13 @@ function App() {
             path="/order/confirm"
             element={
               <ProtectedRoutes Component={OrderConfirm} nav={"orderconfirm"} />
+            }
+          />
+          <Route
+            exact
+            path="/myorder"
+            element={
+              <ProtectedRoutes Component={Myorder} nav={"myorder"} />
             }
           />
           <Route

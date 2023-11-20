@@ -20,7 +20,7 @@ import {
   decreaseItem,
   removeFromCart,
   clearAll,
-  shippingUpdate
+  shippingUpdate,
 } from "../features/cart";
 
 function* fetchProductsAsync(action) {
@@ -111,14 +111,14 @@ function* retrieveItemsFromLocalStorage() {
     if (storedItems) {
       const parsedItems = JSON.parse(storedItems);
       const parsedItems2 = JSON.parse(storedShip);
-      yield put(updateLocalStorage([parsedItems,parsedItems2]));
+      yield put(updateLocalStorage([parsedItems, parsedItems2]));
       let count = parsedItems.reduce((acc, cur) => {
-        return acc + cur.gcount;
+        return acc + cur.quantity;
       }, 0);
       let gross = parsedItems.reduce((acc, cur) => {
-        return acc + cur.price * cur.gcount;
+        return acc + cur.price * cur.quantity;
       }, 0);
-      yield put(setCount([count,gross]));
+      yield put(setCount([count, gross]));
     }
   } catch (error) {
     console.error("Error retrieving items from localStorage:", error);
@@ -138,7 +138,6 @@ export function* itemSaga() {
   );
   yield takeLatest([getItems.type], retrieveItemsFromLocalStorage);
   yield takeLatest([shippingUpdate.type], storeShipInLocalStorage);
-
 }
 
 export const mainitemSaga = [fork(itemSaga)];

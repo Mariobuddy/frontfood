@@ -5,13 +5,15 @@ import cartSlice from "../features/cart";
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "../saga/rootsaga";
 import singleSlice from "../features/singleProducts"
+import orderSlice from "../features/order";
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
   reducer: {
     auth: authSlice,
     products:productSlice,
     singleProduct:singleSlice,
-    cart:cartSlice
+    cart:cartSlice,
+    order:orderSlice
   },
   middleware: [sagaMiddleware]
 });
