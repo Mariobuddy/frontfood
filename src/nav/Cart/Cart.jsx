@@ -37,7 +37,6 @@ const Cart = () => {
     dispatch(removeFromCart(id));
     toast("Item Deleted");
   };
-  console.log(items);
   return (
     <Wrapper>
       {items.length !== 0 ? (

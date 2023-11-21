@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 
 const Myorder = () => {
-  return (
-    <div>Myorder</div>
-  )
-}
+  let dispatch = useDispatch();
 
-export default Myorder
+  return <Wrapper></Wrapper>;
+};
+
+export default Myorder;
+
+const Wrapper = styled.div``;

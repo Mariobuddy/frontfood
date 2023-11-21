@@ -39,7 +39,7 @@ const Profile = () => {
                   <p className="ftwo">{date.format("YYYY-MM-DD")}</p>
                 </div>
                 <div className="main-but">
-                  <button className="obut">My Orders</button>
+                  <button className="obut" onClick={() => navigate("/myorderfront")}>My Orders</button>
                   <button
                     className="obut"
                     onClick={() => navigate("/changepassword")}

@@ -10,7 +10,7 @@ const PaymentSucess = () => {
       <IoMdThumbsUp className="psicon" />
       <div className="psmain">
         <p className="psp">Order Placed</p>
-        <NavLink to={"/myorder"}>
+        <NavLink to={"/myorderfront"}>
           <button className="paymentsucessbuts">View Order</button>
         </NavLink>
       </div>

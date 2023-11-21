@@ -89,9 +89,9 @@ function App() {
           />
           <Route
             exact
-            path="/myorder"
+            path="/myorderfront"
             element={
-              <ProtectedRoutes Component={Myorder} nav={"myorder"} />
+              <ProtectedRoutes Component={Myorder} nav={"myorderfront"} />
             }
           />
           <Route
