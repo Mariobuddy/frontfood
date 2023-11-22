@@ -21,6 +21,7 @@ import OrderConfirm from "./nav/OrderConfirm/OrderConfirm";
 import PaymentSucess from "./nav/PaymentSucess/PaymentSucess";
 import PaymentWrapper from "./nav/PaymentGateway/PaymentWrapper";
 import Myorder from "./nav/Myorder/Myorder";
+import SingleOrder from "./nav/SingleOrder/SingleOrder";
 
 function App() {
   return (
@@ -85,6 +86,13 @@ function App() {
             path="/order/confirm"
             element={
               <ProtectedRoutes Component={OrderConfirm} nav={"orderconfirm"} />
+            }
+          />
+          <Route
+            exact
+            path="/singleorderget/:id"
+            element={
+              <ProtectedRoutes Component={SingleOrder} nav={"singleorderget"} />
             }
           />
           <Route

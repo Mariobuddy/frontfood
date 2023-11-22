@@ -4,9 +4,12 @@ import { toast } from "react-toastify";
 const orderSlice = createSlice({
   name: "order",
   initialState: {
-    data: [],
-    loading: false,
+    myOrderData: [],
+    loading: true,
     error: false,
+    singleOrder: {},
+    singleLoading: false,
+    singleError: false,
   },
 
   reducers: {
@@ -44,7 +47,7 @@ const orderSlice = createSlice({
       return {
         ...state,
         loading: false,
-        data: action.payload,
+        myOrderData: action.payload,
       };
     },
     fetchOrderError: (state) => {
@@ -54,10 +57,37 @@ const orderSlice = createSlice({
         error: true,
       };
     },
+    fetchSingleOrder: (state) => {
+      return {
+        ...state,
+        singleLoading: true,
+      };
+    },
+    fetchSingleOrderSuccess: (state, action) => {
+      return {
+        ...state,
+        singleLoading: false,
+        singleOrder: action.payload,
+      };
+    },
+    fetchSingleOrderError: (state) => {
+      return {
+        ...state,
+        singleLoading: false,
+        singleError: true,
+      };
+    },
   },
 });
 
-export const { makeOrder, fetchOrder, fetchOrderError, fetchOrderSuccess } =
-  orderSlice.actions;
+export const {
+  makeOrder,
+  fetchOrder,
+  fetchOrderError,
+  fetchOrderSuccess,
+  fetchSingleOrder,
+  fetchSingleOrderError,
+  fetchSingleOrderSuccess,
+} = orderSlice.actions;
 
 export default orderSlice.reducer;

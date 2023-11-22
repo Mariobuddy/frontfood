@@ -5,6 +5,7 @@ import {
   mainAuthSaga,
   mainitemSaga,
   mainOrderSaga,
+  realsingleOrderSaga
 } from "./allProductsSaga";
 export default function* rootSaga() {
   yield all([
@@ -13,5 +14,6 @@ export default function* rootSaga() {
     ...mainAuthSaga,
     ...mainitemSaga,
     ...mainOrderSaga,
+    ...realsingleOrderSaga
   ]);
 }

@@ -12,6 +12,9 @@ import {
   fetchOrderError,
   fetchOrder,
   fetchOrderSuccess,
+  fetchSingleOrderError,
+  fetchSingleOrder,
+  fetchSingleOrderSuccess,
 } from "../features/order";
 import { fetchAuth, fetchAuthError, fetchAuthSuccess } from "../features/auth";
 import { takeLatest, put, fork, call, select } from "redux-saga/effects";
@@ -164,3 +167,23 @@ export function* OrderSaga() {
 }
 
 export const mainOrderSaga = [fork(OrderSaga)];
+
+function* fetchSingleOrderAsync(action) {
+  try {
+    const singleOrder = yield axios.get(
+      `http://localhost:4000/singleorder/${action.payload}`,{
+        method: "GET",
+        withCredentials: true,
+      }
+    ); // Replace with your API call
+    yield put(fetchSingleOrderSuccess(singleOrder.data.order)); // Dispatch a success action
+  } catch (error) {
+    yield put(fetchSingleOrderError(error.message)); // Dispatch an error action
+  }
+}
+
+export function* singleOrderSaga() {
+  yield takeLatest(fetchSingleOrder.type, fetchSingleOrderAsync);
+}
+
+export const realsingleOrderSaga = [fork(singleOrderSaga)];
