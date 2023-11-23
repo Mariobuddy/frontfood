@@ -12,12 +12,19 @@ import { GrFormAdd } from "react-icons/gr";
 import { HiMinusSm } from "react-icons/hi";
 import SingleProductSkelton from "../../components/Skelton/SingleProductSkelton";
 import ReviewCard from "./ReviewCard";
-import {addToCart} from "../../redux/features/cart";
+import { addToCart } from "../../redux/features/cart";
 import { toast } from "react-toastify";
-
+import StarMain from "../../components/StarAll/StarMain";
 
 const SingleProducts = () => {
+  const { data, loading, error } = useSelector((state) => state.singleProduct);
   const [gcount, scount] = useState(1);
+  const [hideBox, setHideBox] = useState(false);
+  const [starState, setStarState] = useState({
+    rating: 0,
+    comment: "",
+    product: "",
+  });
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -39,12 +46,14 @@ const SingleProducts = () => {
     },
   };
   let dispatch = useDispatch();
-  const { data, loading, error } = useSelector((state) => state.singleProduct);
   const { id } = useParams();
   useEffect(() => {
     dispatch(fetchSingle(id));
   }, [dispatch, id]);
 
+  let getInfo = (data) => {
+    setStarState({ ...starState, rating: data });
+  };
   const cartCount = (val) => {
     if (val === "add") {
       scount((no) => no + 1);
@@ -53,13 +62,53 @@ const SingleProducts = () => {
     }
   };
 
-  const handleOnAdd=()=>{
-    dispatch(addToCart({data,id,gcount}));
+  let handCancel = (e) => {
+    e.preventDefault();
+    setHideBox(false);
+    setStarState({product:"",rating:0,comment:""});
+  };
+
+  const handleOnAdd = () => {
+    dispatch(addToCart({ data, id, gcount }));
     toast("Item Added To Cart");
-  }
+  };
+
+  const handReview = () => {
+    setStarState({...starState,product:data?.product?._id})
+    setHideBox(true);
+  };
+
+  let handMainSubmit = (e) => {
+    e.preventDefault();
+    setStarState({product:"",rating:0,comment:""});
+  };
+
+  let takeChange = (e) => {
+    setStarState({ ...starState, comment: e.target.value });
+  };
+
 
   return (
     <Wrapper>
+      <div className="starDiv" style={{ display: hideBox ? "flex" : "none" }}>
+        <form action="" method="POST">
+          <StarMain getStar={getInfo} sendStar={starState.rating}/>
+          <textarea
+            placeholder="Enter your comment"
+            className="areaone"
+            onChange={takeChange}
+            value={starState.comment}
+          ></textarea>
+          <div className="butWrap">
+            <button className="starbuts" onClick={handMainSubmit}>
+              Submit
+            </button>
+            <button className="starbuts2" onClick={handCancel}>
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
       <div className="main-div">
         {!loading && !error ? (
           <>
@@ -108,18 +157,18 @@ const SingleProducts = () => {
                 <p className="tax">inclusive of all taxes</p>
               </div>
               <p className="avail">
-                Available
-                <span>
-                  :{data?.product?.stock <= 0 ? "OUT OF STOCK" : "IN STOCK"}
+                Available :
+                <span
+                  style={{ color: data?.product?.stock <= 0 ? "red" : "green" }}
+                >
+                  {data?.product?.stock <= 0 ? "OUT OF STOCK" : "IN STOCK"}
                 </span>
               </p>
               <p className="avail">
-                Id
-                <span>:{data?.product._id}</span>
+                Id :<span>{data?.product._id}</span>
               </p>
               <p className="avail line">
-                Brand
-                <span>:{data?.product?.brand}</span>
+                Brand :<span>{data?.product?.brand}</span>
               </p>
               <div className="main-count">
                 <div className="count">
@@ -131,7 +180,13 @@ const SingleProducts = () => {
                     <HiMinusSm className="minus" />
                   </button>
                 </div>
-                <button className="buts" onClick={handleOnAdd}>ADD TO CART</button>
+                <button
+                  disabled={data?.product?.stock < 1 ? true : false}
+                  className="buts"
+                  onClick={handleOnAdd}
+                >
+                  ADD TO CART
+                </button>
               </div>
             </div>
           </>
@@ -140,6 +195,9 @@ const SingleProducts = () => {
         )}
       </div>
       <div className="reviews">
+        <button className="srbuts" onClick={handReview}>
+          Submit Reviews
+        </button>
         <p className="des">Reviews</p>
         {data?.product?.reviews.length !== 0 ? (
           <div className="review-main">
@@ -164,6 +222,79 @@ const Wrapper = styled.div`
   height: 100%;
   padding: 8rem 4rem;
 
+  .starDiv {
+    position: fixed;
+    top: 38%;
+    left: 38%;
+    z-index: 999999;
+    width: 50rem;
+    height: 25rem;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    color: #ffffff;
+
+    form {
+      width: inherit;
+      height: inherit;
+      display: flex;
+      justify-content: space-around;
+      flex-direction: column;
+      align-items: center;
+      .areaone {
+        width: 80%;
+        height: 80px;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical; /* Allow vertical resizing */
+
+        /* Additional styles for text inside the textarea */
+        font-family: "Arial", sans-serif;
+        font-size: 14px;
+        color: #333;
+      }
+
+      .butWrap {
+        .starbuts {
+          width: 15rem;
+          font-size: 1.4rem;
+          margin-right: 2rem;
+          height: 4rem;
+          color: #ffffff;
+          border: none;
+          cursor: pointer;
+          background-color: orangered;
+          border-radius: 4rem;
+          outline: none;
+          &:hover {
+            color: orangered;
+            background-color: transparent;
+            border: 2px solid orangered;
+          }
+        }
+
+        .starbuts2 {
+          width: 15rem;
+          font-size: 1.4rem;
+          margin-right: 2rem;
+          height: 4rem;
+          color: #ffffff;
+          border: none;
+          cursor: pointer;
+          background-color: red;
+          border-radius: 4rem;
+          outline: none;
+          &:hover {
+            color: red;
+            background-color: transparent;
+            border: 2px solid orangered;
+          }
+        }
+      }
+    }
+  }
+
   .reviews {
     width: 100%;
     height: 100%;
@@ -172,6 +303,25 @@ const Wrapper = styled.div`
     align-items: center;
     margin-top: 9rem;
     flex-direction: column;
+
+    .srbuts {
+      width: 15rem;
+      margin-top: 1rem;
+      font-size: 1.4rem;
+      margin-bottom: 3rem;
+      height: 4rem;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      background-color: orangered;
+      border-radius: 4rem;
+      outline: none;
+      &:hover {
+        color: orangered;
+        background-color: transparent;
+        border: 2px solid orangered;
+      }
+    }
 
     .review-main {
       display: flex;
@@ -343,6 +493,7 @@ const Wrapper = styled.div`
           cursor: pointer;
           background-color: orangered;
           border-radius: 0.2rem;
+          outline: none;
           &:hover {
             color: orangered;
             background-color: transparent;
