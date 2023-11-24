@@ -62,7 +62,11 @@ export const allProductsSaga = [fork(productsSaga)];
 function* fetchSingleAsync(action) {
   try {
     const singleproduct = yield axios.get(
-      `http://localhost:4000/api/products/${action.payload}`
+      `http://localhost:4000/api/products/${action.payload}`,
+      {
+        method: "GET",
+        withCredentials: true,
+      }
     ); // Replace with your API call
     yield put(fetchSingleSuccess(singleproduct.data)); // Dispatch a success action
   } catch (error) {
@@ -171,7 +175,8 @@ export const mainOrderSaga = [fork(OrderSaga)];
 function* fetchSingleOrderAsync(action) {
   try {
     const singleOrder = yield axios.get(
-      `http://localhost:4000/singleorder/${action.payload}`,{
+      `http://localhost:4000/singleorder/${action.payload}`,
+      {
         method: "GET",
         withCredentials: true,
       }

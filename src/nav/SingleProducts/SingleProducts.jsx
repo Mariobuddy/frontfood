@@ -15,7 +15,6 @@ import ReviewCard from "./ReviewCard";
 import { addToCart } from "../../redux/features/cart";
 import { toast } from "react-toastify";
 import StarMain from "../../components/StarAll/StarMain";
-
 const SingleProducts = () => {
   const { data, loading, error } = useSelector((state) => state.singleProduct);
   const [gcount, scount] = useState(1);
@@ -23,7 +22,7 @@ const SingleProducts = () => {
   const [starState, setStarState] = useState({
     rating: 0,
     comment: "",
-    product: "",
+    productId: "",
   });
   const responsive = {
     superLargeDesktop: {
@@ -61,38 +60,65 @@ const SingleProducts = () => {
       scount((no) => no - 1);
     }
   };
-
   let handCancel = (e) => {
     e.preventDefault();
     setHideBox(false);
-    setStarState({product:"",rating:0,comment:""});
+    setStarState({ productId: "", rating: 0, comment: "" });
   };
-
   const handleOnAdd = () => {
     dispatch(addToCart({ data, id, gcount }));
     toast("Item Added To Cart");
   };
-
   const handReview = () => {
-    setStarState({...starState,product:data?.product?._id})
+    setStarState({ ...starState, productId: data?.product?._id });
     setHideBox(true);
   };
 
-  let handMainSubmit = (e) => {
+  let handMainSubmit = async (e) => {
     e.preventDefault();
-    setStarState({product:"",rating:0,comment:""});
+    if (starState.rating === 0) {
+      toast("Please Give Rating");
+      return;
+    } else if (starState.comment === "") {
+      toast("Please Enter Comment");
+      return;
+    } else {
+      try {
+        const res = await fetch("http://localhost:4000/api/products/reviews", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(starState),
+        });
+        const data = await res.json();
+        if (res.status === 200) {
+          setStarState({ productId: "", rating: 0, comment: "" });
+          setHideBox(false);
+          dispatch(fetchSingle(id));
+          toast("Review Submitted");
+        } else if (
+          data.message === "Product not found" ||
+          data.message === "Internal Server Error"
+        ) {
+          toast(data.message);
+        }
+      } catch (error) {
+        return error;
+      }
+    }
   };
 
   let takeChange = (e) => {
     setStarState({ ...starState, comment: e.target.value });
   };
 
-
   return (
     <Wrapper>
       <div className="starDiv" style={{ display: hideBox ? "flex" : "none" }}>
         <form action="" method="POST">
-          <StarMain getStar={getInfo} sendStar={starState.rating}/>
+          <StarMain getStar={getInfo} sendStar={starState.rating} />
           <textarea
             placeholder="Enter your comment"
             className="areaone"

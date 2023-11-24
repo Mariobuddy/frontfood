@@ -1,22 +1,32 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const singleSlice = createSlice({
-  name: 'singleproduct',
-  initialState: { data: null, loading: false, error: false},
+  name: "singleproduct",
+  initialState: { data: null, loading: false, error: false },
   reducers: {
     fetchSingle: (state) => {
-      state.loading = true;
+      return {
+        ...state,
+        loading: true,
+      };
     },
     fetchSingleSuccess: (state, action) => {
-      state.loading = false;
-      state.data = action.payload;
+      return {
+        ...state,
+        loading: false,
+        data: action.payload,
+      };
     },
     fetchSingleError: (state) => {
-      state.loading = false;
-      state.error = true;
+      return {
+        ...state,
+        loading: false,
+        error: true,
+      };
     },
   },
 });
 
-export const { fetchSingle, fetchSingleSuccess, fetchSingleError} = singleSlice.actions;
+export const { fetchSingle, fetchSingleSuccess, fetchSingleError, makeReview } =
+  singleSlice.actions;
 export default singleSlice.reducer;
