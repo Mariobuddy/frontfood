@@ -22,6 +22,14 @@ import PaymentSucess from "./nav/PaymentSucess/PaymentSucess";
 import PaymentWrapper from "./nav/PaymentGateway/PaymentWrapper";
 import Myorder from "./nav/Myorder/Myorder";
 import SingleOrder from "./nav/SingleOrder/SingleOrder";
+import DashBoard from "./nav/DashBoard/DashBoard";
+import DashDashboard from "./nav/DashBoard/DashDashboard";
+import DashOrders from "./nav/DashBoard/DashOrders";
+import DashProduct from "./nav/DashBoard/DashProduct";
+import DashReviews from "./nav/DashBoard/DashReviews";
+import DashUser from "./nav/DashBoard/DashUser";
+import CreateProduct from "./nav/DashBoard/CreateProduct";
+import ViewProduct from "./nav/DashBoard/ViewProduct";
 
 function App() {
   return (
@@ -35,6 +43,21 @@ function App() {
             path="/profile"
             element={<ProtectedRoutes Component={Profile} nav={"profile"} />}
           />
+          <Route
+            exact
+            path="/dashboard"
+            element={
+              <ProtectedRoutes Component={DashBoard} nav={"dashboard"} />
+            }
+          >
+            <Route path="dashdashboard" element={<DashDashboard />} />
+            <Route path="dashproducts" element={<DashProduct />} />
+            <Route path="dashorders" element={<DashOrders />} />
+            <Route path="dashusers" element={<DashUser />} />
+            <Route path="dashreviews" element={<DashReviews />} />
+            <Route path="dashcreateproduct" element={<CreateProduct />} />
+            <Route path="dashviewproduct" element={<ViewProduct />} />
+          </Route>
           <Route
             exact
             path="/paymentsucess"

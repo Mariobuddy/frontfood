@@ -119,8 +119,9 @@ const Header = () => {
         style={{ display: data?.user?.role === "admin" ? "block" : "none" }}
       >
         <NavLink
-          to={"dashboard"}
-          style={{ color: "#FFFFFF", fontSize: "1.6rem" }}
+        className={"navD"}
+          to={"/dashboard"}
+          style={{ fontSize: "1.6rem" }}
         >
           DashBoard
         </NavLink>
@@ -295,6 +296,15 @@ const Wrapper = styled.div`
   }
   .visible {
     display: block !important;
+  }
+
+  .between{
+    .navD{
+      color: #FFFFFF;
+      &:hover{
+        color: orangered;
+      }
+    }
   }
   .left {
     img {

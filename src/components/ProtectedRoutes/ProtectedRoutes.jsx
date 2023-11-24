@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const ProtectedRoutes = ({ Component, nav }) => {
-  const { isAuth } = useSelector((state) => state.auth);
+  const { isAuth,data } = useSelector((state) => state.auth);
   let navigate = useNavigate();
   useEffect(() => {
     if (!isAuth) {
@@ -29,8 +29,11 @@ const ProtectedRoutes = ({ Component, nav }) => {
     ) {
       navigate("/");
     }
+    if(data?.user?.role==="user"){
+      navigate("/");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuth, nav]);
+  }, [isAuth, nav,data]);
   return <Component />;
 };
 
