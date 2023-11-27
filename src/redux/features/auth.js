@@ -8,6 +8,7 @@ const authSlice = createSlice({
     loading: null,
     error: null,
     isAuth: Cookies.get("jwt"),
+    isAdmin:""
   },
 
   reducers: {
@@ -17,6 +18,7 @@ const authSlice = createSlice({
     fetchAuthSuccess: (state, action) => {
       state.loading = null;
       state.data = action.payload;
+      state.isAdmin=state.data?.user?.role;
     },
     fetchAuthError: (state) => {
       state.loading = null;
@@ -27,6 +29,7 @@ const authSlice = createSlice({
       state.loading = null;
       state.error = null;
       state.isAuth = null;
+      state.isAdmin=null;
     },
     getToken: (state) => {
       state.isAuth = Cookies.get("jwt");

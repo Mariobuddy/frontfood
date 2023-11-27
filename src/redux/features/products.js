@@ -4,6 +4,9 @@ const productSlice = createSlice({
   name: "products",
   initialState: {
     data: null,
+    adminProductLoading: false,
+    adminProduct: null,
+    adminProductError: null,
     loading: false,
     error: false,
     view: true,
@@ -18,8 +21,7 @@ const productSlice = createSlice({
     company: "",
     maxStar: 5,
     minStar: 0,
-    search:""
-
+    search: "",
   },
   reducers: {
     fetchUser: (state) => {
@@ -35,15 +37,26 @@ const productSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
+    fetchAdminProduct: (state) => {
+      state.adminProductLoading = true;
+    },
+    fetchAdminProductSuccess: (state, action) => {
+      state.adminProductLoading = false;
+      state.adminProduct = action.payload;
+    },
+    fetchAdminProductError: (state) => {
+      state.adminProductLoading = false;
+      state.adminProductError = true;
+    },
     deleteFilter: (state) => {
       state.company = "";
       state.max = 2000;
       state.min = 0;
       state.proCategory = "";
       state.sorting = "";
-      state.minStar=0;
-      state.maxStar=5;
-      state.search=""
+      state.minStar = 0;
+      state.maxStar = 5;
+      state.search = "";
     },
     changeView: (state, action) => {
       state.view = action.payload;
@@ -64,13 +77,13 @@ const productSlice = createSlice({
     changeCompany: (state, action) => {
       state.company = action.payload;
     },
-    changeRating:(state,action)=>{
-      state.minStar=action.payload[0];
-      state.maxStar=action.payload[1];
+    changeRating: (state, action) => {
+      state.minStar = action.payload[0];
+      state.maxStar = action.payload[1];
     },
-    changeSearch:(state,action)=>{
-      state.search=action.payload;
-    }
+    changeSearch: (state, action) => {
+      state.search = action.payload;
+    },
   },
 });
 
@@ -86,6 +99,9 @@ export const {
   changePage,
   changeCompany,
   deleteFilter,
-  changeRating
+  changeRating,
+  fetchAdminProduct,
+  fetchAdminProductError,
+  fetchAdminProductSuccess,
 } = productSlice.actions;
 export default productSlice.reducer;

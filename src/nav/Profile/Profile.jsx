@@ -19,7 +19,7 @@ const Profile = () => {
             <div className="main-div">
               <div className="l-div">
                 <LazyLoading alt="img" src={data?.user?.image?.url} />
-                <button onClick={() => navigate("/editprofile")}>
+                <button onClick={() => navigate("/protected/editprofile")}>
                   Edit Profile
                 </button>
               </div>
@@ -39,10 +39,10 @@ const Profile = () => {
                   <p className="ftwo">{date.format("YYYY-MM-DD")}</p>
                 </div>
                 <div className="main-but">
-                  <button className="obut" onClick={() => navigate("/myorderfront")}>My Orders</button>
+                  <button className="obut" onClick={() => navigate("/protected/myorderfront")}>My Orders</button>
                   <button
                     className="obut"
-                    onClick={() => navigate("/changepassword")}
+                    onClick={() => navigate("/protected/changepassword")}
                   >
                     Change Password
                   </button>

@@ -93,7 +93,7 @@ const PaymentGateway = () => {
         orderDetails.paymentInfo.status = result.paymentIntent.status;
         dispatch(makeOrder(orderDetails));
         setCir(true);
-        navigate("/paymentsucess");
+        navigate("/protected/paymentsucess");
       } else {
         toast("There is some issue while processing payment");
         setCir(true);

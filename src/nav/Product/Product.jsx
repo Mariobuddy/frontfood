@@ -329,7 +329,7 @@ const Product = () => {
                         return (
                           <div key={i}>
                             <NavLink
-                              to={`/api/products/${val._id}`}
+                              to={`/protected/api/products/${val._id}`}
                               className={"nav-div"}
                             >
                               <div className="inner-container">

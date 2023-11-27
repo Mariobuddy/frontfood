@@ -16,9 +16,6 @@ const Myorder = () => {
   useEffect(() => {
     dispatch(fetchOrder());
   }, [dispatch]);
-
-  let handButton = () => {};
-
   const data = useMemo(() => {
     if (!myOrderData) {
       return [];
@@ -41,7 +38,7 @@ const Myorder = () => {
           ),
           action: (
             <NavLink to={`/singleorderget/${val?._id}`}>
-              <button onClick={handButton} className="mobuts">
+              <button  className="mobuts">
                 <FaShareFromSquare />
               </button>
             </NavLink>

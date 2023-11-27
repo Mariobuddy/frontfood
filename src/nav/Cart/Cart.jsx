@@ -95,7 +95,7 @@ const Cart = () => {
               <Currency price={gross} />
             </span>
           </div>
-          <NavLink to={"/shipping"}>
+          <NavLink to={"/protected/shipping"}>
             <button className="cart-Buts">Check Out</button>
           </NavLink>
           <button className="cart-But" onClick={handAllClear}>
@@ -111,7 +111,7 @@ const Cart = () => {
           <p className="empty2">
             Must add item on the cart before you proceed to check out.
           </p>
-          <NavLink to={"/product"}><button className="emptybuts">RETURN TO SHOP</button></NavLink>
+          <NavLink to={"/protected/product"}><button className="emptybuts">RETURN TO SHOP</button></NavLink>
         </div>
       )}
     </Wrapper>

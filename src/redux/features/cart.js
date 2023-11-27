@@ -94,6 +94,19 @@ const cartSlice = createSlice({
         return acc + cur.price * cur.quantity;
       }, 0);
     },
+    removeAllCart: (state) => {
+      state.items = [];
+      state.gross = 0;
+      state.totalItemCount = 0;
+      state.shippingDetails = {
+        address: "",
+        pincode: "",
+        phone: "",
+        country: "",
+        state: "",
+        city: "",
+      };
+    },
     getItems: () => {},
   },
 });
@@ -108,6 +121,7 @@ export const {
   decreaseItem,
   increaseItem,
   shippingUpdate,
+  removeAllCart
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

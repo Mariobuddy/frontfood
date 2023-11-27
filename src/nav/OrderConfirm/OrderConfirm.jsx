@@ -19,7 +19,7 @@ const OrderConfirm = () => {
     total: gross + shippingCharges + gst,
   };
   let handPayment = () => {
-    navigate("/paymentgateway");
+    navigate("/protected/paymentgateway");
     sessionStorage.setItem("orderconfirm", JSON.stringify(confirmOrder));
   };
   return (

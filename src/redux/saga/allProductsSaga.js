@@ -2,6 +2,9 @@ import {
   fetchUser,
   fetchUserError,
   fetchUserSuccess,
+  fetchAdminProduct,
+  fetchAdminProductError,
+  fetchAdminProductSuccess,
 } from "../features/products";
 import {
   fetchSingle,
@@ -192,3 +195,24 @@ export function* singleOrderSaga() {
 }
 
 export const realsingleOrderSaga = [fork(singleOrderSaga)];
+
+function* fetchAdminProductAsync() {
+  try {
+    const admin = yield axios.get(
+      "http://localhost:4000/api/products/admin/allproducts",
+      {
+        method: "GET",
+        withCredentials: true,
+      }
+    ); // Replace with your API call
+    yield put(fetchAdminProductSuccess(admin.data.allProducts)); // Dispatch a success action
+  } catch (error) {
+    yield put(fetchAdminProductError(error.message)); // Dispatch an error action
+  }
+}
+
+export function* adminProductSaga() {
+  yield takeLatest(fetchAdminProduct.type, fetchAdminProductAsync);
+}
+
+export const mainAdminProductSaga = [fork(adminProductSaga)];

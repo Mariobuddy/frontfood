@@ -17,6 +17,7 @@ import { AiOutlineLogout } from "react-icons/ai";
 import { BiSolidUserCircle } from "react-icons/bi";
 import LazyLoading from "../Lazy/LazyLoading";
 import { getItems } from "../../redux/features/cart";
+import { removeAllCart } from "../../redux/features/cart";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -35,14 +36,26 @@ const Header = () => {
       dispatch(getItems());
     }
   }, [dispatch, isAuth]);
+  useEffect(() => {
+    // Function to handle click events anywhere in the window
+    const handleClickOutside = () => {
+      setDown(false);
+    };
 
+    window.addEventListener("click", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   let searchResult = () => {
     if (query.length > 0) {
       // navigate(`/search/${query}`);
     }
   };
-  let downProfile = () => {
+  let downProfile = (e) => {
+    e.stopPropagation();
     setDown(!down);
   };
 
@@ -52,6 +65,9 @@ const Header = () => {
 
   let remLocal = async () => {
     dispatch(remAuth(null));
+    dispatch(removeAllCart());
+    localStorage.removeItem("shipItems");
+    localStorage.removeItem("cartItems");
     try {
       const res = await fetch("http://localhost:4000/logout", {
         method: "GET",
@@ -119,7 +135,7 @@ const Header = () => {
         style={{ display: data?.user?.role === "admin" ? "block" : "none" }}
       >
         <NavLink
-        className={"navD"}
+          className={"navD"}
           to={"/dashboard"}
           style={{ fontSize: "1.6rem" }}
         >
@@ -164,7 +180,7 @@ const Header = () => {
                 setShow(false);
               }}
               className={"navL"}
-              to={"product"}
+              to={"/protected/product"}
             >
               Products
             </NavLink>
@@ -175,7 +191,7 @@ const Header = () => {
                 setShow(false);
               }}
               className={"navL"}
-              to={"contact"}
+              to={"/protected/contact"}
             >
               Contact
             </NavLink>
@@ -194,7 +210,7 @@ const Header = () => {
                   style={{ display: down ? "block" : "none" }}
                 >
                   <div className="innerIn">
-                    <NavLink className={"proNav"} to={"profile"}>
+                    <NavLink className={"proNav"} to={"/protected/profile"}>
                       <BiSolidUserCircle className="see" />
                       Profile
                     </NavLink>
@@ -229,10 +245,10 @@ const Header = () => {
                 setShow(false);
               }}
               className={"navL"}
-              to={"cart"}
+              to={"/protected/cart"}
             >
               <FaShoppingCart />
-              <span className="no">{isAuth?totalItemCount:0}</span>
+              <span className="no">{isAuth ? totalItemCount : 0}</span>
             </NavLink>
           </li>
         </ul>
@@ -298,10 +314,10 @@ const Wrapper = styled.div`
     display: block !important;
   }
 
-  .between{
-    .navD{
-      color: #FFFFFF;
-      &:hover{
+  .between {
+    .navD {
+      color: #ffffff;
+      &:hover {
         color: orangered;
       }
     }

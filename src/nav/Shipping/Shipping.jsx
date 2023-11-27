@@ -60,7 +60,7 @@ const Shipping = () => {
     e.preventDefault();
     if (validationForm()) {
       dispatch(shippingUpdate(formData));
-      navigate("/order/confirm");
+      navigate("/protected/order/confirm");
       setformData({
         address: "",
         pincode: "",
@@ -216,7 +216,7 @@ const Wrapper = styled.div`
   }
 
   .gray {
-    border-bottom: 2px solid gray !important;
+    border-bottom: 2px solid gray !important
   }
   .ship-form {
     form {
