@@ -10,6 +10,9 @@ import { useSelector } from "react-redux";
 const LazyHome = lazy(() => import("./nav/Home/Home"));
 const LazyPageNotFound = lazy(() => import("./nav/404/PageNotFound"));
 const LazyProduct = lazy(() => import("./nav/Product/Product"));
+const LazyDashUpdateProduct = lazy(() =>
+  import("./nav/DashBoard/DashUpdateProduct")
+);
 const LazyPaymentWrapper = lazy(() =>
   import("./nav/PaymentGateway/PaymentWrapper")
 );
@@ -418,6 +421,20 @@ function App() {
               }
             />
             <Route
+              path="dashupdateproduct/:id"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyDashUpdateProduct />
+                </Suspense>
+              }
+            />
+            <Route
               path="dashusers"
               element={
                 <Suspense
@@ -511,7 +528,7 @@ const Wrapper = styled.div`
 
   .cirDiv {
     position: absolute;
-    top: 30rem;
-    left: 70rem;
+    top: 45%;
+    left: 50%;
   }
 `;

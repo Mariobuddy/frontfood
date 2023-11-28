@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { useTable, useSortBy, usePagination } from "react-table";
@@ -9,9 +9,12 @@ import Loading from "../../components/Loading/Loading";
 import { fetchAdminProduct } from "../../redux/features/products";
 import { MdDelete } from "react-icons/md";
 import { MdModeEditOutline } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const Myorder = () => {
   let dispatch = useDispatch();
+  const [loadCir, setLoadCir] = useState(true);
+
   const { adminProduct, adminProductLoading } = useSelector(
     (state) => state.products
   );
@@ -30,18 +33,52 @@ const Myorder = () => {
           price: <Currency price={val?.price} />,
           action: (
             <div className="rdDiv">
-              <NavLink className={"rdnav"} to={"/"}>
+              <NavLink
+                className={"rdnav"}
+                to={`/dashboard/dashupdateproduct/${val?._id}`}
+              >
                 <MdModeEditOutline />
               </NavLink>
-              <NavLink className={"rdnav"} to={"/"}>
-                <MdDelete />
-              </NavLink>
+              <MdDelete
+                style={{ color: "red", cursor: "pointer" }}
+                onClick={() => deleteProduct(val?._id)}
+              />
             </div>
           ),
         };
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [adminProduct]);
+
+  let deleteProduct = async (id) => {
+    if (id) {
+      setLoadCir(false);
+      try {
+        let res = await fetch(
+          `http://localhost:4000/api/products/admin/deleteproduct/${id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
+        let data = await res.json();
+        if (res.status === 200) {
+          dispatch(fetchAdminProduct());
+          toast("Product Deleted Sucessfully");
+          setLoadCir(true);
+        } else if (data.message === "" || data.message === "") {
+          toast(data.message);
+          setLoadCir(true);
+        }
+      } catch (error) {
+        return error;
+      }
+    }
+  };
 
   const columns = useMemo(() => {
     return [
@@ -126,6 +163,12 @@ const Myorder = () => {
                     })}
                   </tbody>
                 </table>
+                <span
+                  style={{ display: loadCir ? "none" : "block" }}
+                  className="spadp"
+                >
+                  <Loading />
+                </span>
                 <div className="tpage">
                   <span>
                     Page{" "}
@@ -167,13 +210,13 @@ const Myorder = () => {
               <div className="emptyMO">
                 <MdSearchOff className="emptyMOicon" />
                 <p className="emptyMO1">
-                  No order <span>Found!</span>
+                  No Product <span>Found!</span>
                 </p>
                 <p className="emptyMO2">
-                  Looks like you haven't made your order yet.
+                  Looks like you haven't made your product yet.
                 </p>
-                <NavLink to={"/product"}>
-                  <button className="emptyMObuts">RETURN TO SHOP</button>
+                <NavLink to={"/dashboard/dashcreateproduct"}>
+                  <button className="emptyMObuts">CREATE PRODUCT</button>
                 </NavLink>
               </div>
             )}
@@ -199,20 +242,19 @@ const Myorder = () => {
 export default Myorder;
 
 const Wrapper = styled.div`
-padding-bottom: 3rem;
+  padding-bottom: 3rem;
 
-.rdDiv{
-  
-  .rdnav{
-  &:nth-child(1){
- color: yellow;
- margin-right: 1rem;
+  .spadp {
+    position: absolute;
+    bottom: 7rem;
   }
-  &:nth-child(2){
- color:  red;
+
+  .rdDiv {
+    .rdnav {
+      color: green;
+      margin-right: 2rem;
+    }
   }
-  }
-}
   width: 100%;
   height: 100%;
   min-height: 60vh;

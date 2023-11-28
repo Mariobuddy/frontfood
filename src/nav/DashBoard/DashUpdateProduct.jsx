@@ -9,7 +9,7 @@ import { GiClothes } from "react-icons/gi";
 import { toast } from "react-toastify";
 import Loading from "../../components/Loading/Loading";
 
-const CreateProduct = () => {
+const DashUpdateProduct = () => {
   const categoryArray = ["Tshirt", "Shirt", "Top", "Boxer", "Jeans", "Hoddie"];
   let imgRef = useRef();
   const [productDetails, setProductDetails] = useState({
@@ -155,7 +155,7 @@ const CreateProduct = () => {
   };
   return (
     <Wrapper>
-      <p className="cpphere">Create Product</p>
+      <p className="cpphere">Update Product</p>
       <div className="main-Div">
         <form method="post" action="">
           <div className="cpDiv">
@@ -250,7 +250,7 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default DashUpdateProduct;
 
 const Wrapper = styled.div`
   display: flex;
