@@ -4,13 +4,13 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
 Chart.register(ArcElement);
 
-const CircleChart = () => {
+const CircleChart = ({outOfStock,inStock}) => {
   const data = {
-    labels: ["Red", "Blue", "Yellow"],
+    labels: ["OutOfStock", "InStock",],
     datasets: [
       {
-        data: [180, 370, 300],
-        backgroundColor: ["#fe019a", "#B026FF ", "#e4ddddba"],
+        data: [outOfStock, inStock],
+        backgroundColor: ["#fe019a", "#B026FF "],
         // borderWidth: [0, 12, 18],
         // radius: 100,
         // hoverOffset: 20,

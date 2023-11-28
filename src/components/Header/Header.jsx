@@ -7,7 +7,7 @@ import { BiSolidUser } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector, useDispatch } from "react-redux";
 import { remAuth } from "../../redux/features/auth";
@@ -113,20 +113,6 @@ const Header = () => {
 
   return (
     <Wrapper className={currentScroll}>
-      <div className="invis">
-        <ToastContainer
-          position="bottom-right"
-          autoClose={4000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggables
-          pauseOnHover
-          theme="dark"
-        />
-      </div>
       <div className="left">
         <img alt="Mario" src={Mario} onClick={() => {}} />
       </div>
@@ -286,10 +272,6 @@ const Wrapper = styled.div`
   justify-content: space-between;
   top: 0;
   left: 0;
-
-  .invis {
-    position: absolute;
-  }
 
   .anime {
     animation: ${ani} 0.5s ease;

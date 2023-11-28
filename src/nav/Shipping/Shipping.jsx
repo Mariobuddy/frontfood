@@ -264,6 +264,7 @@ const Wrapper = styled.div`
           left: 0;
           color: red;
           margin-left: 3rem;
+          font-size: 1.2rem;
         }
         .shipicon {
           color: orangered;

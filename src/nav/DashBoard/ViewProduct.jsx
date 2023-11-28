@@ -15,8 +15,6 @@ const Myorder = () => {
   const { adminProduct, adminProductLoading } = useSelector(
     (state) => state.products
   );
-  console.log(adminProduct);
-
   useEffect(() => {
     dispatch(fetchAdminProduct());
   }, [dispatch]);
@@ -31,11 +29,11 @@ const Myorder = () => {
           stock: val?.stock,
           price: <Currency price={val?.price} />,
           action: (
-            <div>
-              <NavLink>
+            <div className="rdDiv">
+              <NavLink className={"rdnav"} to={"/"}>
                 <MdModeEditOutline />
               </NavLink>
-              <NavLink>
+              <NavLink className={"rdnav"} to={"/"}>
                 <MdDelete />
               </NavLink>
             </div>
@@ -49,7 +47,7 @@ const Myorder = () => {
     return [
       { Header: "Product ID", accessor: "productId" },
       { Header: "Product Name", accessor: "name" },
-      { Header: "Items Qty", accessor: "stock" },
+      { Header: "Stock", accessor: "stock" },
       { Header: "Amount", accessor: "price" },
       { Header: "Actions", accessor: "action" },
     ];
@@ -201,12 +199,26 @@ const Myorder = () => {
 export default Myorder;
 
 const Wrapper = styled.div`
+padding-bottom: 3rem;
+
+.rdDiv{
+  
+  .rdnav{
+  &:nth-child(1){
+ color: yellow;
+ margin-right: 1rem;
+  }
+  &:nth-child(2){
+ color:  red;
+  }
+  }
+}
   width: 100%;
   height: 100%;
   min-height: 60vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 
   .mobuts {

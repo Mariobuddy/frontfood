@@ -1,44 +1,76 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Suspense, lazy } from "react";
-import Contact from "./nav/Contact/Contact";
-import Cart from "./nav/Cart/Cart";
-import PageNotFound from "./nav/404/PageNotFound";
 import Header from "./components/Header/Header";
-import Login from "./nav/Login/Login";
-import Register from "./nav/Register/Register";
-import Product from "./nav/Product/Product";
-import SingleProducts from "./nav/SingleProducts/SingleProducts";
 import Footer from "./components/Footer/Footer";
-import Profile from "./nav/Profile/Profile";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import styled from "styled-components";
-import EditProfile from "./nav/EditProfile/EditProfile";
-import ChangePassword from "./nav/ChangePassword/ChangePassword";
-import ForgotPassword from "./nav/ForgotPassword/ForgotPassword";
-import ResetPassword from "./nav/ResetPassword/ResetPassword";
-import Shipping from "./nav/Shipping/Shipping";
-import OrderConfirm from "./nav/OrderConfirm/OrderConfirm";
-import PaymentSucess from "./nav/PaymentSucess/PaymentSucess";
-import PaymentWrapper from "./nav/PaymentGateway/PaymentWrapper";
-import Myorder from "./nav/Myorder/Myorder";
-import SingleOrder from "./nav/SingleOrder/SingleOrder";
-import DashBoard from "./nav/DashBoard/DashBoard";
-import DashDashboard from "./nav/DashBoard/DashDashboard";
-import DashOrders from "./nav/DashBoard/DashOrders";
-import DashProduct from "./nav/DashBoard/DashProduct";
-import DashReviews from "./nav/DashBoard/DashReviews";
-import DashUser from "./nav/DashBoard/DashUser";
-import CreateProduct from "./nav/DashBoard/CreateProduct";
-import ViewProduct from "./nav/DashBoard/ViewProduct";
+import { ToastContainer } from "react-toastify";
 import Loading from "./components/Loading/Loading";
 import { useSelector } from "react-redux";
 const LazyHome = lazy(() => import("./nav/Home/Home"));
+const LazyPageNotFound = lazy(() => import("./nav/404/PageNotFound"));
+const LazyProduct = lazy(() => import("./nav/Product/Product"));
+const LazyPaymentWrapper = lazy(() =>
+  import("./nav/PaymentGateway/PaymentWrapper")
+);
+const LazyPaymentSucess = lazy(() =>
+  import("./nav/PaymentSucess/PaymentSucess")
+);
+
+const LazySingleProduct = lazy(() =>
+  import("./nav/SingleProducts/SingleProducts")
+);
+const LazySingleOrder = lazy(() => import("./nav/SingleOrder/SingleOrder"));
+const LazyContact = lazy(() => import("./nav/Contact/Contact"));
+const LazyCart = lazy(() => import("./nav/Cart/Cart"));
+const LazyDashboard = lazy(() => import("./nav/DashBoard/DashBoard"));
+const LazyShipping = lazy(() => import("./nav/Shipping/Shipping"));
+const LazyConfirmOrder = lazy(() => import("./nav/OrderConfirm/OrderConfirm"));
+const LazyMyOrder = lazy(() => import("./nav/Myorder/Myorder"));
+const LazyAdminDashDashboard = lazy(() =>
+  import("./nav/DashBoard/DashDashboard")
+);
+const LazyAdminCreateProduct = lazy(() =>
+  import("./nav/DashBoard/CreateProduct")
+);
+const LazyAdminViewProduct = lazy(() => import("./nav/DashBoard/ViewProduct"));
+const LazyAdminOrders = lazy(() => import("./nav/DashBoard/DashOrders"));
+const LazyAdminReviews = lazy(() => import("./nav/DashBoard/DashReviews"));
+const LazyAdminUsers = lazy(() => import("./nav/DashBoard/DashUser"));
+
+const LazyChangePassword = lazy(() =>
+  import("./nav/ChangePassword/ChangePassword")
+);
+const LazyProfile = lazy(() => import("./nav/Profile/Profile"));
+const LazyEditProfile = lazy(() => import("./nav/EditProfile/EditProfile"));
+const LazyLogin = lazy(() => import("./nav/Login/Login"));
+const LazyRegister = lazy(() => import("./nav/Register/Register"));
+const LazyForgotPassword = lazy(() =>
+  import("./nav/ForgotPassword/ForgotPassword")
+);
+const LazyResetPassword = lazy(() =>
+  import("./nav/ResetPassword/ResetPassword")
+);
 
 function App() {
   const { isAuth, isAdmin } = useSelector((state) => state.auth);
   return (
     <BrowserRouter>
       <Wrapper>
+        <div className="invis">
+          <ToastContainer
+            position="bottom-right"
+            autoClose={4000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggables
+            pauseOnHover
+            theme="dark"
+          />
+        </div>
         <Header />
         <Routes>
           <Route
@@ -58,14 +90,66 @@ function App() {
           />
           {/* ---------------------------Not Login-------------------------------- */}
 
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/forgotpassword" element={<ForgotPassword />} />
+          <Route
+            exact
+            path="/login"
+            element={
+              <Suspense
+                fallback={
+                  <div className="cirDiv">
+                    <Loading />
+                  </div>
+                }
+              >
+                <LazyLogin />
+              </Suspense>
+            }
+          />
+          <Route
+            exact
+            path="/forgotpassword"
+            element={
+              <Suspense
+                fallback={
+                  <div className="cirDiv">
+                    <Loading />
+                  </div>
+                }
+              >
+                <LazyForgotPassword />
+              </Suspense>
+            }
+          />
           <Route
             exact
             path="/resetpassword/:token"
-            element={<ResetPassword />}
+            element={
+              <Suspense
+                fallback={
+                  <div className="cirDiv">
+                    <Loading />
+                  </div>
+                }
+              >
+                <LazyResetPassword />
+              </Suspense>
+            }
           />
-          <Route exact path="/register" element={<Register />} />
+          <Route
+            exact
+            path="/register"
+            element={
+              <Suspense
+                fallback={
+                  <div className="cirDiv">
+                    <Loading />
+                  </div>
+                }
+              >
+                <LazyRegister />
+              </Suspense>
+            }
+          />
 
           {/* -----------------------------Protected Routes-------------------------------- */}
 
@@ -73,19 +157,201 @@ function App() {
             path="/protected"
             element={<ProtectedRoutes isAuth={isAuth} />}
           >
-            <Route exact path="profile" element={<Profile />} />
-            <Route exact path="product" element={<Product />} />
-            <Route exact path="paymentsucess" element={<PaymentSucess />} />
-            <Route exact path="paymentgateway" element={<PaymentWrapper />} />
-            <Route exact path="contact" element={<Contact />} />
-            <Route exact path="cart" element={<Cart />} />
-            <Route exact path="order/confirm" element={<OrderConfirm />} />
-            <Route exact path="singleorderget/:id" element={<SingleOrder />} />
-            <Route exact path="myorderfront" element={<Myorder />} />
-            <Route exact path="shipping" element={<Shipping />} />
-            <Route exact path="api/products/:id" element={<SingleProducts />} />
-            <Route exact path="editprofile" element={<EditProfile />} />
-            <Route exact path="changepassword" element={<ChangePassword />} />
+            <Route
+              exact
+              path="profile"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyProfile />
+                </Suspense>
+              }
+            />
+            <Route
+              exact
+              path="product"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyProduct />
+                </Suspense>
+              }
+            />
+            <Route
+              exact
+              path="paymentsucess"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyPaymentSucess />
+                </Suspense>
+              }
+            />
+            <Route
+              exact
+              path="paymentgateway"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyPaymentWrapper />
+                </Suspense>
+              }
+            />
+            <Route
+              exact
+              path="contact"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyContact />
+                </Suspense>
+              }
+            />
+            <Route
+              exact
+              path="cart"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyCart />
+                </Suspense>
+              }
+            />
+            <Route
+              exact
+              path="order/confirm"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyConfirmOrder />
+                </Suspense>
+              }
+            />
+            <Route
+              exact
+              path="singleorderget/:id"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazySingleOrder />
+                </Suspense>
+              }
+            />
+            <Route
+              exact
+              path="myorderfront"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyMyOrder />
+                </Suspense>
+              }
+            />
+            <Route
+              exact
+              path="shipping"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyShipping />
+                </Suspense>
+              }
+            />
+            <Route
+              exact
+              path="api/products/:id"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazySingleProduct />
+                </Suspense>
+              }
+            />
+            <Route
+              exact
+              path="editprofile"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyEditProfile />
+                </Suspense>
+              }
+            />
+            <Route
+              exact
+              path="changepassword"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyChangePassword />
+                </Suspense>
+              }
+            />
           </Route>
 
           <Route
@@ -97,20 +363,133 @@ function App() {
                 adminRoute={true}
                 isAdmin={isAdmin === "admin"}
               >
-                <DashBoard />
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyDashboard />
+                </Suspense>
               </ProtectedRoutes>
             }
           >
-            <Route path="dashdashboard" element={<DashDashboard />} />
-            <Route path="dashproducts" element={<DashProduct />} />
-            <Route path="dashorders" element={<DashOrders />} />
-            <Route path="dashusers" element={<DashUser />} />
-            <Route path="dashreviews" element={<DashReviews />} />
-            <Route path="dashcreateproduct" element={<CreateProduct />} />
-            <Route path="dashviewproduct" element={<ViewProduct />} />
+            <Route
+              index
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyAdminDashDashboard />
+                </Suspense>
+              }
+            />
+            <Route
+              path="dashdashboard"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyAdminDashDashboard />
+                </Suspense>
+              }
+            />
+            <Route
+              path="dashorders"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyAdminOrders />
+                </Suspense>
+              }
+            />
+            <Route
+              path="dashusers"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyAdminUsers />
+                </Suspense>
+              }
+            />
+            <Route
+              path="dashreviews"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyAdminReviews />
+                </Suspense>
+              }
+            />
+            <Route
+              path="dashcreateproduct"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyAdminCreateProduct />
+                </Suspense>
+              }
+            />
+            <Route
+              path="dashviewproduct"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazyAdminViewProduct />
+                </Suspense>
+              }
+            />
           </Route>
 
-          <Route exact path="*" element={<PageNotFound />} />
+          <Route
+            exact
+            path="*"
+            element={
+              <Suspense
+                fallback={
+                  <div className="cirDiv">
+                    <Loading />
+                  </div>
+                }
+              >
+                <LazyPageNotFound />
+              </Suspense>
+            }
+          />
         </Routes>
         <Footer />
       </Wrapper>
@@ -125,6 +504,10 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  .invis {
+    position: absolute;
+  }
 
   .cirDiv {
     position: absolute;

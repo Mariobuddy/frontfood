@@ -8,7 +8,7 @@ const authSlice = createSlice({
     loading: null,
     error: null,
     isAuth: Cookies.get("jwt"),
-    isAdmin:""
+    isAdmin:"admin"
   },
 
   reducers: {

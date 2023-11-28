@@ -37,7 +37,7 @@ const Myorder = () => {
             </p>
           ),
           action: (
-            <NavLink to={`/singleorderget/${val?._id}`}>
+            <NavLink to={`/protected/singleorderget/${val?._id}`}>
               <button  className="mobuts">
                 <FaShareFromSquare />
               </button>

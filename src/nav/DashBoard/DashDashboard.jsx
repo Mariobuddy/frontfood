@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Currency } from "../../components";
 import GraphCart from "../../components/GraphCart/GraphCart";
 import CircleChart from "../../components/CircleChart/CircleChart";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAdminProduct } from "../../redux/features/products";
 const DashDashboard = () => {
+  let dispatch = useDispatch();
+  const { adminProduct } = useSelector((state) => state.products);
+    const outOfStockProducts = adminProduct?.filter(
+    (product) => product.stock === 0
+  );
+  const InOfStockProducts = adminProduct?.filter(
+    (product) => product.stock !== 0
+  );
+
+  useEffect(() => {
+    dispatch(fetchAdminProduct());
+  }, [dispatch]);
   return (
     <Wrapper>
       <p>Dashboard</p>
@@ -16,7 +30,7 @@ const DashDashboard = () => {
       <div className="dashtwo">
         <div className="dashCir">
           <p>Products</p>
-          <p>50</p>
+          <p>{adminProduct?.length}</p>
         </div>
         <div className="dashCir">
           <p>Orders</p>
@@ -31,7 +45,10 @@ const DashDashboard = () => {
         <GraphCart />
       </div>
       <div className="dashfour">
-        <CircleChart/>
+        <CircleChart
+          outOfStock={outOfStockProducts?.length}
+          inStock={InOfStockProducts?.length}
+        />
       </div>
     </Wrapper>
   );
@@ -48,12 +65,12 @@ const Wrapper = styled.div`
   > p {
     text-align: center;
     font-size: 2.5rem;
-    margin-bottom:4rem;
+    margin-bottom: 4rem;
   }
   .dashone {
     width: 90%;
     background-color: orangered;
-    margin-bottom:4rem;
+    margin-bottom: 4rem;
     padding: 1rem 0rem;
     > p {
       font-size: 1.4rem;
@@ -67,12 +84,12 @@ const Wrapper = styled.div`
     width: 90%;
     justify-content: space-between;
     align-items: center;
-    margin-bottom:4rem;
+    margin-bottom: 4rem;
 
     .dashCir {
       width: 20rem;
       height: 20rem;
-      background-color: #8B0000;
+      background-color: #8b0000;
       border-radius: 50%;
       display: flex;
       flex-direction: column;
@@ -85,7 +102,7 @@ const Wrapper = styled.div`
       }
 
       &:nth-child(2) {
-        background-color: #8B8000;
+        background-color: #8b8000;
       }
       &:nth-child(3) {
         background-color: black;
@@ -95,10 +112,10 @@ const Wrapper = styled.div`
 
   .dashthree {
     width: 90%;
-    margin-bottom:4rem;
+    margin-bottom: 4rem;
   }
   .dashfour {
     width: 90%;
-    margin-bottom:4rem;
+    margin-bottom: 4rem;
   }
 `;

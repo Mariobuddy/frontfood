@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet,useLocation } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { TbSettings2 } from "react-icons/tb";
 import { CiDiscount1 } from "react-icons/ci";
 import { TbUserSquareRounded } from "react-icons/tb";
 import { FaWallet } from "react-icons/fa";
 import { TbSquareKey } from "react-icons/tb";
-// import { FiBox } from "react-icons/fi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
@@ -15,9 +14,11 @@ import { useSelector } from "react-redux";
 import LazyLoading from "../../components/Lazy/LazyLoading";
 
 const DashBoard = () => {
-  const location = useLocation();
-  const {data}=useSelector((state)=>state.auth);
-  const [currentSelect, setCurrentSelect] = useState(location.pathname);
+  let location=useLocation();
+  const { data } = useSelector((state) => state.auth);
+  const [currentSelect, setCurrentSelect] = useState(
+    "/dashboard/dashdashboard"
+  );
   const [size, setSize] = useState(false);
   const [show, setShow] = useState(false);
 
@@ -57,7 +58,7 @@ const DashBoard = () => {
             Dashboard
           </p>
           <NavLink
-            className={"navOne"}
+            className={location.pathname==="/dashboard" || location.pathname==="/dashboard/dashdashboard"?"navOne active":"navOne"}
             to={"dashdashboard"}
             onClick={() => handnav("/dashboard/dashdashboard")}
           >
@@ -68,7 +69,10 @@ const DashBoard = () => {
             <MdKeyboardArrowRight
               className="arrow"
               style={{
-                display: currentSelect === "/dashboard/dashdashboard" ? "none" : "block",
+                display:
+                  currentSelect === "/dashboard/dashdashboard"
+                    ? "none"
+                    : "block",
               }}
             />
           </NavLink>
@@ -84,7 +88,10 @@ const DashBoard = () => {
             <MdKeyboardArrowRight
               className="arrow"
               style={{
-                display: currentSelect === "/dashboard/dashcreateproduct" ? "none" : "block",
+                display:
+                  currentSelect === "/dashboard/dashcreateproduct"
+                    ? "none"
+                    : "block",
               }}
             />
           </NavLink>
@@ -100,7 +107,10 @@ const DashBoard = () => {
             <MdKeyboardArrowRight
               className="arrow"
               style={{
-                display: currentSelect === "/dashboard/dashviewproduct" ? "none" : "block",
+                display:
+                  currentSelect === "/dashboard/dashviewproduct"
+                    ? "none"
+                    : "block",
               }}
             />
           </NavLink>
@@ -115,7 +125,8 @@ const DashBoard = () => {
             <MdKeyboardArrowRight
               className="arrow"
               style={{
-                display: currentSelect === "/dashboard/dashorders" ? "none" : "block",
+                display:
+                  currentSelect === "/dashboard/dashorders" ? "none" : "block",
               }}
             />
           </NavLink>
@@ -130,7 +141,8 @@ const DashBoard = () => {
             <MdKeyboardArrowRight
               className="arrow"
               style={{
-                display: currentSelect === "/dashboard/dashusers" ? "none" : "block",
+                display:
+                  currentSelect === "/dashboard/dashusers" ? "none" : "block",
               }}
             />
           </NavLink>
@@ -145,16 +157,19 @@ const DashBoard = () => {
             <MdKeyboardArrowRight
               className="arrow"
               style={{
-                display: currentSelect === "/dashboard/dashreviews" ? "none" : "block",
+                display:
+                  currentSelect === "/dashboard/dashreviews" ? "none" : "block",
               }}
             />
           </NavLink>
         </div>
         <div className="profile">
           <div className="inner-profile">
-            <LazyLoading src={data?.user?.image?.url}/>
+            <LazyLoading src={data?.user?.image?.url} />
             <div className="name-div">
-              <p className="name">{data?.user?.name} {data?.user?.surname}</p>
+              <p className="name">
+                {data?.user?.name} {data?.user?.surname}
+              </p>
               <p className="role">Admin</p>
             </div>
           </div>
@@ -179,7 +194,7 @@ export default DashBoard;
 
 const Wrapper = styled.div`
   display: flex;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   z-index: 999;
   position: absolute;
   width: 100%;
