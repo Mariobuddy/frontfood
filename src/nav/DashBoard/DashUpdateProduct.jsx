@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { TiSortAlphabeticallyOutline } from "react-icons/ti";
 import { FaRupeeSign } from "react-icons/fa";
@@ -8,8 +8,15 @@ import { MdOutlineLineWeight } from "react-icons/md";
 import { GiClothes } from "react-icons/gi";
 import { toast } from "react-toastify";
 import Loading from "../../components/Loading/Loading";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchSingle } from "../../redux/features/singleProducts";
+import { useParams } from "react-router-dom";
+import LazyLoading from "../../components/Lazy/LazyLoading";
 
 const DashUpdateProduct = () => {
+  let dispatch = useDispatch();
+  const { data } = useSelector((state) => state.singleProduct);
+  let { id } = useParams();
   const categoryArray = ["Tshirt", "Shirt", "Top", "Boxer", "Jeans", "Hoddie"];
   let imgRef = useRef();
   const [productDetails, setProductDetails] = useState({
@@ -20,9 +27,30 @@ const DashUpdateProduct = () => {
     category: "",
     images: [],
     brand: "",
+    newImages: [],
   });
   let [errors, setErrors] = useState({});
   const [loadCir, setLoadCir] = useState(true);
+  useEffect(() => {
+    dispatch(fetchSingle(id));
+  }, [dispatch, id]);
+  console.log(productDetails);
+
+  useEffect(() => {
+    if (data && data?.product) {
+      setProductDetails({
+        ...productDetails,
+        name: data?.product?.name,
+        price: data?.product?.price,
+        stock: data?.product?.stock,
+        description: data?.product?.description,
+        category: data?.product?.category,
+        images: data?.product?.images,
+        brand: data?.product?.brand,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   let validationForm = () => {
     const newErrors = {};
@@ -35,7 +63,7 @@ const DashUpdateProduct = () => {
       newErrors.name = "More than 3 characters required";
       toast("More than 3 characters required in name");
     }
-    if (!productDetails.price.trim()) {
+    if (!productDetails.price.toString().trim()) {
       newErrors.price = "Price is required";
       toast("Price is required");
     } else if (productDetails.price.length < 2) {
@@ -70,7 +98,7 @@ const DashUpdateProduct = () => {
       newErrors.images = "Images is required";
       toast("Images is required");
     }
-    if (!productDetails.stock.trim()) {
+    if (!productDetails.stock.toString().trim()) {
       newErrors.stock = "Stock is required";
       toast("Stock is required");
     } else if (productDetails.stock.length < 2) {
@@ -94,28 +122,22 @@ const DashUpdateProduct = () => {
     e.preventDefault();
     if (validationForm()) {
       setLoadCir(false);
-      const res = await fetch("http://localhost:4000/api/products/admin/new", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(productDetails),
-      });
+      const res = await fetch(
+        `http://localhost:4000/api/products/admin/updateproduct/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(productDetails),
+        }
+      );
 
       const data = await res.json();
       if (res.status === 200) {
-        setProductDetails({
-          name: "",
-          price: "",
-          stock: "",
-          description: "",
-          category: "",
-          images: [],
-          brand: "",
-        });
         setLoadCir(true);
-        toast("Product created sucessfully");
+        toast("Product Updated Sucessfully");
       } else if (
         data.message === "All Field are required" ||
         data.message === "Internal Server Error"
@@ -144,11 +166,12 @@ const DashUpdateProduct = () => {
       });
 
       Promise.all(promises).then((base64Array) => {
-        productDetails.images.push(...base64Array);
+        productDetails?.newImages?.push(...base64Array);
         setProductDetails({ ...productDetails });
       });
     }
   };
+
   let handleUpload = (e) => {
     e.preventDefault();
     imgRef.current.click();
@@ -201,6 +224,7 @@ const DashUpdateProduct = () => {
               value={productDetails.category}
               name="category"
             >
+              <option value={""}>Select</option>
               {categoryArray.map((val, i) => {
                 return (
                   <option key={i} value={val}>
@@ -231,9 +255,13 @@ const DashUpdateProduct = () => {
             ref={imgRef}
           />
           <div className="cpimgdiv">
-            {productDetails.images.map((val, i) => {
-              return <img alt="icon" key={i} src={val} />;
-            })}
+            {productDetails?.newImages.length !== 0
+              ? productDetails?.newImages.map((val, i) => {
+                  return <LazyLoading alt="icon" key={i} src={val} />;
+                })
+              : productDetails?.images.map((val, i) => {
+                  return <LazyLoading alt="icon" key={i} src={val?.url} />;
+                })}
           </div>
           <button className="cpcbuts" onClick={handSubmit}>
             Create
@@ -290,11 +318,20 @@ const Wrapper = styled.div`
         border: 2px solid var(--dim);
         padding: 0.5rem 0rem;
         overflow: auto;
-        img {
+        .lazy-load-image-background {
           width: 4rem;
           height: 4rem;
+          min-width: 4rem;
+          min-height: 4rem;
           margin: 0rem 0.5rem;
-          border: 1px solid black;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            margin-right: 0.5rem;
+            border: 1px solid black;
+          }
         }
       }
 
@@ -337,6 +374,9 @@ const Wrapper = styled.div`
           border: none;
           outline: none;
           font-size: 1.6rem;
+          &:focus {
+            color: black;
+          }
           option {
             font-size: 1.6rem;
             cursor: pointer;

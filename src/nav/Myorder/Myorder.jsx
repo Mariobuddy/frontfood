@@ -207,6 +207,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 
+
   .mobuts {
     background-color: transparent;
     border: none;
@@ -241,6 +242,8 @@ const Wrapper = styled.div`
     width: inherit;
     text-align: center;
     margin-top: 2rem;
+    margin-bottom: 2rem;
+
 
     .tpbuts {
       background-color: orangered;

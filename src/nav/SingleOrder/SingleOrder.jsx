@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchSingleOrder } from "../../redux/features/order";
 import Currency from "../../components/Currency/Currency";
 import LazyLoading from "../../components/Lazy/LazyLoading";
-import Loading from './../../components/Loading/Loading';
+import Loading from "./../../components/Loading/Loading";
 const SingleOrder = () => {
   let dispatch = useDispatch();
   const { singleOrder, singleLoading } = useSelector((state) => state.order);
@@ -58,7 +58,14 @@ const SingleOrder = () => {
           <div className="soone">
             <p className="sop">Order Status</p>
             <div className="inner">
-              <p>{singleOrder?.orderStatus}</p>
+              <p
+                style={{
+                  color:
+                    singleOrder?.orderStatus === "Processing" ? "red" : "green",
+                }}
+              >
+                {singleOrder?.orderStatus}
+              </p>
             </div>
           </div>
           <div className="coItems">
@@ -82,7 +89,9 @@ const SingleOrder = () => {
           </div>
         </div>
       ) : (
-        <div className="loadso"><Loading/></div>
+        <div className="loadso">
+          <Loading />
+        </div>
       )}
     </Wrapper>
   );
@@ -92,7 +101,7 @@ export default SingleOrder;
 
 const Wrapper = styled.div`
   padding: 3rem;
-  .loadso{
+  .loadso {
     position: absolute;
     top: 35%;
     left: 47%;

@@ -5,18 +5,23 @@ import GraphCart from "../../components/GraphCart/GraphCart";
 import CircleChart from "../../components/CircleChart/CircleChart";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAdminProduct } from "../../redux/features/products";
+import { fetchAdminOrder } from "../../redux/features/order";
 const DashDashboard = () => {
   let dispatch = useDispatch();
   const { adminProduct } = useSelector((state) => state.products);
+  const {adminOrder} = useSelector((state) => state.order);
     const outOfStockProducts = adminProduct?.filter(
     (product) => product.stock === 0
   );
   const InOfStockProducts = adminProduct?.filter(
     (product) => product.stock !== 0
   );
-
+  let totalOrder=adminOrder?.reduce((acc,cur)=>{
+    return acc+cur.totalPrice;
+  },0);
   useEffect(() => {
     dispatch(fetchAdminProduct());
+    dispatch(fetchAdminOrder());
   }, [dispatch]);
   return (
     <Wrapper>
@@ -24,7 +29,7 @@ const DashDashboard = () => {
       <div className="dashone">
         <p>Total Amount</p>
         <p>
-          <Currency price={4555} />
+          <Currency price={totalOrder} />
         </p>
       </div>
       <div className="dashtwo">
@@ -34,7 +39,7 @@ const DashDashboard = () => {
         </div>
         <div className="dashCir">
           <p>Orders</p>
-          <p>10</p>
+          <p>{adminOrder?.length}</p>
         </div>
         <div className="dashCir">
           <p>Users</p>
@@ -71,7 +76,11 @@ const Wrapper = styled.div`
     width: 90%;
     background-color: orangered;
     margin-bottom: 4rem;
-    padding: 1rem 0rem;
+    height: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
     > p {
       font-size: 1.4rem;
       text-align: center;

@@ -8,7 +8,10 @@ const authSlice = createSlice({
     loading: null,
     error: null,
     isAuth: Cookies.get("jwt"),
-    isAdmin:"admin"
+    isAdmin: "admin",
+    adminAuthLoading: false,
+    adminAuth: [],
+    adminAuthError: false,
   },
 
   reducers: {
@@ -18,18 +21,29 @@ const authSlice = createSlice({
     fetchAuthSuccess: (state, action) => {
       state.loading = null;
       state.data = action.payload;
-      state.isAdmin=state.data?.user?.role;
+      state.isAdmin = state.data?.user?.role;
     },
     fetchAuthError: (state) => {
       state.loading = null;
       state.error = true;
+    },
+    fetchAdminAuth: (state) => {
+      state.adminAuthLoading = true;
+    },
+    fetchAdminAuthSuccess: (state, action) => {
+      state.adminAuthLoading = null;
+      state.adminAuth = action.payload;
+    },
+    fetchAdminAuthError: (state) => {
+      state.adminAuthLoading = null;
+      state.adminAuthError = true;
     },
     remAuth: (state) => {
       state.data = null;
       state.loading = null;
       state.error = null;
       state.isAuth = null;
-      state.isAdmin=null;
+      state.isAdmin = null;
     },
     getToken: (state) => {
       state.isAuth = Cookies.get("jwt");
@@ -43,6 +57,9 @@ export const {
   fetchAuthSuccess,
   remAuth,
   getToken,
+  fetchAdminAuth,
+  fetchAdminAuthError,
+  fetchAdminAuthSuccess,
 } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -225,100 +225,104 @@ const Product = () => {
           </select>
         </div>
         <div className="bottom-div">
-            <div className="left" style={{
-          display: navBar || (window.innerWidth > 768 && !size) ? "flex" : "none",
-        }}>
-              <div className="category">
-                <label htmlFor="butone">Category</label>
-                {categoryArray.map((val, i) => {
-                  return (
-                    <button
-                      id={i}
-                      key={i}
-                      className={onlineBut === i.toString() ? "lineActive" : ""}
-                      onClick={getCategory}
-                      value={val}
-                    >
-                      {val}
-                    </button>
-                  );
-                })}
-              </div>
-              <div className="rating2">
-                <label
+          <div
+            className="left"
+            style={{
+              display:
+                navBar || (window.innerWidth > 768 && !size) ? "flex" : "none",
+            }}
+          >
+            <div className="category">
+              <label htmlFor="butone">Category</label>
+              {categoryArray.map((val, i) => {
+                return (
+                  <button
+                    id={i}
+                    key={i}
+                    className={onlineBut === i.toString() ? "lineActive" : ""}
+                    onClick={getCategory}
+                    value={val}
+                  >
+                    {val}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="rating2">
+              <label
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                }}
+              >
+                Rating
+                <span
                   style={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
+                    color: "orangered",
+                    fontSize: "1.4rem",
+                    marginLeft: "0.5rem",
                   }}
                 >
-                  Rating
-                  <span
-                    style={{
-                      color: "orangered",
-                      fontSize: "1.4rem",
-                      marginLeft: "0.5rem",
-                    }}
-                  >
-                    {minStar} - {maxStar}
-                  </span>
-                  <AiFillStar
-                    style={{ color: "orangered", marginLeft: "0.5rem" }}
-                  />
-                </label>
-                <Slider
-                  min={0}
-                  max={5} // Adjust the max value as needed
-                  range
-                  value={[minStar, maxStar]}
-                  onChange={setRating}
-                  style={{
-                    width: "15rem",
-                    margin: "0 auto",
-                    marginTop: "1rem",
-                  }}
-                  step={0.01}
+                  {minStar} - {maxStar}
+                </span>
+                <AiFillStar
+                  style={{ color: "orangered", marginLeft: "0.5rem" }}
                 />
-              </div>
-              <div className="brand">
-                <label htmlFor="selone">Company</label>
-                <select value={selectedValueTwo} onChange={setCompany}>
-                  {companyArray.map((val, i) => {
-                    return (
-                      <option key={i} value={val}>
-                        {val}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
-              <div className="price">
-                <label>Price</label>
-                <p>
-                  Min :
-                  <span style={{ color: "orangered", fontSize: "1.4rem" }}>
-                    {<Currency price={min} />}
-                  </span>
-                </p>
-                <p>
-                  Max :
-                  <span style={{ color: "orangered", fontSize: "1.4rem" }}>
-                    {<Currency price={max} />}
-                  </span>
-                </p>
-                <Slider
-                  min={0}
-                  max={2000} // Adjust the max value as needed
-                  range
-                  value={[min, max]}
-                  onChange={handlePriceChange}
-                  style={{ width: "15rem", margin: "0 auto" }}
-                />
-              </div>
-              <button className="buts" onClick={clearBut}>
-                CLEAR FILTERS
-              </button>
+              </label>
+              <Slider
+                min={0}
+                max={5} // Adjust the max value as needed
+                range
+                value={[minStar, maxStar]}
+                onChange={setRating}
+                style={{
+                  width: "15rem",
+                  margin: "0 auto",
+                  marginTop: "1rem",
+                }}
+                step={0.01}
+              />
             </div>
+            <div className="brand">
+              <label htmlFor="selone">Company</label>
+              <select value={selectedValueTwo} onChange={setCompany}>
+                {companyArray.map((val, i) => {
+                  return (
+                    <option key={i} value={val}>
+                      {val}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <div className="price">
+              <label>Price</label>
+              <p>
+                Min :
+                <span style={{ color: "orangered", fontSize: "1.4rem" }}>
+                  {<Currency price={min} />}
+                </span>
+              </p>
+              <p>
+                Max :
+                <span style={{ color: "orangered", fontSize: "1.4rem" }}>
+                  {<Currency price={max} />}
+                </span>
+              </p>
+              <Slider
+                min={0}
+                max={2000} // Adjust the max value as needed
+                range
+                value={[min, max]}
+                onChange={handlePriceChange}
+                style={{ width: "15rem", margin: "0 auto" }}
+              />
+            </div>
+            <button className="buts" onClick={clearBut}>
+              CLEAR FILTERS
+            </button>
+          </div>
           <div className="right">
             <div className="main-container">
               {!loading && !error ? (

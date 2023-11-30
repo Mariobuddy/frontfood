@@ -8,6 +8,7 @@ import { MdOutlineLineWeight } from "react-icons/md";
 import { GiClothes } from "react-icons/gi";
 import { toast } from "react-toastify";
 import Loading from "../../components/Loading/Loading";
+import LazyLoading from "../../components/Lazy/LazyLoading";
 
 const CreateProduct = () => {
   const categoryArray = ["Tshirt", "Shirt", "Top", "Boxer", "Jeans", "Hoddie"];
@@ -201,6 +202,7 @@ const CreateProduct = () => {
               value={productDetails.category}
               name="category"
             >
+              <option value={""}>Select</option>
               {categoryArray.map((val, i) => {
                 return (
                   <option key={i} value={val}>
@@ -232,7 +234,7 @@ const CreateProduct = () => {
           />
           <div className="cpimgdiv">
             {productDetails.images.map((val, i) => {
-              return <img alt="icon" key={i} src={val} />;
+              return <LazyLoading alt="icon" key={i} src={val} />;
             })}
           </div>
           <button className="cpcbuts" onClick={handSubmit}>
@@ -290,11 +292,18 @@ const Wrapper = styled.div`
         border: 2px solid var(--dim);
         padding: 0.5rem 0rem;
         overflow: auto;
-        img {
+        .lazy-load-image-background {
           width: 4rem;
           height: 4rem;
           margin: 0rem 0.5rem;
-          border: 1px solid black;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            margin-right: 0.5rem;
+            border: 1px solid black;
+          }
         }
       }
 
@@ -335,6 +344,9 @@ const Wrapper = styled.div`
           color: var(--dim);
           cursor: pointer;
           border: none;
+          &:focus {
+            color: black;
+          }
           outline: none;
           font-size: 1.6rem;
           option {

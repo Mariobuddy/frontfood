@@ -70,7 +70,7 @@ const Myorder = () => {
           dispatch(fetchAdminProduct());
           toast("Product Deleted Sucessfully");
           setLoadCir(true);
-        } else if (data.message === "" || data.message === "") {
+        } else if (data.message === "Product not found" || data.message === "Internal Server Error") {
           toast(data.message);
           setLoadCir(true);
         }

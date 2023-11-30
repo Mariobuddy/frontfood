@@ -18,8 +18,18 @@ import {
   fetchSingleOrderError,
   fetchSingleOrder,
   fetchSingleOrderSuccess,
+  fetchAdminOrder,
+  fetchAdminOrderSuccess,
+  fetchAdminOrderError,
 } from "../features/order";
-import { fetchAuth, fetchAuthError, fetchAuthSuccess } from "../features/auth";
+import {
+  fetchAuth,
+  fetchAuthError,
+  fetchAuthSuccess,
+  fetchAdminAuth,
+  fetchAdminAuthError,
+  fetchAdminAuthSuccess,
+} from "../features/auth";
 import { takeLatest, put, fork, call, select } from "redux-saga/effects";
 import axios from "axios";
 import {
@@ -216,3 +226,39 @@ export function* adminProductSaga() {
 }
 
 export const mainAdminProductSaga = [fork(adminProductSaga)];
+
+function* fetchAdminOrderAsync() {
+  try {
+    const adminOrder = yield axios.get("http://localhost:4000/admin/allorder", {
+      method: "GET",
+      withCredentials: true,
+    }); // Replace with your API call
+    yield put(fetchAdminOrderSuccess(adminOrder.data.order)); // Dispatch a success action
+  } catch (error) {
+    yield put(fetchAdminOrderError(error.message)); // Dispatch an error action
+  }
+}
+
+export function* adminOrderSaga() {
+  yield takeLatest(fetchAdminOrder.type, fetchAdminOrderAsync);
+}
+
+export const mainAdminOrderSaga = [fork(adminOrderSaga)];
+
+function* fetchAdminAuthAsync() {
+  try {
+    const adminAuth = yield axios.get("http://localhost:4000/api/products/admin/alluser", {
+      method: "GET",
+      withCredentials: true,
+    }); // Replace with your API call
+    yield put(fetchAdminAuthSuccess(adminAuth.data)); // Dispatch a success action
+  } catch (error) {
+    yield put(fetchAdminAuthError(error.message)); // Dispatch an error action
+  }
+}
+
+export function* adminAuthSaga() {
+  yield takeLatest(fetchAdminAuth.type, fetchAdminAuthAsync);
+}
+
+export const mainAdminAuthSaga = [fork(adminAuthSaga)];

@@ -10,6 +10,9 @@ const orderSlice = createSlice({
     singleOrder: {},
     singleLoading: false,
     singleError: false,
+    adminOrderLoading: true,
+    adminOrder: [],
+    adminOrderError: false,
   },
 
   reducers: {
@@ -77,6 +80,26 @@ const orderSlice = createSlice({
         singleError: true,
       };
     },
+    fetchAdminOrder: (state) => {
+      return {
+        ...state,
+        adminOrderLoading: true,
+      };
+    },
+    fetchAdminOrderSuccess: (state, action) => {
+      return {
+        ...state,
+        adminOrderLoading: false,
+        adminOrder: action.payload,
+      };
+    },
+    fetchAdminOrderError: (state) => {
+      return {
+        ...state,
+        adminOrderLoading: false,
+        adminOrderError: true,
+      };
+    },
   },
 });
 
@@ -88,6 +111,9 @@ export const {
   fetchSingleOrder,
   fetchSingleOrderError,
   fetchSingleOrderSuccess,
+  fetchAdminOrder,
+  fetchAdminOrderSuccess,
+  fetchAdminOrderError
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

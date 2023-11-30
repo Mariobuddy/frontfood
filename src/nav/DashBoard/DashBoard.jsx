@@ -16,9 +16,7 @@ import LazyLoading from "../../components/Lazy/LazyLoading";
 const DashBoard = () => {
   let location=useLocation();
   const { data } = useSelector((state) => state.auth);
-  const [currentSelect, setCurrentSelect] = useState(
-    "/dashboard/dashdashboard"
-  );
+  const [currentSelect, setCurrentSelect] = useState(location.pathname);
   const [size, setSize] = useState(false);
   const [show, setShow] = useState(false);
 
