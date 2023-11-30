@@ -251,7 +251,7 @@ function* fetchAdminAuthAsync() {
       method: "GET",
       withCredentials: true,
     }); // Replace with your API call
-    yield put(fetchAdminAuthSuccess(adminAuth.data)); // Dispatch a success action
+    yield put(fetchAdminAuthSuccess(adminAuth.data.allUser)); // Dispatch a success action
   } catch (error) {
     yield put(fetchAdminAuthError(error.message)); // Dispatch an error action
   }

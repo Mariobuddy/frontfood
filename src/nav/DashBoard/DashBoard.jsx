@@ -3,15 +3,17 @@ import styled from "styled-components";
 import { NavLink, Outlet,useLocation } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { TbSettings2 } from "react-icons/tb";
-import { CiDiscount1 } from "react-icons/ci";
-import { TbUserSquareRounded } from "react-icons/tb";
-import { FaWallet } from "react-icons/fa";
 import { TbSquareKey } from "react-icons/tb";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import LazyLoading from "../../components/Lazy/LazyLoading";
+import { MdCreate } from "react-icons/md";
+import { FaEye } from "react-icons/fa";
+import { FaBox } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
+import { MdOutlineReviews } from "react-icons/md";
 
 const DashBoard = () => {
   let location=useLocation();
@@ -80,7 +82,7 @@ const DashBoard = () => {
             onClick={() => handnav("/dashboard/dashcreateproduct")}
           >
             <div className="in">
-              <TbSquareKey className="icon" />
+              <MdCreate className="icon" />
               Create Product
             </div>
             <MdKeyboardArrowRight
@@ -99,7 +101,7 @@ const DashBoard = () => {
             onClick={() => handnav("/dashboard/dashviewproduct")}
           >
             <div className="in">
-              <TbSquareKey className="icon" />
+              <FaEye className="icon" />
               View Product
             </div>
             <MdKeyboardArrowRight
@@ -118,7 +120,7 @@ const DashBoard = () => {
             onClick={() => handnav("/dashboard/dashorders")}
           >
             <div className="in">
-              <TbUserSquareRounded className="icon" /> Orders{" "}
+              <FaBox className="icon" /> Orders{" "}
             </div>
             <MdKeyboardArrowRight
               className="arrow"
@@ -134,7 +136,7 @@ const DashBoard = () => {
             onClick={() => handnav("/dashboard/dashusers")}
           >
             <div className="in">
-              <FaWallet className="icon" /> Users{" "}
+              <FaUser className="icon" /> Users{" "}
             </div>
             <MdKeyboardArrowRight
               className="arrow"
@@ -150,7 +152,7 @@ const DashBoard = () => {
             onClick={() => handnav("/dashboard/dashreviews")}
           >
             <div className="in">
-              <CiDiscount1 className="icon" /> Reviews{" "}
+              <MdOutlineReviews className="icon" /> Reviews{" "}
             </div>
             <MdKeyboardArrowRight
               className="arrow"

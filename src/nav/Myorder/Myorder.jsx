@@ -38,7 +38,7 @@ const Myorder = () => {
           ),
           action: (
             <NavLink to={`/protected/singleorderget/${val?._id}`}>
-              <button  className="mobuts">
+              <button className="mobuts">
                 <FaShareFromSquare />
               </button>
             </NavLink>
@@ -84,9 +84,10 @@ const Myorder = () => {
     <>
       {!loading ? (
         <Wrapper>
+          <p className="dop">My Orders</p>
           <>
             {myOrderData?.length !== 0 ? (
-              <>
+              <div className="topest">
                 <table {...getTableProps()} className="table">
                   <thead
                     className="tableHead"
@@ -167,7 +168,7 @@ const Myorder = () => {
                     {">>"}
                   </button>{" "}
                 </div>
-              </>
+              </div>
             ) : (
               <div className="emptyMO">
                 <MdSearchOff className="emptyMOicon" />
@@ -177,7 +178,7 @@ const Myorder = () => {
                 <p className="emptyMO2">
                   Looks like you haven't made your order yet.
                 </p>
-                <NavLink to={"/product"}>
+                <NavLink to={"/protected/product"}>
                   <button className="emptyMObuts">RETURN TO SHOP</button>
                 </NavLink>
               </div>
@@ -187,7 +188,12 @@ const Myorder = () => {
       ) : (
         <div
           className="mos"
-          style={{ position: "absolute", top: "35%", left: "47%",minHeight:"80vh" }}
+          style={{
+            position: "absolute",
+            top: "35%",
+            left: "47%",
+            minHeight: "80vh",
+          }}
         >
           <Loading />
         </div>
@@ -200,112 +206,123 @@ export default Myorder;
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
-  min-height: 60vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-
-
-  .mobuts {
-    background-color: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    font-size: 1.8rem;
-    &:hover{
-      color: orangered;
-    }
-  }
-
-  .table {
-    width: inherit;
-    height: 100%;
-    font-size: 1.6rem;
-
-    thead {
-      background-color: orangered;
-      color: #ffffff;
-    }
-
-    th {
-      padding: 1rem 0rem;
-    }
-    td {
-      text-align: center;
-      padding: 1rem 0rem;
-    }
-  }
-
-  .tpage {
-    width: inherit;
+  height: 100vh;
+  .dop {
+    font-size: 2rem;
+    padding: 0.5rem 3rem;
+    margin: 1rem 0rem;
+    width: 100%;
     text-align: center;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+  }
 
-
-    .tpbuts {
-      background-color: orangered;
-      font-size: 1.6rem;
-      color: #ffffff;
-      outline: none;
+  .topest {
+    padding-bottom: 3rem;
+    width: 100%;
+    min-height: 90%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    .mobuts {
+      background-color: transparent;
       border: none;
-      padding: 0.5rem 1rem;
-      margin: 0rem 1rem;
+      outline: none;
       cursor: pointer;
-      border: 2px solid orangered;
+      font-size: 1.8rem;
       &:hover {
-        background-color: #ffffff;
         color: orangered;
-        border: 2px solid orangered;
       }
     }
-    span {
+
+    .table {
+      width: inherit;
+      height: 100%;
       font-size: 1.6rem;
-      color: orangered;
-      strong {
+
+      thead {
+        background-color: orangered;
+        color: #ffffff;
+      }
+
+      th {
+        padding: 1rem 0rem;
+      }
+      td {
+        text-align: center;
+        padding: 1rem 0rem;
+      }
+    }
+
+    .tpage {
+      width: inherit;
+      text-align: center;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+
+      .tpbuts {
+        background-color: orangered;
+        font-size: 1.6rem;
+        color: #ffffff;
+        outline: none;
+        border: none;
+        padding: 0.5rem 1rem;
+        margin: 0rem 1rem;
+        cursor: pointer;
+        border: 2px solid orangered;
+        &:hover {
+          background-color: #ffffff;
+          color: orangered;
+          border: 2px solid orangered;
+        }
+      }
+      span {
+        font-size: 1.6rem;
+        color: orangered;
+        strong {
+        }
       }
     }
   }
   .emptyMO {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    height: 50vh;
-    padding-top: 4rem;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      height: 50vh;
+      padding-top: 4rem;
 
-    .emptyMOicon {
-      font-size: 10rem;
-      color: orangered;
-    }
-    .emptyMO1 {
-      font-size: 3rem;
-      span {
+      .emptyMOicon {
+        font-size: 10rem;
         color: orangered;
       }
-    }
-    .emptyMO2 {
-      font-size: 1.6rem;
-    }
-    .emptyMObuts {
-      width: 15rem;
-      margin-top: 1rem;
-      font-size: 1.4rem;
-      height: 4rem;
-      color: #ffffff;
-      border: none;
-      cursor: pointer;
-      background-color: orangered;
-      border-radius: 0.4rem;
-      outline: none;
-      &:hover {
-        color: orangered;
-        background-color: transparent;
-        border: 2px solid orangered;
+      .emptyMO1 {
+        font-size: 3rem;
+        span {
+          color: orangered;
+        }
+      }
+      .emptyMO2 {
+        font-size: 1.6rem;
+      }
+      .emptyMObuts {
+        width: 15rem;
+        margin-top: 1rem;
+        font-size: 1.4rem;
+        height: 4rem;
+        color: #ffffff;
+        border: none;
+        cursor: pointer;
+        background-color: orangered;
+        border-radius: 0.4rem;
+        outline: none;
+        &:hover {
+          color: orangered;
+          background-color: transparent;
+          border: 2px solid orangered;
+        }
       }
     }
-  }
+
 `;

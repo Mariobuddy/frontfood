@@ -70,7 +70,10 @@ const Myorder = () => {
           dispatch(fetchAdminProduct());
           toast("Product Deleted Sucessfully");
           setLoadCir(true);
-        } else if (data.message === "Product not found" || data.message === "Internal Server Error") {
+        } else if (
+          data.message === "Product not found" ||
+          data.message === "Internal Server Error"
+        ) {
           toast(data.message);
           setLoadCir(true);
         }
@@ -116,7 +119,8 @@ const Myorder = () => {
     <>
       {!adminProductLoading ? (
         <Wrapper>
-          <>
+          <p className="dop">All Product</p>
+          <div className="topest">
             {adminProduct?.length !== 0 ? (
               <>
                 <table {...getTableProps()} className="table">
@@ -220,7 +224,7 @@ const Myorder = () => {
                 </NavLink>
               </div>
             )}
-          </>
+          </div>
         </Wrapper>
       ) : (
         <div
@@ -242,123 +246,134 @@ const Myorder = () => {
 export default Myorder;
 
 const Wrapper = styled.div`
-  padding-bottom: 3rem;
+  width: 100%;
+  height: 100%;
+  .dop {
+    font-size: 2rem;
+    padding: 0.5rem 3rem;
+    margin: 1rem 0rem;
+    width: 100%;
+    text-align: center;
+  }
 
   .spadp {
     position: absolute;
     bottom: 7rem;
   }
 
-  .rdDiv {
-    .rdnav {
-      color: green;
-      margin-right: 2rem;
-    }
-  }
-  width: 100%;
-  height: 100%;
-  min-height: 60vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-
-  .mobuts {
-    background-color: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    font-size: 1.8rem;
-    &:hover {
-      color: orangered;
-    }
-  }
-
-  .table {
-    width: inherit;
-    height: 100%;
-    font-size: 1.6rem;
-
-    thead {
-      background-color: orangered;
-      color: #ffffff;
-    }
-
-    th {
-      padding: 1rem 0rem;
-    }
-    td {
-      text-align: center;
-      padding: 1rem 0rem;
-    }
-  }
-
-  .tpage {
-    width: inherit;
-    text-align: center;
-    margin-top: 2rem;
-
-    .tpbuts {
-      background-color: orangered;
-      font-size: 1.6rem;
-      color: #ffffff;
-      outline: none;
-      border: none;
-      padding: 0.5rem 1rem;
-      margin: 0rem 1rem;
-      cursor: pointer;
-      border: 2px solid orangered;
-      &:hover {
-        background-color: #ffffff;
-        color: orangered;
-        border: 2px solid orangered;
+  .topest {
+    padding-bottom: 3rem;
+    width: 100%;
+    min-height: 90%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    .rdDiv {
+      .rdnav {
+        color: green;
+        margin-right: 2rem;
       }
     }
-    span {
+
+    .mobuts {
+      background-color: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-size: 1.8rem;
+      &:hover {
+        color: orangered;
+      }
+    }
+
+    .table {
+      width: 100%;
+      height: fit-content;
       font-size: 1.6rem;
-      color: orangered;
-      strong {
+
+      thead {
+        background-color: orangered;
+        color: #ffffff;
+      }
+
+      th {
+        padding: 1rem 0rem;
+      }
+      td {
+        text-align: center;
+        padding: 1rem 0rem;
+      }
+    }
+
+    .tpage {
+      width: inherit;
+      text-align: center;
+      margin-top: 2rem;
+
+      .tpbuts {
+        background-color: orangered;
+        font-size: 1.6rem;
+        color: #ffffff;
+        outline: none;
+        border: none;
+        padding: 0.5rem 1rem;
+        margin: 0rem 1rem;
+        cursor: pointer;
+        border: 2px solid orangered;
+        &:hover {
+          background-color: #ffffff;
+          color: orangered;
+          border: 2px solid orangered;
+        }
+      }
+      span {
+        font-size: 1.6rem;
+        color: orangered;
+        strong {
+        }
       }
     }
   }
   .emptyMO {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    height: 50vh;
-    padding-top: 4rem;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      height: 50vh;
+      padding-top: 4rem;
 
-    .emptyMOicon {
-      font-size: 10rem;
-      color: orangered;
-    }
-    .emptyMO1 {
-      font-size: 3rem;
-      span {
+      .emptyMOicon {
+        font-size: 10rem;
         color: orangered;
       }
-    }
-    .emptyMO2 {
-      font-size: 1.6rem;
-    }
-    .emptyMObuts {
-      width: 15rem;
-      margin-top: 1rem;
-      font-size: 1.4rem;
-      height: 4rem;
-      color: #ffffff;
-      border: none;
-      cursor: pointer;
-      background-color: orangered;
-      border-radius: 0.4rem;
-      outline: none;
-      &:hover {
-        color: orangered;
-        background-color: transparent;
-        border: 2px solid orangered;
+      .emptyMO1 {
+        font-size: 3rem;
+        span {
+          color: orangered;
+        }
+      }
+      .emptyMO2 {
+        font-size: 1.6rem;
+      }
+      .emptyMObuts {
+        width: 15rem;
+        margin-top: 1rem;
+        font-size: 1.4rem;
+        height: 4rem;
+        color: #ffffff;
+        border: none;
+        cursor: pointer;
+        background-color: orangered;
+        border-radius: 0.4rem;
+        outline: none;
+        &:hover {
+          color: orangered;
+          background-color: transparent;
+          border: 2px solid orangered;
+        }
       }
     }
-  }
 `;

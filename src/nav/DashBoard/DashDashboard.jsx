@@ -6,9 +6,11 @@ import CircleChart from "../../components/CircleChart/CircleChart";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAdminProduct } from "../../redux/features/products";
 import { fetchAdminOrder } from "../../redux/features/order";
+import { fetchAdminAuth } from "../../redux/features/auth";
 const DashDashboard = () => {
   let dispatch = useDispatch();
   const { adminProduct } = useSelector((state) => state.products);
+  const { adminAuth } = useSelector((state) => state.auth);
   const {adminOrder} = useSelector((state) => state.order);
     const outOfStockProducts = adminProduct?.filter(
     (product) => product.stock === 0
@@ -22,6 +24,7 @@ const DashDashboard = () => {
   useEffect(() => {
     dispatch(fetchAdminProduct());
     dispatch(fetchAdminOrder());
+    dispatch(fetchAdminAuth());
   }, [dispatch]);
   return (
     <Wrapper>
@@ -43,7 +46,7 @@ const DashDashboard = () => {
         </div>
         <div className="dashCir">
           <p>Users</p>
-          <p>2</p>
+          <p>{adminAuth?.length}</p>
         </div>
       </div>
       <div className="dashthree">

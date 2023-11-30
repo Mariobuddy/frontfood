@@ -74,7 +74,7 @@ const CreateProduct = () => {
     if (!productDetails.stock.trim()) {
       newErrors.stock = "Stock is required";
       toast("Stock is required");
-    } else if (productDetails.stock.length < 2) {
+    } else if (productDetails.stock.length < 1) {
       newErrors.stock = "More than 2 characters required";
       toast("More than 1 numbers required in stock");
     } else if (isNaN(productDetails.stock)) {
