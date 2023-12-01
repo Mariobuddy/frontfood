@@ -22,6 +22,9 @@ const productSlice = createSlice({
     maxStar: 5,
     minStar: 0,
     search: "",
+    userReviewLoading: false,
+    userReview: [],
+    userReviewError: false,
   },
   reducers: {
     fetchUser: (state) => {
@@ -84,6 +87,17 @@ const productSlice = createSlice({
     changeSearch: (state, action) => {
       state.search = action.payload;
     },
+    fetchReview: (state) => {
+      state.userReviewLoading = true;
+    },
+    fetchReviewSuccess: (state, action) => {
+      state.userReviewLoading = false;
+      state.userReview = action.payload;
+    },
+    fetchReviewError: (state) => {
+      state.userReviewLoading = false;
+      state.userReviewError = true;
+    },
   },
 });
 
@@ -103,5 +117,8 @@ export const {
   fetchAdminProduct,
   fetchAdminProductError,
   fetchAdminProductSuccess,
+  fetchReview,
+  fetchReviewError,
+  fetchReviewSuccess,
 } = productSlice.actions;
 export default productSlice.reducer;

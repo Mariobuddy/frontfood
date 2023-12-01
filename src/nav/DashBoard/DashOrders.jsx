@@ -235,8 +235,8 @@ const DashOrders = () => {
           className="mos"
           style={{
             position: "absolute",
-            top: "35%",
-            left: "47%",
+            top: "45%",
+            left: "50%",
             minHeight: "80vh",
           }}
         >

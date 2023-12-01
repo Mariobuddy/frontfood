@@ -66,8 +66,6 @@ const Header = () => {
   let remLocal = async () => {
     dispatch(remAuth(null));
     dispatch(removeAllCart());
-    localStorage.removeItem("shipItems");
-    localStorage.removeItem("cartItems");
     try {
       const res = await fetch("http://localhost:4000/logout", {
         method: "GET",

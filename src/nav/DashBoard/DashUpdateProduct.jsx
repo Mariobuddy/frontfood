@@ -120,35 +120,35 @@ const DashUpdateProduct = () => {
 
   let handSubmit = async (e) => {
     e.preventDefault();
-    if (validationForm()) {
-      setLoadCir(false);
-      const res = await fetch(
-        `http://localhost:4000/api/products/admin/updateproduct/${id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify(productDetails),
-        }
-      );
+    try {
+      if (validationForm()) {
+        setLoadCir(false);
+        const res = await fetch(
+          `http://localhost:4000/api/products/admin/updateproduct/${id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(productDetails),
+          }
+        );
 
-      const data = await res.json();
-      if (res.status === 200) {
-        setLoadCir(true);
-        toast("Product Updated Sucessfully");
-      } else if (
-        data.message === "All Field are required" ||
-        data.message === "Internal Server Error"
-      ) {
-        toast(data.message);
-        setLoadCir(true);
+        const data = await res.json();
+        if (res.status === 200) {
+          setLoadCir(true);
+          toast("Product Updated Sucessfully");
+        } else if (
+          data.message === "All Field are required" ||
+          data.message === "Internal Server Error"
+        ) {
+          toast(data.message);
+          setLoadCir(true);
+        }
       }
-      try {
-      } catch (error) {
-        return error;
-      }
+    } catch (error) {
+      return error;
     }
   };
   let handleFileChange = async (e) => {

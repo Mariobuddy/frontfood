@@ -5,6 +5,9 @@ import {
   fetchAdminProduct,
   fetchAdminProductError,
   fetchAdminProductSuccess,
+  fetchReview,
+  fetchReviewError,
+  fetchReviewSuccess
 } from "../features/products";
 import {
   fetchSingle,
@@ -29,6 +32,9 @@ import {
   fetchAdminAuth,
   fetchAdminAuthError,
   fetchAdminAuthSuccess,
+  fetchAuthSingleAuth,
+  fetchAuthSingleError,
+  fetchAuthSingleSuccess,
 } from "../features/auth";
 import { takeLatest, put, fork, call, select } from "redux-saga/effects";
 import axios from "axios";
@@ -247,10 +253,13 @@ export const mainAdminOrderSaga = [fork(adminOrderSaga)];
 
 function* fetchAdminAuthAsync() {
   try {
-    const adminAuth = yield axios.get("http://localhost:4000/api/products/admin/alluser", {
-      method: "GET",
-      withCredentials: true,
-    }); // Replace with your API call
+    const adminAuth = yield axios.get(
+      "http://localhost:4000/api/products/admin/alluser",
+      {
+        method: "GET",
+        withCredentials: true,
+      }
+    ); // Replace with your API call
     yield put(fetchAdminAuthSuccess(adminAuth.data.allUser)); // Dispatch a success action
   } catch (error) {
     yield put(fetchAdminAuthError(error.message)); // Dispatch an error action
@@ -262,3 +271,46 @@ export function* adminAuthSaga() {
 }
 
 export const mainAdminAuthSaga = [fork(adminAuthSaga)];
+
+function* fetchAuthSingleAsync(action) {
+  try {
+    const authSingle = yield axios.get(
+      `http://localhost:4000/api/products/admin/singleuser/${action.payload}`,
+      {
+        method: "GET",
+        withCredentials: true,
+      }
+    ); // Replace with your API call
+    yield put(fetchAuthSingleSuccess(authSingle.data.singleUser)); // Dispatch a success action
+  } catch (error) {
+    yield put(fetchAuthSingleError(error.message)); // Dispatch an error action
+  }
+}
+
+export function* singleAuthSaga() {
+  yield takeLatest(fetchAuthSingleAuth.type, fetchAuthSingleAsync);
+}
+
+export const realSingleAuthSaga = [fork(singleAuthSaga)];
+
+
+function* fetchReviewAsync(action) {
+  try {
+    const review = yield axios.get(
+      `http://localhost:4000/api/products/admin/getreview?productId=${action.payload}`,
+      {
+        method: "GET",
+        withCredentials: true,
+      }
+    ); // Replace with your API call
+    yield put(fetchReviewSuccess(review.data.review)); // Dispatch a success action
+  } catch (error) {
+    yield put(fetchReviewError(error.message)); // Dispatch an error action
+  }
+}
+
+export function* reviewSaga() {
+  yield takeLatest(fetchReview.type, fetchReviewAsync);
+}
+
+export const realReview = [fork(reviewSaga)];

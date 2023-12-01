@@ -8,7 +8,9 @@ import {
   realsingleOrderSaga,
   mainAdminProductSaga,
   mainAdminOrderSaga,
-  mainAdminAuthSaga
+  mainAdminAuthSaga,
+  realSingleAuthSaga,
+  realReview
 } from "./allProductsSaga";
 export default function* rootSaga() {
   yield all([
@@ -20,6 +22,8 @@ export default function* rootSaga() {
     ...realsingleOrderSaga,
     ...mainAdminProductSaga,
     ...mainAdminOrderSaga,
-    ...mainAdminAuthSaga
+    ...mainAdminAuthSaga,
+    ...realSingleAuthSaga,
+    ...realReview
   ]);
 }

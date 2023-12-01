@@ -39,6 +39,7 @@ const ProcessOrder = () => {
         setLoadCir(true);
         toast("Order Status Updated Sucessfully");
         dispatch(fetchSingleOrder(id));
+        setStatus("");
       } else if (
         data.message === "Order not found" ||
         data.message === "Order already delivered" ||
@@ -164,7 +165,7 @@ const ProcessOrder = () => {
               disabled={status === "" ? true : false}
               onClick={handUpdate}
             >
-              Submit
+              PROCESS
             </button>
             <span
               style={{ display: loadCir ? "none" : "block" }}

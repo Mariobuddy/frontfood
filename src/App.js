@@ -24,6 +24,7 @@ const LazySingleProduct = lazy(() =>
   import("./nav/SingleProducts/SingleProducts")
 );
 const LazySingleOrder = lazy(() => import("./nav/SingleOrder/SingleOrder"));
+const LazySingleUser = lazy(() => import("./nav/SingleUser/SingleUser"));
 const LazyProcessOrder = lazy(() => import("./nav/DashBoard/ProcessOrder"));
 const LazyContact = lazy(() => import("./nav/Contact/Contact"));
 const LazyCart = lazy(() => import("./nav/Cart/Cart"));
@@ -408,6 +409,20 @@ function App() {
               }
             />
             <Route
+              path="dashsingleuser/:id"
+              element={
+                <Suspense
+                  fallback={
+                    <div className="cirDiv">
+                      <Loading />
+                    </div>
+                  }
+                >
+                  <LazySingleUser />
+                </Suspense>
+              }
+            />
+            <Route
               path="dashorders"
               element={
                 <Suspense
@@ -477,7 +492,7 @@ function App() {
                 </Suspense>
               }
             />
-               <Route
+            <Route
               path="dashprocessorder/:id"
               element={
                 <Suspense
@@ -523,7 +538,7 @@ function App() {
             }
           />
         </Routes>
-        <Footer />
+        <Footer/>
       </Wrapper>
     </BrowserRouter>
   );

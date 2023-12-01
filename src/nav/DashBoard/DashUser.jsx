@@ -18,9 +18,7 @@ const DashOrders = () => {
   useEffect(() => {
     dispatch(fetchAdminAuth());
   }, [dispatch]);
-
-  console.log(adminAuth);
-
+  
   const data = useMemo(() => {
     if (!adminAuth) {
       return [];
@@ -35,7 +33,7 @@ const DashOrders = () => {
             <div className="rdDiv">
               <NavLink
                 className={"rdnav"}
-                to={`/dashboard/dashprocessorder/${val?._id}`}
+                to={`/dashboard/dashsingleuser/${val?._id}`}
               >
                 <MdModeEditOutline />
               </NavLink>
@@ -55,7 +53,7 @@ const DashOrders = () => {
     if (id) {
       setLoadCir(false);
       try {
-        let res = await fetch(`http://localhost:4000/admin/deleteorder/${id}`, {
+        let res = await fetch(`http://localhost:4000/api/products/admin/deleteuser/${id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -65,10 +63,10 @@ const DashOrders = () => {
         let data = await res.json();
         if (res.status === 200) {
           dispatch(fetchAdminAuth());
-          toast("Product Deleted Sucessfully");
+          toast("User Deleted Sucessfully");
           setLoadCir(true);
         } else if (
-          data.message === "Order not found" ||
+          data.message === "User not found" ||
           data.message === "Internal Server Error"
         ) {
           toast(data.message);
@@ -226,8 +224,8 @@ const DashOrders = () => {
           className="mos"
           style={{
             position: "absolute",
-            top: "35%",
-            left: "47%",
+            top: "45%",
+            left: "50%",
             minHeight: "80vh",
           }}
         >
