@@ -105,7 +105,7 @@ const EditProfile = () => {
         if (res.status === 200) {
           setLoadCir(true);
           toast("Profile Updated Sucessfull");
-          nav("/profile");
+          nav("/protected/profile");
           setformData({
             name: "",
             surname: "",

@@ -103,7 +103,7 @@ const ChangePassword = () => {
 
         const data = await res.json();
         if (res.status === 200) {
-          nav("/profile");
+          nav("/protected/profile");
           setFormData({
             currentpassword: "",
             cnewpassword: "",
