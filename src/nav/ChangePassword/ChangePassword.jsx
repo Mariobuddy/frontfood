@@ -103,7 +103,7 @@ const ChangePassword = () => {
 
         const data = await res.json();
         if (res.status === 200) {
-          nav("/protected/profile");
+          nav("/profile");
           setFormData({
             currentpassword: "",
             cnewpassword: "",
@@ -276,7 +276,7 @@ const Wrapper = styled.div`
 
     .pl {
       position: absolute;
-      bottom: 11rem;
+      bottom: 7rem;
       left: 38%;
     }
 
