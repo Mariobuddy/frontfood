@@ -59,9 +59,9 @@ const ProcessOrder = () => {
           <div
             className="somain"
             style={{
-              width: singleOrder.orderStatus === "Delivered" ? "100%" : "70%",
+              width: singleOrder?.orderStatus === "Delivered" ? "100%" : "70%",
               borderRight:
-                singleOrder.orderStatus === "Delivered"
+                singleOrder?.orderStatus === "Delivered"
                   ? "none"
                   : "2px solid gray",
             }}
@@ -143,7 +143,7 @@ const ProcessOrder = () => {
             className="poright"
             style={{
               display:
-                singleOrder.orderStatus === "Delivered" ? "none" : "flex",
+                singleOrder?.orderStatus === "Delivered" ? "none" : "flex",
             }}
           >
             <p>Process Order</p>
