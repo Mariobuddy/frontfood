@@ -7,6 +7,7 @@ import { BiSolidShow } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
 import Loading from "../../components/Loading/Loading";
 import { getToken } from "../../redux/features/auth";
 import { useDispatch } from "react-redux";
@@ -72,7 +73,7 @@ const Login = () => {
     if (validationForm()) {
       setLoadCir(false);
       try {
-        const res = await fetch("http://localhost:4000/login", {
+        const res = await fetch("https://rohit-backend-ecommerce.onrender.com/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -83,6 +84,7 @@ const Login = () => {
 
         const data = await res.json();
         if (res.status === 200) {
+          Cookies.set("jwt",data.token,{expires:new Date(Date.now() + 86400000)});
           dispatch(getToken());
           nav("/");
           setFormData({

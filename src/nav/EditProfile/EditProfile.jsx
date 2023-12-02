@@ -91,7 +91,7 @@ const EditProfile = () => {
     if (validationForm()) {
       setLoadCir(false);
       try {
-        const res = await fetch("http://localhost:4000/updateprofile", {
+        const res = await fetch("https://rohit-backend-ecommerce.onrender.com/updateprofile", {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
