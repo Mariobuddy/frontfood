@@ -15,8 +15,10 @@ import ReviewCard from "./ReviewCard";
 import { addToCart } from "../../redux/features/cart";
 import { toast } from "react-toastify";
 import StarMain from "../../components/StarAll/StarMain";
+import Loading from "../../components/Loading/Loading";
 const SingleProducts = () => {
   const { data, loading, error } = useSelector((state) => state.singleProduct);
+  const [loadCir, setLoadCir] = useState(true);
   const [gcount, scount] = useState(1);
   const [hideBox, setHideBox] = useState(false);
   const [starState, setStarState] = useState({
@@ -83,6 +85,7 @@ const SingleProducts = () => {
       toast("Please Enter Comment");
       return;
     } else {
+      setLoadCir(false);
       try {
         const res = await fetch("http://localhost:4000/api/products/reviews", {
           method: "PATCH",
@@ -98,10 +101,12 @@ const SingleProducts = () => {
           setHideBox(false);
           dispatch(fetchSingle(id));
           toast("Review Submitted");
+          setLoadCir(true);
         } else if (
           data.message === "Product not found" ||
           data.message === "Internal Server Error"
         ) {
+          setLoadCir(true);
           toast(data.message);
         }
       } catch (error) {
@@ -133,6 +138,12 @@ const SingleProducts = () => {
               Cancel
             </button>
           </div>
+          <span
+            style={{ display: loadCir ? "none" : "block" }}
+            className="spadp"
+          >
+            <Loading />
+          </span>
         </form>
       </div>
       <div className="main-div">
@@ -266,6 +277,13 @@ const Wrapper = styled.div`
       justify-content: space-around;
       flex-direction: column;
       align-items: center;
+      position: relative;
+
+      .spadp{
+        position: absolute;
+        bottom: 5.5rem;
+        left: 39%;
+      }
       .areaone {
         width: 80%;
         height: 80px;

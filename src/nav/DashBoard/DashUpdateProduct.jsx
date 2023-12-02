@@ -34,7 +34,6 @@ const DashUpdateProduct = () => {
   useEffect(() => {
     dispatch(fetchSingle(id));
   }, [dispatch, id]);
-  console.log(productDetails);
 
   useEffect(() => {
     if (data && data?.product) {

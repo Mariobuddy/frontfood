@@ -81,7 +81,8 @@ const SingleUser = () => {
               </div>
               <div className="cpDiv">
                 <MdCategory className="cpicon" />
-                <select onChange={GetInput} value={authSingleUser?.role} name="category">
+                <select onChange={GetInput} value={role} name="category">
+                  <option value={""}>Select</option>
                   <option value={"admin"}>Admin</option>
                   <option value={"user"}>User</option>
                 </select>

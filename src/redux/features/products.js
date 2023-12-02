@@ -25,6 +25,7 @@ const productSlice = createSlice({
     userReviewLoading: false,
     userReview: [],
     userReviewError: false,
+    productId: "",
   },
   reducers: {
     fetchUser: (state) => {
@@ -90,6 +91,12 @@ const productSlice = createSlice({
     fetchReview: (state) => {
       state.userReviewLoading = true;
     },
+    setReview: (state, action) => {
+      state.userReview = action.payload;
+    },
+    getProductId: (state, action) => {
+      state.productId = action.payload;
+    },
     fetchReviewSuccess: (state, action) => {
       state.userReviewLoading = false;
       state.userReview = action.payload;
@@ -120,5 +127,7 @@ export const {
   fetchReview,
   fetchReviewError,
   fetchReviewSuccess,
+  getProductId,
+  setReview
 } = productSlice.actions;
 export default productSlice.reducer;
