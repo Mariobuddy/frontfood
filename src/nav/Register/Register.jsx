@@ -109,7 +109,7 @@ const Register = () => {
     if (validationForm()) {
       setLoadCir(false);
       try {
-        const res = await fetch("https://rohit-backend-ecommerce.onrender.com/register", {
+        const res = await fetch("http://localhost:4000/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

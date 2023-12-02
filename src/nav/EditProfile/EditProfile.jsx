@@ -91,7 +91,7 @@ const EditProfile = () => {
     if (validationForm()) {
       setLoadCir(false);
       try {
-        const res = await fetch("https://rohit-backend-ecommerce.onrender.com/updateprofile", {
+        const res = await fetch("http://localhost:4000/updateprofile", {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -105,7 +105,7 @@ const EditProfile = () => {
         if (res.status === 200) {
           setLoadCir(true);
           toast("Profile Updated Sucessfull");
-          nav("/protected/profile");
+          nav("/profile");
           setformData({
             name: "",
             surname: "",
