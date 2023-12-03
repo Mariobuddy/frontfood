@@ -62,7 +62,9 @@ const Footer = () => {
       <div className="div3">
         <hr></hr>
         <div className="down">
-          <p className="tdown">@{new Date().getFullYear()} Rohit Bhatt.All Rights Reserved</p>
+          <p className="tdown">
+            @{new Date().getFullYear()} Rohit Bhatt.All Rights Reserved
+          </p>
           <p className="tdown1">
             PRIVACY POLICY <br /> TERMS & CONDITIONS
           </p>
@@ -114,10 +116,10 @@ const Wrapper = styled.div`
       display: flex;
       justify-content: space-around;
       color: #ffffff;
-      .tdown{
+      .tdown {
         font-size: 1.3rem;
       }
-      .tdown1{
+      .tdown1 {
         font-size: 1.1rem;
       }
     }
@@ -190,7 +192,7 @@ const Wrapper = styled.div`
         font-size: 1.2rem;
         margin-left: 4rem;
 
-        .subone{
+        .subone {
           font-size: 1.3rem;
         }
 
@@ -276,7 +278,7 @@ const Wrapper = styled.div`
   }
 
   @media (min-width: 350px) and (max-width: 768px) {
-    width: 100vw;
+    width: 100%;
     height: 38vh;
     display: flex;
     flex-direction: center;
@@ -295,6 +297,12 @@ const Wrapper = styled.div`
         display: flex;
         justify-content: space-around;
         color: #ffffff;
+        .tdown {
+          font-size: 1rem;
+        }
+        .tdown1 {
+          font-size: 1rem;
+        }
       }
 
       hr {
@@ -347,6 +355,15 @@ const Wrapper = styled.div`
           font-size: 1rem;
           margin-left: 0.1rem;
 
+          .rohitp {
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+
+            span {
+              color: #ff3700;
+            }
+          }
+
           p {
             margin-bottom: 1.5rem;
           }
@@ -358,6 +375,10 @@ const Wrapper = styled.div`
           padding-right: 0rem;
           font-size: 1rem;
           margin-left: 0.8rem;
+
+          .subone {
+            font-size: 1rem;
+          }
 
           input {
             outline: none;
@@ -432,6 +453,13 @@ const Wrapper = styled.div`
           padding-right: 2rem;
           font-size: 1rem;
           margin-left: 1rem;
+
+          .callone {
+            font-size: 1rem;
+            &:nth-child(2) {
+              margin-top: 1.5rem;
+            }
+          }
 
           p {
             &:nth-child(2) {

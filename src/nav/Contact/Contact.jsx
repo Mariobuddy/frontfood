@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import styled from "styled-components";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -7,6 +7,21 @@ function Contact() {
   let [gdata, sdata] = useState([
     { name: "USERNAME", email: "USEREMAIL", message: "" },
   ]);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreenWidth = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust the threshold as needed
+    };
+
+    checkScreenWidth();
+
+    window.addEventListener("resize", checkScreenWidth);
+
+    return () => {
+      window.removeEventListener("resize", checkScreenWidth);
+    };
+  }, []);
 
   const [loading, setLoading] = useState(true);
 
@@ -56,7 +71,7 @@ function Contact() {
 
       <div className="ifone">
       {
-        loading && <Skeleton width={1800} height={412} className="skelcon"/>
+        loading && <Skeleton width={isMobile?370:1800} height={412} className="skelcon"/>
       }
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.269906749114!2d72.82611225121593!3d19.443926486813474!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7a90b498b2c5b%3A0xe1aa47850228c757!2sMahakali%20Temple!5e0!3m2!1sen!2sin!4v1670830333087!5m2!1sen!2sin"
