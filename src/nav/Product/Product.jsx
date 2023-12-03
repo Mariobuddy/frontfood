@@ -188,7 +188,7 @@ const Product = () => {
         <GiHamburgerMenu onClick={setNav} className="nicon" />
       )}
       <div className="main-div">
-        <div className="top-div">
+        <div className="top-div" style={{display:data?.items?.length===0?'none':"flex"}}>
           <input
             type="text"
             placeholder="SEARCH"
@@ -768,7 +768,7 @@ const Wrapper = styled.div`
       }
     }
   }
-  @media (min-width: 370px) and (max-width: 768px) {
+  @media (min-width: 350px) and (max-width: 768px) {
     width: 100%;
     height: 100%;
     display: flex;

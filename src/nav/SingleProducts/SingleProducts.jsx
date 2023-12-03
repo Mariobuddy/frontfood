@@ -279,7 +279,7 @@ const Wrapper = styled.div`
       align-items: center;
       position: relative;
 
-      .spadp{
+      .spadp {
         position: absolute;
         bottom: 5.5rem;
         left: 39%;
@@ -605,8 +605,41 @@ const Wrapper = styled.div`
     }
   }
 
-  @media (min-width: 370px) and (max-width: 768px) {
+  @media (min-width: 350px) and (max-width: 768px) {
     padding: 4rem 1rem;
+
+    .starDiv {
+      position: fixed;
+      top: 10%;
+      left: 10%;
+      z-index: 999999;
+      width: 30rem;
+      height: 25rem;
+      background-color: #f8f8f8;
+      border: 1px solid #ccc;
+      color: #ffffff;
+
+      form {
+        .spadp {
+        bottom: 4.5rem;
+        left: 30%;
+        }
+        .areaone {
+        }
+
+        .butWrap {
+          .starbuts {
+            width: 10rem;
+            height: 3rem;
+          }
+
+          .starbuts2 {
+            width: 10rem;
+            height: 3rem;
+          }
+        }
+      }
+    }
 
     .reviews {
       width: 100%;

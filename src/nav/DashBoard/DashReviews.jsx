@@ -38,6 +38,7 @@ const DashReviews = () => {
             <MdDelete
               style={{ color: "red", cursor: "pointer" }}
               onClick={() => deleteProduct(val?._id)}
+              className="mainDel"
             />
           ),
         };
@@ -399,6 +400,176 @@ const Wrapper = styled.div`
         outline: none;
         font-size: 1.6rem;
         width: 100%;
+      }
+    }
+  }
+  @media (min-width: 350px) and (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 2rem;
+    align-items: center;
+
+    .mainDel{
+      margin-right: 2rem;
+      font-size: 1.5rem;
+    }
+
+    .rwbottom {
+      margin-top: 2rem;
+      width: 100%;
+      height: fit-content;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .topest {
+        width: 100%;
+        min-height: 50%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        .rdDiv {
+          .rdnav {
+            color: green;
+            margin-right: 2rem;
+          }
+        }
+
+        .mobuts {
+          background-color: transparent;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          font-size: 1.8rem;
+          &:hover {
+            color: orangered;
+          }
+        }
+
+        .table {
+          width: 100%;
+          height: fit-content;
+          font-size: 1.2rem;
+
+          thead {
+            background-color: orangered;
+            color: #ffffff;
+          }
+
+          th {
+            padding: 1rem 0rem;
+          }
+          td {
+            text-align: center;
+            padding: 1rem 0rem;
+          }
+        }
+
+        .tpage {
+          width: inherit;
+          text-align: center;
+          margin-top: 2rem;
+          margin-bottom: 2rem;
+
+          .tpbuts {
+            background-color: orangered;
+            font-size: 1.6rem;
+            color: #ffffff;
+            outline: none;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin: 0rem 1rem;
+            cursor: pointer;
+            border: 2px solid orangered;
+            &:hover {
+              background-color: #ffffff;
+              color: orangered;
+              border: 2px solid orangered;
+            }
+          }
+          span {
+            font-size: 1.6rem;
+            color: orangered;
+            strong {
+            }
+          }
+        }
+      }
+
+      .nfr {
+        font-size: 3rem;
+      }
+    }
+    .rwtop {
+      width: fit-content;
+      height: 30%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+
+      .cpcbuts {
+        width: 100%;
+        font-size: 1.6rem;
+        height: 4rem;
+        color: #ffffff;
+        border: none;
+        cursor: pointer;
+        background-color: orangered;
+        border-radius: 0.4rem;
+        outline: none;
+        &:hover {
+          color: orangered;
+          background-color: transparent;
+          border: 2px solid orangered;
+        }
+      }
+
+      > p {
+        font-size: 2rem;
+      }
+      .cpDiv {
+        border: 2px solid var(--dim);
+        padding: 1rem 0rem;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        .cpicon {
+          font-size: 2rem;
+          margin: 0rem 1.5rem;
+          color: orangered;
+        }
+
+        select {
+          background-color: transparent;
+          width: 80%;
+          outline: none;
+          color: var(--dim);
+          cursor: pointer;
+          border: none;
+          &:focus {
+            color: black;
+          }
+          outline: none;
+          font-size: 1.6rem;
+          option {
+            font-size: 1.6rem;
+            cursor: pointer;
+          }
+        }
+        input {
+          border: none;
+          outline: none;
+          font-size: 1.6rem;
+          width: 100%;
+        }
       }
     }
   }

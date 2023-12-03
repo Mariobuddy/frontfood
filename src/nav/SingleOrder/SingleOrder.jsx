@@ -179,4 +179,19 @@ const Wrapper = styled.div`
       }
     }
   }
+  @media (min-width: 350px) and (max-width: 768px){
+    .somain {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 100%;
+    flex-direction: column;
+    > p {
+      font-size: 2rem;
+      color: orangered;
+    }
+  }
+}
+
+  
 `;

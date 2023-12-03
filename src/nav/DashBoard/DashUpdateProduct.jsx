@@ -390,4 +390,116 @@ const Wrapper = styled.div`
       }
     }
   }
+  @media (min-width: 350px) and (max-width: 768px) {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    padding-top: 2rem;
+    .cpphere {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .main-Div {
+      width: 80%;
+      form {
+        .spacp {
+          position: absolute;
+          bottom: 11rem;
+          left: 36%;
+        }
+        border: 2px solid var(--dim);
+        position: relative;
+        height: 75vh;
+        display: flex;
+        justify-content: space-between;
+        padding: 2.5rem 0rem;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        .cpimgdiv {
+          width: 80%;
+          display: flex;
+          height: 8rem;
+          justify-content: flex-start;
+          align-items: center;
+          border: 2px solid var(--dim);
+          padding: 0.5rem 0rem;
+          overflow: auto;
+          .lazy-load-image-background {
+            width: 4rem;
+            height: 4rem;
+            margin: 0rem 0.5rem;
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              object-position: center;
+              margin-right: 0.5rem;
+              border: 1px solid black;
+            }
+          }
+        }
+
+        .cpcbuts {
+          width: 80%;
+          font-size: 1.6rem;
+          height: 4rem;
+          color: #ffffff;
+          border: none;
+          cursor: pointer;
+          background-color: orangered;
+          border-radius: 0.4rem;
+          outline: none;
+          &:hover {
+            color: orangered;
+            background-color: transparent;
+            border: 2px solid orangered;
+          }
+        }
+        .cpDiv {
+          border: 2px solid var(--dim);
+          padding: 1rem 0rem;
+          width: 80%;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+
+          .cpicon {
+            font-size: 2rem;
+            margin: 0rem 1.5rem;
+            color: orangered;
+          }
+
+          select {
+            background-color: transparent;
+            width: 20vw;
+            outline: none;
+            color: var(--dim);
+            cursor: pointer;
+            border: none;
+            &:focus {
+              color: black;
+            }
+            outline: none;
+            font-size: 1.6rem;
+            option {
+              font-size: 1.6rem;
+              cursor: pointer;
+            }
+          }
+
+          input {
+            border: none;
+            outline: none;
+            font-size: 1.6rem;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
 `;

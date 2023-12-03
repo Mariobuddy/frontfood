@@ -350,6 +350,7 @@ const Wrapper = styled.div`
       width: 100vw;
       height: 100%;
       flex-direction: column;
+      margin-left: 0;
     }
 
     .left {

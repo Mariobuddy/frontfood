@@ -15,6 +15,21 @@ const ProcessOrder = () => {
   const { singleOrder, singleLoading } = useSelector((state) => state.order);
   const [loadCir, setLoadCir] = useState(true);
   const { id } = useParams();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreenWidth = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust the threshold as needed
+    };
+
+    checkScreenWidth();
+
+    window.addEventListener("resize", checkScreenWidth);
+
+    return () => {
+      window.removeEventListener("resize", checkScreenWidth);
+    };
+  }, []);
   useEffect(() => {
     dispatch(fetchSingleOrder(id));
   }, [dispatch, id]);
@@ -59,9 +74,9 @@ const ProcessOrder = () => {
           <div
             className="somain"
             style={{
-              width: singleOrder?.orderStatus === "Delivered" ? "100%" : "70%",
+              width: singleOrder?.orderStatus === "Delivered" || isMobile ? "100%" : "70%",
               borderRight:
-                singleOrder?.orderStatus === "Delivered"
+                singleOrder?.orderStatus === "Delivered" || isMobile
                   ? "none"
                   : "2px solid gray",
             }}
@@ -349,6 +364,179 @@ const Wrapper = styled.div`
 
             span {
               color: var(--dim);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (min-width: 350px) and (max-width: 768px) {
+    padding: 2rem 0rem 0rem 2rem;
+    height: 100%;
+    width: 100%;
+    .loadso {
+      position: absolute;
+      top: 35%;
+      left: 47%;
+    }
+    .potop {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .poright {
+        width: 100%;
+        margin-top: 0rem;
+        height: fit-content;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
+
+        .spacp {
+          position: absolute;
+          bottom: 4.5rem;
+          left: 40%;
+        }
+
+        > p {
+          font-size: 2rem;
+          margin-bottom: 3rem;
+          text-align: center;
+        }
+
+        .cpcbuts {
+          width: 80%;
+          margin-top: 6rem;
+          font-size: 1.6rem;
+          height: 4rem;
+          color: #ffffff;
+          border: none;
+          cursor: pointer;
+          background-color: orangered;
+          border-radius: 0.4rem;
+          outline: none;
+          &:hover {
+            color: orangered;
+            background-color: transparent;
+            border: 2px solid orangered;
+          }
+        }
+
+        .cpDiv {
+          border: 2px solid var(--dim);
+          padding: 1rem 0rem;
+          width: 80%;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+
+          .cpicon {
+            font-size: 2rem;
+            margin: 0rem 1.5rem;
+            color: orangered;
+          }
+
+          select {
+            background-color: transparent;
+            width: 80%;
+            outline: none;
+            color: var(--dim);
+            cursor: pointer;
+            border: none;
+            &:focus {
+              color: black;
+            }
+            outline: none;
+            font-size: 1.6rem;
+            option {
+              font-size: 1.6rem;
+              cursor: pointer;
+            }
+          }
+
+          input {
+            border: none;
+            outline: none;
+            font-size: 1.6rem;
+          }
+        }
+      }
+
+      .somain {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+        border-right: none;
+        > p {
+          font-size: 1.8rem;
+          color: orangered;
+        }
+
+        .coItems {
+          margin-top: 3rem;
+          width: 100%;
+          .coc {
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+          }
+          .coInner {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0rem 3rem;
+            margin: 1rem;
+
+            p {
+              font-size: 1.3rem;
+              color: var(--dim);
+              span {
+                color: black;
+              }
+            }
+
+            .coip {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              p {
+                font-size: 1.3rem;
+                color: var(--dim);
+                margin-left: 5rem;
+              }
+              .lazy-load-image-background {
+                width: 5rem;
+                height: 6rem;
+                img {
+                  width: 100%;
+                  height: 100%;
+                }
+              }
+            }
+          }
+        }
+
+        .soone {
+          margin: 2rem 0rem;
+          > p {
+            font-size: 2.2rem;
+          }
+          .inner {
+            > p {
+              margin-left: 3rem;
+              font-size: 1.4rem;
+              margin: 1rem;
+
+              span {
+                color: var(--dim);
+              }
             }
           }
         }

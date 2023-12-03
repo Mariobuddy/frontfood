@@ -4,7 +4,7 @@ import { MdCategory } from "react-icons/md";
 import { MdEmail } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa";
 import Loading from "../../components/Loading/Loading";
-import  { fetchAuthSingleAuth } from "../../redux/features/auth";
+import { fetchAuthSingleAuth } from "../../redux/features/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -194,6 +194,88 @@ const Wrapper = styled.div`
           outline: none;
           font-size: 1.6rem;
           width: 100%;
+        }
+      }
+    }
+  }
+  @media (min-width: 350px) and (max-width: 768px) {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    padding-top: 20%;
+    .sudiv {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      form {
+        border: 2px solid var(--dim);
+        position: relative;
+        width: 80%;
+        height: 50vh;
+        display: flex;
+        justify-content: space-between;
+        padding: 2.5rem 0rem;
+        align-items: center;
+        flex-direction: column;
+
+        .cpcbuts {
+          width: 80%;
+          font-size: 1.6rem;
+          height: 4rem;
+          color: #ffffff;
+          border: none;
+          cursor: pointer;
+          background-color: orangered;
+          border-radius: 0.4rem;
+          outline: none;
+          &:hover {
+            color: orangered;
+            background-color: transparent;
+            border: 2px solid orangered;
+          }
+        }
+        .cpDiv {
+          border: 2px solid var(--dim);
+          padding: 1rem 0rem;
+          width: 80%;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+
+          .cpicon {
+            font-size: 2rem;
+            margin: 0rem 1.5rem;
+            color: orangered;
+          }
+
+          select {
+            background-color: transparent;
+            width: 80%;
+            outline: none;
+            color: var(--dim);
+            cursor: pointer;
+            border: none;
+            &:focus {
+              color: black;
+            }
+            outline: none;
+            font-size: 1.6rem;
+            option {
+              font-size: 1.6rem;
+              cursor: pointer;
+            }
+          }
+          input {
+            border: none;
+            outline: none;
+            font-size: 1.6rem;
+            width: 100%;
+          }
         }
       }
     }

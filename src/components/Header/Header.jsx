@@ -43,7 +43,6 @@ const Header = () => {
     };
 
     window.addEventListener("click", handleClickOutside);
-
     return () => {
       window.removeEventListener("click", handleClickOutside);
     };
@@ -119,6 +118,7 @@ const Header = () => {
         style={{ display: data?.user?.role === "admin" ? "block" : "none" }}
       >
         <NavLink
+        onClick={()=>setShow(false)}
           className={"navD"}
           to={"/dashboard"}
           style={{ fontSize: "1.6rem" }}
@@ -194,7 +194,7 @@ const Header = () => {
                   style={{ display: down ? "block" : "none" }}
                 >
                   <div className="innerIn">
-                    <NavLink className={"proNav"} to={"/protected/profile"}>
+                    <NavLink onClick={()=>setShow(false)} className={"proNav"} to={"/protected/profile"}>
                       <BiSolidUserCircle className="see" />
                       Profile
                     </NavLink>

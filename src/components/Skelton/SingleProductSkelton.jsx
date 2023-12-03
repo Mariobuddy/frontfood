@@ -100,7 +100,7 @@ const Wrapper = styled.div`
     }
   }
 
-  @media (min-width: 370px) and (max-width: 768px) {
+  @media (min-width: 350px) and (max-width: 768px) {
 
       justify-content: space-around;
       flex-direction: column;

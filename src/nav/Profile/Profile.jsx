@@ -39,7 +39,12 @@ const Profile = () => {
                   <p className="ftwo">{date.format("YYYY-MM-DD")}</p>
                 </div>
                 <div className="main-but">
-                  <button className="obut" onClick={() => navigate("/protected/myorderfront")}>My Orders</button>
+                  <button
+                    className="obut"
+                    onClick={() => navigate("/protected/myorderfront")}
+                  >
+                    My Orders
+                  </button>
                   <button
                     className="obut"
                     onClick={() => navigate("/protected/changepassword")}
@@ -140,6 +145,28 @@ const Wrapper = styled.div`
             background-color: #ffffff;
             color: var(--maincol);
             border: 2px solid var(--maincol);
+          }
+        }
+      }
+    }
+  }
+  @media (min-width: 350px) and (max-width: 768px) {
+    padding: 5rem;
+
+    p {
+      font-size: 2.5rem;
+    }
+
+    .main-div {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-direction: column;
+
+      .r-div {
+        .main-but {
+          .obut {
+            width: 100%;
           }
         }
       }

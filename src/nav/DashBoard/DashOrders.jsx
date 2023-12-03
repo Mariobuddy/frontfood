@@ -336,6 +336,133 @@ const Wrapper = styled.div`
     }
   }
   .emptyMO {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 50vh;
+    padding-top: 4rem;
+
+    .emptyMOicon {
+      font-size: 10rem;
+      color: orangered;
+    }
+    .emptyMO1 {
+      font-size: 3rem;
+      span {
+        color: orangered;
+      }
+    }
+    .emptyMO2 {
+      font-size: 1.6rem;
+    }
+    .emptyMObuts {
+      width: 15rem;
+      margin-top: 1rem;
+      font-size: 1.4rem;
+      height: 4rem;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      background-color: orangered;
+      border-radius: 0.4rem;
+      outline: none;
+      &:hover {
+        color: orangered;
+        background-color: transparent;
+        border: 2px solid orangered;
+      }
+    }
+  }
+
+  @media (min-width: 350px) and (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+
+    .dop {
+      font-size: 2rem;
+      padding: 0.5rem 3rem;
+      margin: 1rem 0rem;
+      width: 100%;
+      text-align: center;
+    }
+    .topest {
+      width: 100%;
+      min-height: 50%;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      .rdDiv {
+        .rdnav {
+          color: green;
+          margin-right: 2rem;
+        }
+      }
+
+      .mobuts {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-size: 1.8rem;
+        &:hover {
+          color: orangered;
+        }
+      }
+
+      .table {
+        width: 100%;
+        height: fit-content;
+        font-size: 1.2rem;
+
+        thead {
+          background-color: orangered;
+          color: #ffffff;
+        }
+
+        th {
+          padding: 1rem 0rem;
+        }
+        td {
+          text-align: center;
+          padding: 1rem 0rem;
+        }
+      }
+
+      .tpage {
+        width: inherit;
+        text-align: center;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+
+        .tpbuts {
+          background-color: orangered;
+          font-size: 1.6rem;
+          color: #ffffff;
+          outline: none;
+          border: none;
+          padding: 0.5rem 1rem;
+          margin: 0rem 1rem;
+          cursor: pointer;
+          border: 2px solid orangered;
+          &:hover {
+            background-color: #ffffff;
+            color: orangered;
+            border: 2px solid orangered;
+          }
+        }
+        span {
+          font-size: 1.6rem;
+          color: orangered;
+          strong {
+          }
+        }
+      }
+    }
+    .emptyMO {
       display: flex;
       justify-content: space-around;
       align-items: center;
@@ -375,4 +502,5 @@ const Wrapper = styled.div`
         }
       }
     }
+  }
 `;

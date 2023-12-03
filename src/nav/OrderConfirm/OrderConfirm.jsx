@@ -251,4 +251,157 @@ const Wrapper = styled.div`
       }
     }
   }
+
+  @media (min-width: 350px) and (max-width: 768px) {
+    padding: 1rem 0rem;
+    .corderMain {
+      display: flex;
+      position: relative;
+      margin-top: 5rem;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      height: inherit;
+      flex-direction: column;
+
+      .coleft {
+        width: fit-content;
+        height: fit-content;
+        border-right: none;
+        padding-left: 0rem;
+
+        .cop {
+          font-size: 2.2rem;
+          margin-bottom: 3rem;
+        }
+        .coInfo {
+          p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            margin-left: 2rem;
+            color: var(--dim);
+            span {
+              color: black;
+            }
+          }
+        }
+        .coItems {
+          margin-top: 3rem;
+          width: 100%;
+          .coc {
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+          }
+          .coInner {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0rem 3rem;
+            margin: 1rem;
+
+            p {
+              font-size: 1.3rem;
+              color: var(--dim);
+              span {
+                color: black;
+              }
+            }
+
+            .coip {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              p {
+                font-size: 1.3rem;
+                color: var(--dim);
+                margin-left: 5rem;
+              }
+              .lazy-load-image-background {
+                width: 5rem;
+                height: 6rem;
+                img {
+                  width: 100%;
+                  height: 100%;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .coright {
+        width: 80%;
+        height: inherit;
+        padding: 0rem 0rem;
+        position: relative;
+        top: 2rem;
+        right: 0rem;
+        margin-bottom: 1rem;
+
+        .cop2 {
+          font-size: 2.2rem;
+          text-align: center;
+          padding-bottom: 0.5rem;
+          color: black;
+        }
+        .copcover {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          border-top: 2px solid var(--dim);
+          border-bottom: 2px solid var(--dim);
+          margin: 1rem 0rem;
+          .copmix {
+            display: flex;
+            width: 100%;
+            font-size: 1.3rem;
+            margin: 1.5rem 0rem;
+            justify-content: space-between;
+            align-items: center;
+            .copmixf {
+            }
+            .copmixs {
+              color: var(--dim);
+            }
+          }
+        }
+        .copmix2 {
+          display: flex;
+          width: 100%;
+          font-size: 1.3rem;
+          margin: 1.5rem 0rem;
+          justify-content: space-between;
+          align-items: center;
+          .copmixf2 {
+            font-weight: 600;
+          }
+          .copmixs2 {
+            color: var(--dim);
+          }
+        }
+      }
+
+      .cobuts {
+        width: 100%;
+        margin-top: 1rem;
+        font-size: 1.4rem;
+        height: 4rem;
+        color: #ffffff;
+        border: none;
+        cursor: pointer;
+        background-color: orangered;
+        border-radius: 0.4rem;
+        outline: none;
+        &:hover {
+          color: orangered;
+          background-color: transparent;
+          border: 2px solid orangered;
+        }
+      }
+    }
+  }
 `;

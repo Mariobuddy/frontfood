@@ -86,7 +86,7 @@ const Button = styled.button`
     border-radius: 1rem;
   }
 
-  @media (min-width: 370px) and (max-width: 768px) {
+  @media (min-width: 350px) and (max-width: 768px) {
     padding: 0.8rem 1rem;
     white-space: nowrap;
   }
@@ -275,7 +275,7 @@ const Wrapper = styled.div`
     }
   }
 
-  @media (min-width: 370px) and (max-width: 768px) {
+  @media (min-width: 350px) and (max-width: 768px) {
     width: 100vw;
     height: 38vh;
     display: flex;

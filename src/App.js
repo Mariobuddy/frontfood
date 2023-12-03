@@ -64,7 +64,7 @@ function App() {
       <Wrapper>
         <div className="invis">
           <ToastContainer
-            position="bottom-right"
+            position={"top-center"}
             autoClose={4000}
             hideProgressBar={false}
             newestOnTop={false}
@@ -538,7 +538,7 @@ function App() {
             }
           />
         </Routes>
-        <Footer/>
+        <Footer />
       </Wrapper>
     </BrowserRouter>
   );
@@ -554,11 +554,24 @@ const Wrapper = styled.div`
 
   .invis {
     position: absolute;
+    z-index: 99999999999999999999;
+
   }
 
   .cirDiv {
     position: absolute;
     top: 45%;
     left: 50%;
+  }
+
+  @media (min-width: 350px) and (max-width: 768px) {
+    .invis {
+      position: fixed;
+    }
+    .cirDiv {
+      position: absolute;
+      top: 45%;
+      left: 40%;
+    }
   }
 `;
