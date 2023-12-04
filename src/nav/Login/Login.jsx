@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 const Login = () => {
   const nav = useNavigate();
-  let dispatch = useDispatch();
+  let dispatch=useDispatch();
   const [loadCir, setLoadCir] = useState(true);
   const [formData, setFormData] = useState({ email: "", password: "" });
   let [errors, setErrors] = useState({});
@@ -73,36 +73,32 @@ const Login = () => {
     if (validationForm()) {
       setLoadCir(false);
       try {
-        const res = await fetch(
-          "https://rohit-backend-ecommerce.onrender.com/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-            body: JSON.stringify(formData),
-          }
-        );
+        const res = await fetch("https://rohit-backend-ecommerce.onrender.com/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(formData),
+        });
 
         const data = await res.json();
         if (res.status === 200) {
-          if (data?.token) {
-            dispatch(getToken());
-            console.log(Cookies.get("jwt"));
-            nav("/");
-            setFormData({
-              password: "",
-              email: "",
-            });
-            setLoadCir(true);
-            toast("Login SucessFull");
-          }
+          Cookies.set("jwt",data?.tokens,{expires:new Date(Date.now() + 86400000)});
+          dispatch(getToken());
+          console.log(Cookies.get("jwt"));
+          nav("/");
+          setFormData({
+            password: "",
+            email: "",
+          });
+          setLoadCir(true);
+          toast("Login SucessFull");
         } else if (
           data.message === "Email not found" ||
           data.message === "Password does not match" ||
-          data.message === "Email and password are required" ||
-          data.message === "Internal server error"
+          data.message === "Email and password are required"||
+          data.message==="Internal server error"
         ) {
           toast(data.message);
           setLoadCir(true);
