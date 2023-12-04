@@ -53,6 +53,7 @@ const authSlice = createSlice({
       state.authSingleUserError = true;
     },
     remAuth: (state) => {
+      Cookies.remove("jwt");
       state.data = null;
       state.loading = null;
       state.error = null;
