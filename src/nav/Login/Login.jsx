@@ -86,7 +86,7 @@ const Login = () => {
         if (res.status === 200) {
           dispatch(getToken());
           console.log(document.cookie);
-          console.log(Cookies.get("jwt"));
+          console.log(Cookies?.get("jwt"));
           nav("/");
           setFormData({
             password: "",
