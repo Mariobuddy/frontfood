@@ -84,8 +84,8 @@ const Login = () => {
 
         const data = await res.json();
         if (res.status === 200) {
-          Cookies.set("jwt",data?.tokens,{expires:new Date(Date.now() + 86400000)});
           dispatch(getToken());
+          console.log(data.token);
           console.log(Cookies.get("jwt"));
           nav("/");
           setFormData({
