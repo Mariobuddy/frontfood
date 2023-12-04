@@ -64,7 +64,7 @@ function* fetchProductsAsync(action) {
   } = action.payload;
   try {
     const products = yield axios.get(
-      `http://localhost:4000/api/products?page=${page}&minPrice=${minPrice}&maxPrice=${maxPrice}&category=${category}&brand=${brand}&sortBy=${sort}&minStar=${minStar}&maxStar=${maxStar}&name=${search}`
+      `https://rohit-backend-ecommerce.onrender.com/api/products?page=${page}&minPrice=${minPrice}&maxPrice=${maxPrice}&category=${category}&brand=${brand}&sortBy=${sort}&minStar=${minStar}&maxStar=${maxStar}&name=${search}`
     ); // Replace with your API call
     yield put(fetchUserSuccess(products.data)); // Dispatch a success action
   } catch (error) {
