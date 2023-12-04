@@ -10,6 +10,7 @@ import Loading from "../../components/Loading/Loading";
 import { MdDelete } from "react-icons/md";
 import { MdModeEditOutline } from "react-icons/md";
 import { toast } from "react-toastify";
+import base_url from "../Base_Url/Base_Url";
 
 const DashOrders = () => {
   let dispatch = useDispatch();
@@ -64,7 +65,7 @@ const DashOrders = () => {
     if (id) {
       setLoadCir(false);
       try {
-        let res = await fetch(`http://localhost:4000/admin/deleteorder/${id}`, {
+        let res = await fetch(`${base_url}/admin/deleteorder/${id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

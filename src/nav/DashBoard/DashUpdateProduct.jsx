@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchSingle } from "../../redux/features/singleProducts";
 import { useParams } from "react-router-dom";
 import LazyLoading from "../../components/Lazy/LazyLoading";
+import base_url from "../Base_Url/Base_Url";
 
 const DashUpdateProduct = () => {
   let dispatch = useDispatch();
@@ -123,7 +124,7 @@ const DashUpdateProduct = () => {
       if (validationForm()) {
         setLoadCir(false);
         const res = await fetch(
-          `http://localhost:4000/api/products/admin/updateproduct/${id}`,
+          `${base_url}/api/products/admin/updateproduct/${id}`,
           {
             method: "PATCH",
             headers: {

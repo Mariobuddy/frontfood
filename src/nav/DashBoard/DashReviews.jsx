@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { styled } from "styled-components";
 import { MdOutlineReviews } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
+import base_url from "../Base_Url/Base_Url";
 import {
   fetchReview,
   getProductId,
@@ -60,7 +61,7 @@ const DashReviews = () => {
       setLoadCir(false);
       try {
         let res = await fetch(
-          `http://localhost:4000/api/products/admin/deletereview?productId=${productId}&Id=${reviewID}`,
+          `${base_url}/api/products/admin/deletereview?productId=${productId}&Id=${reviewID}`,
           {
             method: "DELETE",
             headers: {

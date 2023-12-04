@@ -8,6 +8,7 @@ import { fetchAuthSingleAuth } from "../../redux/features/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import base_url from "../Base_Url/Base_Url";
 
 const SingleUser = () => {
   const { id } = useParams();
@@ -29,7 +30,7 @@ const SingleUser = () => {
     try {
       setLoadCir(false);
       const res = await fetch(
-        `http://localhost:4000/api/products/admin/updaterole/${id}`,
+        `${base_url}/api/products/admin/updaterole/${id}`,
         {
           method: "PATCH",
           headers: {

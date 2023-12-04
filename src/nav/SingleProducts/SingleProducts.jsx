@@ -16,6 +16,7 @@ import { addToCart } from "../../redux/features/cart";
 import { toast } from "react-toastify";
 import StarMain from "../../components/StarAll/StarMain";
 import Loading from "../../components/Loading/Loading";
+import base_url from "../Base_Url/Base_Url";
 const SingleProducts = () => {
   const { data, loading, error } = useSelector((state) => state.singleProduct);
   const [loadCir, setLoadCir] = useState(true);
@@ -87,7 +88,7 @@ const SingleProducts = () => {
     } else {
       setLoadCir(false);
       try {
-        const res = await fetch("http://localhost:4000/api/products/reviews", {
+        const res = await fetch(`${base_url}/api/products/reviews`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

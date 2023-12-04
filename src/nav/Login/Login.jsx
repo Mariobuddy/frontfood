@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Loading from "../../components/Loading/Loading";
 import { getToken } from "../../redux/features/auth";
 import { useDispatch } from "react-redux";
+import base_url from "../Base_Url/Base_Url";
 const Login = () => {
   const nav = useNavigate();
   let dispatch=useDispatch();
@@ -72,7 +73,7 @@ const Login = () => {
     if (validationForm()) {
       setLoadCir(false);
       try {
-        const res = await fetch("http://localhost:4000/login", {
+        const res = await fetch(`${base_url}/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

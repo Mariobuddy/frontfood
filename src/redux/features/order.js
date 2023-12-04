@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import base_url from "../../nav/Base_Url/Base_Url";
 
 const orderSlice = createSlice({
   name: "order",
@@ -18,7 +19,7 @@ const orderSlice = createSlice({
   reducers: {
     makeOrder: async (state, action) => {
       try {
-        const res = await fetch("http://localhost:4000/neworder", {
+        const res = await fetch(`${base_url}/neworder`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

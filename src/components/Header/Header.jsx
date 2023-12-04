@@ -18,6 +18,7 @@ import { BiSolidUserCircle } from "react-icons/bi";
 import LazyLoading from "../Lazy/LazyLoading";
 import { getItems } from "../../redux/features/cart";
 import { removeAllCart } from "../../redux/features/cart";
+import base_url from "../../nav/Base_Url/Base_Url";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -66,7 +67,7 @@ const Header = () => {
     dispatch(remAuth(null));
     dispatch(removeAllCart());
     try {
-      const res = await fetch("http://localhost:4000/logout", {
+      const res = await fetch(`${base_url}/logout`, {
         method: "GET",
         headers: {
           Accept: "application/json",

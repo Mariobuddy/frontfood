@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loading from "../../components/Loading/Loading";
 import { makeOrder } from "../../redux/features/order";
+import base_url from "../Base_Url/Base_Url";
 import {
   useStripe,
   CardCvcElement,
@@ -54,7 +55,7 @@ const PaymentGateway = () => {
     setCir(false);
     paybtn.current.disabled = true;
     try {
-      const res = await fetch("http://localhost:4000/paymentgateway", {
+      const res = await fetch(`${base_url}/paymentgateway`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

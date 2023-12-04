@@ -9,6 +9,7 @@ import { MdDelete } from "react-icons/md";
 import { MdModeEditOutline } from "react-icons/md";
 import { toast } from "react-toastify";
 import { fetchAdminAuth } from "../../redux/features/auth";
+import base_url from "../Base_Url/Base_Url";
 
 const DashOrders = () => {
   let dispatch = useDispatch();
@@ -58,7 +59,7 @@ const DashOrders = () => {
       setLoadCir(false);
       try {
         let res = await fetch(
-          `http://localhost:4000/api/products/admin/deleteuser/${id}`,
+          `${base_url}/api/products/admin/deleteuser/${id}`,
           {
             method: "DELETE",
             headers: {

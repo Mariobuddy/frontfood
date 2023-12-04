@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy,useEffect,useState } from "react";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
@@ -58,13 +58,28 @@ const LazyResetPassword = lazy(() =>
 );
 
 function App() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreenWidth = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust the threshold as needed
+    };
+
+    checkScreenWidth();
+
+    window.addEventListener("resize", checkScreenWidth);
+
+    return () => {
+      window.removeEventListener("resize", checkScreenWidth);
+    };
+  }, []);
   const { isAuth, isAdmin } = useSelector((state) => state.auth);
   return (
     <BrowserRouter>
       <Wrapper>
         <div className="invis">
           <ToastContainer
-            position={"top-center"}
+            position={isMobile?"top-center":"bottom-right"}
             autoClose={4000}
             hideProgressBar={false}
             newestOnTop={false}

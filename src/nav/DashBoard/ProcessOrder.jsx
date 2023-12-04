@@ -7,6 +7,7 @@ import Currency from "../../components/Currency/Currency";
 import LazyLoading from "../../components/Lazy/LazyLoading";
 import Loading from "./../../components/Loading/Loading";
 import { MdCategory } from "react-icons/md";
+import base_url from "../Base_Url/Base_Url";
 import { toast } from "react-toastify";
 
 const ProcessOrder = () => {
@@ -40,7 +41,7 @@ const ProcessOrder = () => {
     e.preventDefault();
     try {
       setLoadCir(false);
-      const res = await fetch(`http://localhost:4000/admin/updatestock/${id}`, {
+      const res = await fetch(`${base_url}/admin/updatestock/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

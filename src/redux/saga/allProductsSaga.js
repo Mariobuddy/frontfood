@@ -37,6 +37,7 @@ import {
   fetchAuthSingleSuccess,
 } from "../features/auth";
 import { takeLatest, put, fork, call, select } from "redux-saga/effects";
+import base_url from "../../nav/Base_Url/Base_Url";
 import axios from "axios";
 import {
   addToCart,
@@ -64,7 +65,7 @@ function* fetchProductsAsync(action) {
   } = action.payload;
   try {
     const products = yield axios.get(
-      `http://localhost:4000/api/products?page=${page}&minPrice=${minPrice}&maxPrice=${maxPrice}&category=${category}&brand=${brand}&sortBy=${sort}&minStar=${minStar}&maxStar=${maxStar}&name=${search}`
+      `${base_url}/api/products?page=${page}&minPrice=${minPrice}&maxPrice=${maxPrice}&category=${category}&brand=${brand}&sortBy=${sort}&minStar=${minStar}&maxStar=${maxStar}&name=${search}`
     ); // Replace with your API call
     yield put(fetchUserSuccess(products.data)); // Dispatch a success action
   } catch (error) {
@@ -81,7 +82,7 @@ export const allProductsSaga = [fork(productsSaga)];
 function* fetchSingleAsync(action) {
   try {
     const singleproduct = yield axios.get(
-      `http://localhost:4000/api/products/${action.payload}`,
+      `${base_url}/api/products/${action.payload}`,
       {
         method: "GET",
         withCredentials: true,
@@ -101,7 +102,7 @@ export const singleProductsSaga = [fork(singleSaga)];
 
 function* fetchAuthAsync() {
   try {
-    const auth = yield axios.get(`http://localhost:4000/profile`, {
+    const auth = yield axios.get(`${base_url}/profile`, {
       method: "GET",
       withCredentials: true,
     }); // Replace with your API call
@@ -175,7 +176,7 @@ export const mainitemSaga = [fork(itemSaga)];
 
 function* fetchOrderAsync() {
   try {
-    const myOrder = yield axios.get(`http://localhost:4000/myorder`, {
+    const myOrder = yield axios.get(`${base_url}/myorder`, {
       method: "GET",
       withCredentials: true,
     }); // Replace with your API call
@@ -194,7 +195,7 @@ export const mainOrderSaga = [fork(OrderSaga)];
 function* fetchSingleOrderAsync(action) {
   try {
     const singleOrder = yield axios.get(
-      `http://localhost:4000/singleorder/${action.payload}`,
+      `${base_url}/singleorder/${action.payload}`,
       {
         method: "GET",
         withCredentials: true,
@@ -215,7 +216,7 @@ export const realsingleOrderSaga = [fork(singleOrderSaga)];
 function* fetchAdminProductAsync() {
   try {
     const admin = yield axios.get(
-      "http://localhost:4000/api/products/admin/allproducts",
+      `${base_url}/api/products/admin/allproducts`,
       {
         method: "GET",
         withCredentials: true,
@@ -235,7 +236,7 @@ export const mainAdminProductSaga = [fork(adminProductSaga)];
 
 function* fetchAdminOrderAsync() {
   try {
-    const adminOrder = yield axios.get("http://localhost:4000/admin/allorder", {
+    const adminOrder = yield axios.get(`${base_url}/admin/allorder`, {
       method: "GET",
       withCredentials: true,
     }); // Replace with your API call
@@ -254,7 +255,7 @@ export const mainAdminOrderSaga = [fork(adminOrderSaga)];
 function* fetchAdminAuthAsync() {
   try {
     const adminAuth = yield axios.get(
-      "http://localhost:4000/api/products/admin/alluser",
+      `${base_url}/api/products/admin/alluser`,
       {
         method: "GET",
         withCredentials: true,
@@ -275,7 +276,7 @@ export const mainAdminAuthSaga = [fork(adminAuthSaga)];
 function* fetchAuthSingleAsync(action) {
   try {
     const authSingle = yield axios.get(
-      `http://localhost:4000/api/products/admin/singleuser/${action.payload}`,
+      `${base_url}/api/products/admin/singleuser/${action.payload}`,
       {
         method: "GET",
         withCredentials: true,
@@ -297,7 +298,7 @@ export const realSingleAuthSaga = [fork(singleAuthSaga)];
 function* fetchReviewAsync(action) {
   try {
     const review = yield axios.get(
-      `http://localhost:4000/api/products/admin/getreview?productId=${action.payload}`,
+      `${base_url}/api/products/admin/getreview?productId=${action.payload}`,
       {
         method: "GET",
         withCredentials: true,

@@ -8,6 +8,7 @@ import Rohit from "../../assests/profile.jpeg";
 import Loading from "../../components/Loading/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAuth } from "../../redux/features/auth";
+import base_url from "../Base_Url/Base_Url";
 
 const EditProfile = () => {
   let dispatch = useDispatch();
@@ -91,7 +92,7 @@ const EditProfile = () => {
     if (validationForm()) {
       setLoadCir(false);
       try {
-        const res = await fetch("http://localhost:4000/updateprofile", {
+        const res = await fetch(`${base_url}/updateprofile`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

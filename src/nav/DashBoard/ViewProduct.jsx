@@ -10,6 +10,7 @@ import { fetchAdminProduct } from "../../redux/features/products";
 import { MdDelete } from "react-icons/md";
 import { MdModeEditOutline } from "react-icons/md";
 import { toast } from "react-toastify";
+import base_url from "../Base_Url/Base_Url";
 
 const Myorder = () => {
   let dispatch = useDispatch();
@@ -56,7 +57,7 @@ const Myorder = () => {
       setLoadCir(false);
       try {
         let res = await fetch(
-          `http://localhost:4000/api/products/admin/deleteproduct/${id}`,
+          `${base_url}/api/products/admin/deleteproduct/${id}`,
           {
             method: "DELETE",
             headers: {

@@ -6,6 +6,7 @@ import Loading from "../../components/Loading/Loading";
 import { BiUserCircle } from "react-icons/bi";
 import { BiSolidHide } from "react-icons/bi";
 import { BiSolidShow } from "react-icons/bi";
+import base_url from "../Base_Url/Base_Url";
 
 const ResetPassword = () => {
   const { token } = useParams();
@@ -78,7 +79,7 @@ const ResetPassword = () => {
       setLoadCir(false);
       try {
         const res = await fetch(
-          `http://localhost:4000/resetpassword/${token}`,
+          `${base_url}/resetpassword/${token}`,
           {
             method: "PATCH",
             headers: {

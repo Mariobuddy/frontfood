@@ -2,6 +2,7 @@ import React, { useState,useEffect } from "react";
 import styled from "styled-components";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import base_url from "../Base_Url/Base_Url";
 
 function Contact() {
   let [gdata, sdata] = useState([
@@ -35,7 +36,7 @@ function Contact() {
     e.preventDefault();
 
     try {
-      let data1 = await fetch("http://localhost:8000/contact", {
+      let data1 = await fetch(`${base_url}/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

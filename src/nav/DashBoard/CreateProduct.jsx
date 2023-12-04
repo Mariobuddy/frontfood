@@ -9,6 +9,7 @@ import { GiClothes } from "react-icons/gi";
 import { toast } from "react-toastify";
 import Loading from "../../components/Loading/Loading";
 import LazyLoading from "../../components/Lazy/LazyLoading";
+import base_url from "../Base_Url/Base_Url";
 
 const CreateProduct = () => {
   const categoryArray = ["Tshirt", "Shirt", "Top", "Boxer", "Jeans", "Hoddie"];
@@ -95,7 +96,7 @@ const CreateProduct = () => {
     e.preventDefault();
     if (validationForm()) {
       setLoadCir(false);
-      const res = await fetch("http://localhost:4000/api/products/admin/new", {
+      const res = await fetch(`${base_url}/api/products/admin/new`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

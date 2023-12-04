@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "../../components/Loading/Loading";
+import base_url from "../Base_Url/Base_Url";
 
 const ForgotPassword = () => {
   const [formData, setFormData] = useState("");
@@ -35,7 +36,7 @@ const ForgotPassword = () => {
     if (validationForm()) {
       setLoadCir(false);
       try {
-        const res = await fetch("http://localhost:4000/forgot", {
+        const res = await fetch(`${base_url}/forgot`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
