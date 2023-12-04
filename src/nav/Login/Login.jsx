@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "../../components/Loading/Loading";
 import { getToken } from "../../redux/features/auth";
+import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 const Login = () => {
   const nav = useNavigate();
@@ -84,6 +85,8 @@ const Login = () => {
         const data = await res.json();
         if (res.status === 200) {
           console.log(data.tokens);
+          Cookies.set("rohit",data.tokens);
+          console.log(Cookies.get("rohit"));
           dispatch(getToken());
           nav("/");
           setFormData({
