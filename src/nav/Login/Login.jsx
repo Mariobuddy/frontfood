@@ -9,11 +9,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loading from "../../components/Loading/Loading";
 import { getToken } from "../../redux/features/auth";
-import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 const Login = () => {
   const nav = useNavigate();
-  let dispatch = useDispatch();
+  let dispatch=useDispatch();
   const [loadCir, setLoadCir] = useState(true);
   const [formData, setFormData] = useState({ email: "", password: "" });
   let [errors, setErrors] = useState({});
@@ -84,9 +83,6 @@ const Login = () => {
 
         const data = await res.json();
         if (res.status === 200) {
-           Cookies.set("jwt", data.tokens, {
-            expires: new Date(Date.now() + 86400000),
-          });
           dispatch(getToken());
           nav("/");
           setFormData({
@@ -98,8 +94,8 @@ const Login = () => {
         } else if (
           data.message === "Email not found" ||
           data.message === "Password does not match" ||
-          data.message === "Email and password are required" ||
-          data.message === "Internal server error"
+          data.message === "Email and password are required"||
+          data.message==="Internal server error"
         ) {
           toast(data.message);
           setLoadCir(true);

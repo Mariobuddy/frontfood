@@ -30,9 +30,6 @@ const Header = () => {
   const [down, setDown] = useState(false);
   const [query, setQuery] = useState("");
 
-  console.log(isAuth);
-  console.log(data);
-
   useEffect(() => {
     if (isAuth) {
       dispatch(fetchAuth());
