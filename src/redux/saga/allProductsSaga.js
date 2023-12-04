@@ -81,7 +81,7 @@ export const allProductsSaga = [fork(productsSaga)];
 function* fetchSingleAsync(action) {
   try {
     const singleproduct = yield axios.get(
-      `http://localhost:4000/api/products/${action.payload}`,
+      `https://rohit-backend-ecommerce.onrender.com/api/products/${action.payload}`,
       {
         method: "GET",
         withCredentials: true,
