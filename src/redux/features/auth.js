@@ -62,7 +62,6 @@ const authSlice = createSlice({
       localStorage.removeItem("cartItems");
     },
     getToken: (state) => {
-      console.log(Cookies.get("jwt"));
       state.isAuth = Cookies.get("jwt");
     },
   },
