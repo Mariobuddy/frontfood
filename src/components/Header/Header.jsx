@@ -34,11 +34,13 @@ const Header = () => {
   console.log(data);
 
   useEffect(() => {
-    if (isAuth) {
-      dispatch(fetchAuth());
-      dispatch(getItems());
-    }
+    dispatch(fetchAuth());
+    dispatch(getItems());
   }, [dispatch, isAuth]);
+  useEffect(() => {
+    dispatch(fetchAuth());
+    dispatch(getItems());
+  }, []);
   useEffect(() => {
     // Function to handle click events anywhere in the window
     const handleClickOutside = () => {
@@ -121,7 +123,7 @@ const Header = () => {
         style={{ display: data?.user?.role === "admin" ? "block" : "none" }}
       >
         <NavLink
-        onClick={()=>setShow(false)}
+          onClick={() => setShow(false)}
           className={"navD"}
           to={"/dashboard"}
           style={{ fontSize: "1.6rem" }}
@@ -197,7 +199,11 @@ const Header = () => {
                   style={{ display: down ? "block" : "none" }}
                 >
                   <div className="innerIn">
-                    <NavLink onClick={()=>setShow(false)} className={"proNav"} to={"/protected/profile"}>
+                    <NavLink
+                      onClick={() => setShow(false)}
+                      className={"proNav"}
+                      to={"/protected/profile"}
+                    >
                       <BiSolidUserCircle className="see" />
                       Profile
                     </NavLink>
