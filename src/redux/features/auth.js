@@ -53,7 +53,6 @@ const authSlice = createSlice({
       state.authSingleUserError = true;
     },
     remAuth: (state) => {
-      Cookies.remove("jwt");
       state.data = null;
       state.loading = null;
       state.error = null;
@@ -63,6 +62,7 @@ const authSlice = createSlice({
       localStorage.removeItem("cartItems");
     },
     getToken: (state) => {
+      console.log(Cookies.get("jwt"));
       state.isAuth = Cookies.get("jwt");
     },
   },
