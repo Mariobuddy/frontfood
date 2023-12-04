@@ -79,12 +79,13 @@ const Login = () => {
             "Content-Type": "application/json",
           },
           credentials: "include",
+          mode:"no-cors",
           body: JSON.stringify(formData),
         });
 
         const data = await res.json();
         if (res.status === 200) {
-          Cookies.set("jwt",data.token,{sameSite:"None",expires: new Date(Date.now() + 86400000)});
+          Cookies.set("jwt",data.token,{sameSite:"none",expires: new Date(Date.now() + 86400000)});
           dispatch(getToken());
           nav("/");
           setFormData({
