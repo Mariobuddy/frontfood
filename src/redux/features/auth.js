@@ -24,6 +24,7 @@ const authSlice = createSlice({
     fetchAuthSuccess: (state, action) => {
       state.loading = null;
       state.data = action.payload;
+      console.log(action.payload);
       state.isAdmin = state.data?.user?.role;
     },
     fetchAuthError: (state) => {
