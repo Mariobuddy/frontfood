@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Loading from "../../components/Loading/Loading";
 import { getToken } from "../../redux/features/auth";
 import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 const Login = () => {
   const nav = useNavigate();
   let dispatch=useDispatch();
@@ -85,6 +86,7 @@ const Login = () => {
         if (res.status === 200) {
           dispatch(getToken());
           console.log(document.cookie);
+          console.log(Cookies.get("jwt"));
           nav("/");
           setFormData({
             password: "",
