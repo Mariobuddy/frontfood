@@ -84,10 +84,8 @@ const Login = () => {
 
         const data = await res.json();
         if (res.status === 200) {
-          console.log(data.tokens);
-          Cookies.set("rohit",data.tokens);
-          console.log(Cookies.get("rohit"));
           dispatch(getToken());
+          console.log(Cookies.get("jwt"));
           nav("/");
           setFormData({
             password: "",
