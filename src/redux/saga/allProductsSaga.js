@@ -7,7 +7,7 @@ import {
   fetchAdminProductSuccess,
   fetchReview,
   fetchReviewError,
-  fetchReviewSuccess
+  fetchReviewSuccess,
 } from "../features/products";
 import {
   fetchSingle,
@@ -101,10 +101,13 @@ export const singleProductsSaga = [fork(singleSaga)];
 
 function* fetchAuthAsync() {
   try {
-    const auth = yield axios.get(`http://localhost:4000/profile`, {
-      method: "GET",
-      withCredentials: true,
-    }); // Replace with your API call
+    const auth = yield axios.get(
+      `https://rohit-backend-ecommerce.onrender.com/profile`,
+      {
+        method: "GET",
+        withCredentials: true,
+      }
+    ); // Replace with your API call
     yield put(fetchAuthSuccess(auth.data)); // Dispatch a success action
   } catch (error) {
     yield put(fetchAuthError(error.message)); // Dispatch an error action
@@ -175,10 +178,13 @@ export const mainitemSaga = [fork(itemSaga)];
 
 function* fetchOrderAsync() {
   try {
-    const myOrder = yield axios.get(`http://localhost:4000/myorder`, {
-      method: "GET",
-      withCredentials: true,
-    }); // Replace with your API call
+    const myOrder = yield axios.get(
+      `https://rohit-backend-ecommerce.onrender.com/myorder`,
+      {
+        method: "GET",
+        withCredentials: true,
+      }
+    ); // Replace with your API call
     yield put(fetchOrderSuccess(myOrder.data.order)); // Dispatch a success action
   } catch (error) {
     yield put(fetchOrderError(error.message)); // Dispatch an error action
@@ -194,7 +200,7 @@ export const mainOrderSaga = [fork(OrderSaga)];
 function* fetchSingleOrderAsync(action) {
   try {
     const singleOrder = yield axios.get(
-      `http://localhost:4000/singleorder/${action.payload}`,
+      `https://rohit-backend-ecommerce.onrender.com/singleorder/${action.payload}`,
       {
         method: "GET",
         withCredentials: true,
@@ -215,7 +221,7 @@ export const realsingleOrderSaga = [fork(singleOrderSaga)];
 function* fetchAdminProductAsync() {
   try {
     const admin = yield axios.get(
-      "http://localhost:4000/api/products/admin/allproducts",
+      "https://rohit-backend-ecommerce.onrender.com/api/products/admin/allproducts",
       {
         method: "GET",
         withCredentials: true,
@@ -235,10 +241,13 @@ export const mainAdminProductSaga = [fork(adminProductSaga)];
 
 function* fetchAdminOrderAsync() {
   try {
-    const adminOrder = yield axios.get("http://localhost:4000/admin/allorder", {
-      method: "GET",
-      withCredentials: true,
-    }); // Replace with your API call
+    const adminOrder = yield axios.get(
+      "https://rohit-backend-ecommerce.onrender.com/admin/allorder",
+      {
+        method: "GET",
+        withCredentials: true,
+      }
+    ); // Replace with your API call
     yield put(fetchAdminOrderSuccess(adminOrder.data.order)); // Dispatch a success action
   } catch (error) {
     yield put(fetchAdminOrderError(error.message)); // Dispatch an error action
@@ -254,7 +263,7 @@ export const mainAdminOrderSaga = [fork(adminOrderSaga)];
 function* fetchAdminAuthAsync() {
   try {
     const adminAuth = yield axios.get(
-      "http://localhost:4000/api/products/admin/alluser",
+      "https://rohit-backend-ecommerce.onrender.com/api/products/admin/alluser",
       {
         method: "GET",
         withCredentials: true,
@@ -275,7 +284,7 @@ export const mainAdminAuthSaga = [fork(adminAuthSaga)];
 function* fetchAuthSingleAsync(action) {
   try {
     const authSingle = yield axios.get(
-      `http://localhost:4000/api/products/admin/singleuser/${action.payload}`,
+      `https://rohit-backend-ecommerce.onrender.com/api/products/admin/singleuser/${action.payload}`,
       {
         method: "GET",
         withCredentials: true,
@@ -293,11 +302,10 @@ export function* singleAuthSaga() {
 
 export const realSingleAuthSaga = [fork(singleAuthSaga)];
 
-
 function* fetchReviewAsync(action) {
   try {
     const review = yield axios.get(
-      `http://localhost:4000/api/products/admin/getreview?productId=${action.payload}`,
+      `https://rohit-backend-ecommerce.onrender.com/api/products/admin/getreview?productId=${action.payload}`,
       {
         method: "GET",
         withCredentials: true,
