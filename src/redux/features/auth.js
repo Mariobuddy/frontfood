@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
 
 const authSlice = createSlice({
   name: "auth",
@@ -7,7 +6,7 @@ const authSlice = createSlice({
     data: null,
     loading: null,
     error: null,
-    isAuth: Cookies.get("jwt"),
+    isAuth: localStorage.getItem("jwt"),
     isAdmin: "admin",
     adminAuthLoading: false,
     adminAuth: [],
@@ -60,9 +59,10 @@ const authSlice = createSlice({
       state.isAdmin = null;
       localStorage.removeItem("shipItems");
       localStorage.removeItem("cartItems");
+      localStorage.removeItem("jwt");
     },
     getToken: (state) => {
-      state.isAuth = Cookies.get("jwt");
+      state.isAuth = localStorage.getItem("jwt");
     },
   },
 });

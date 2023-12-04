@@ -84,6 +84,7 @@ const Login = () => {
 
         const data = await res.json();
         if (res.status === 200) {
+          localStorage.setItem("jwt",data.token);
           dispatch(getToken());
           nav("/");
           setFormData({

@@ -1,3 +1,3 @@
-const base_url="https://rohit-backend-ecommerce.onrender.com";
+const base_url="https://rohit-ecommerce-backend.vercel.app";
 
 export default base_url;
