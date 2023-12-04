@@ -7,7 +7,7 @@ const authSlice = createSlice({
     data: null,
     loading: null,
     error: null,
-    isAuth: "rohit",
+    isAuth: Cookies.get("jwt"),
     isAdmin: "admin",
     adminAuthLoading: false,
     adminAuth: [],
